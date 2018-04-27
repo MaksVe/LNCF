@@ -14,30 +14,70 @@
 #include "../Engine/Texture2D.hpp"
 #include "../Engine/Timer.hpp"
 #include "Actor.hpp"
+#include "ActorState.hpp"
 
 class FatGangMember : public virtual Actor
 {
 public:
     FatGangMember(SDL_Renderer* renderer, int screenWidth, int screenHeight);
-    ~FatGangMember();
-    
-    virtual void LoadContent();
-    virtual void Update(SDL_Event* event);
-    virtual void Render();
-    
-    virtual const SDL_Rect GetCollisionRect();
+    ~FatGangMember() override;
+
+    void LoadContent() override;
+    void Update(SDL_Event* event) override;
+    void Render() override;
+    const SDL_Rect GetCollisionRect() override;
+    const SDL_Rect GetHitRect() override;
     
     float posX = 400;
     float posY = 300;
+    float VelX = 0;
+    float VelY = 0;
+    void Move();
+
+    void Animate(double delta, int maxFrames);
+    bool Animating(int maxFrames);
+
+    static const int IDLE_FRAMES    = 4;
+    static const int RUN_FRAMES     = 4;
+    static const int ATTACK_FRAMES  = 3;
+    int FrameToDraw = 0;
+    int FrameCount = 0;
+    enum class State
+    {
+        IDLE,
+        RUNNING,
+        ATTACKING
+    };
+    State CurrentState = State::IDLE;
+    ActorState* state;
+
+    enum class FaceDirection
+    {
+        LEFT,
+        RIGHT,
+    };
+    FaceDirection CurrentDirection = FaceDirection::LEFT;
     
 private:
     SDL_Renderer* renderer;
     SDL_Event* event;
-    
     SDL_Rect collisionRect;
-    
+    SDL_Rect hitRect;
+    Texture2D* spriteSheet;
+    Timer* timer;
+
+    SDL_Rect idleSpriteClips[IDLE_FRAMES];
+    SDL_Rect runSpriteClips[RUN_FRAMES];
+    SDL_Rect attackSpriteClips[ATTACK_FRAMES];
+    SDL_Rect* currentClip;
+
     int screenWidth;
     int screenHeight;
+
+    static const int VELOCITY = 1;
+    const float animationSpeed = 7.0f;
+    float animUpdateTime = 1.0f / animationSpeed;
+    float timeSinceLastFrame = 0.0f;
 };
 
 #endif /* FatGangMember_hpp */

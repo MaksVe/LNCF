@@ -31,7 +31,6 @@ Player::Player(SDL_Renderer* r, int gameScreenWidth, int gameScreenHeight)
     hitRect.h = 0;
 }
 
-
 Player::~Player()
 {
     delete spriteSheet;
@@ -389,5 +388,10 @@ bool Player::Animating(int maxFrames)
 const SDL_Rect Player::GetCollisionRect()
 {
     return collisionRect;
+}
+
+const SDL_Rect Player::GetHitRect()
+{
+    return hitRect;
 }
 

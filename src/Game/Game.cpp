@@ -75,21 +75,21 @@ void Game::Run()
 {
     const int FPS = 60;
     const int frameDelay = 1000 / FPS;
-    
     int frameTime;
-    
-    bool quit = false;
-    
     Uint32 frameStart;
+
+    bool quit = false;
     SDL_Event e;
-    
     screenManager = new ScreenManager(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
     
     // main loop
     while (!quit)
     {
         frameStart = SDL_GetTicks();
-        
+
+        Update(&e);
+        Render();
+
         if (SDL_PollEvent(&e))
         {
             if (e.type == SDL_QUIT || screenManager->QuitGameFromMenu)
@@ -97,9 +97,6 @@ void Game::Run()
                 quit = true;
             }
         }
-        
-        Update(&e);
-        Render();
         
         frameTime = SDL_GetTicks() - frameStart;
         

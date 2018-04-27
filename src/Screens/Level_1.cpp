@@ -109,7 +109,7 @@ bool Level_1::PlayerHitEnemyCollision()
 {
     for (auto &e: enemies)
     {
-        if (Collisions::Collides(player->hitRect, e->GetCollisionRect()))
+        if (Collisions::Collides(player->GetHitRect(), e->GetCollisionRect()))
         {
             std::cout << "collides" << std::endl;
             return true;

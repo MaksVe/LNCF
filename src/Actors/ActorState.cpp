@@ -1,14 +1,14 @@
  //
-//  PlayerState.cpp
+//  ActorState.cpp
 //  sdl_brawler_mac
 //
 //  Created by Максим on 4/17/18.
 //  Copyright © 2018 Максим. All rights reserved.
 //
 
-#include "PlayerState.hpp"
-
+#include "ActorState.hpp"
 #include "Player.hpp"
+#include "FatGangMember.hpp"
 
 // startposY will remember player current Y position to get the player back
 // where he was after jumping.
@@ -67,9 +67,24 @@ void IdleState::HandleInput(Player &player, const Uint8* keyState, SDL_Event* ev
     }
 }
 
+void IdleState::HandleAction(FatGangMember &gangMemberA, double delta)
+{
+    gangMemberA.CurrentState = FatGangMember::State::IDLE;
+    if (gangMemberA.state != nullptr)
+    {
+        delete gangMemberA.state;
+        gangMemberA.state = new IdleState();
+    }
+}
+
 void IdleState::Update(Player &player, double delta)
 {
     player.Animate(delta, player.IDLE_FRAMES);
+}
+
+void IdleState::Update(FatGangMember &gangMemberA, double delta)
+{
+    gangMemberA.Animate(delta, gangMemberA.IDLE_FRAMES);
 }
 // ------------- idle state ------------- //
 

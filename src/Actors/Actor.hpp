@@ -19,8 +19,8 @@ public:
     virtual void LoadContent() {}
     virtual void Update(SDL_Event* event) {}
     virtual void Render() {}
-    
     virtual const SDL_Rect GetCollisionRect() = 0;
+    virtual const SDL_Rect GetHitRect() = 0;
 };
 
 #endif /* Actor_h */
