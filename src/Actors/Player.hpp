@@ -68,7 +68,7 @@ public:
     };
     faceDirection currentDirection = faceDirection::right;
     
-    static constexpr float movementSpeed = 1.0f;
+    static constexpr float movementSpeed = 2.0f;
     
 private:
     SDL_Renderer * renderer;

@@ -27,7 +27,10 @@ public:
     void Render() override;
     
     void AddEnemy();
+
+    bool PlayerCollidesEnemy();
     bool PlayerHitEnemyCollision();
+    bool EnemyHitPlayerCollision();
 
     int GetScreenWidth();
     int GetScreenHeight();

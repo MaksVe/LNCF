@@ -152,15 +152,13 @@ void FatGangMember::Render()
         {
             spriteSheet->Render(posX, posY, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
-#ifdef DEBUG
+
         SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
         SDL_RenderDrawRect(renderer, &hitRect);
-#endif
     }
-#ifdef DEBUG
+
     SDL_SetRenderDrawColor(renderer, 255, 51, 51, 255);
     SDL_RenderDrawRect(renderer, &collisionRect);
-#endif
 }
 
 void FatGangMember::Move()
@@ -259,5 +257,13 @@ void FatGangMember::MoveToPlayer()
     else
     {
         VelX = 0;
+    }
+}
+
+void FatGangMember::AttackPlayer()
+{
+    if (!PlayerAway)
+    {
+        Attacking = true;
     }
 }

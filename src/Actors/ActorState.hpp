@@ -89,6 +89,15 @@ public:
     float JumpVelocity = 10.0f;
 };
 
+class AttackingState : public ActorState
+{
+public:
+    AttackingState() {}
+
+    void HandleAction(FatGangMember& gangMemberA, double delta) override;
+    void Update(FatGangMember& gangMemberA, double delta) override;
+};
+
 
 
 #endif /* PlayerState_hpp */

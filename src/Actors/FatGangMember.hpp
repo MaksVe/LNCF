@@ -61,9 +61,13 @@ public:
     FaceDirection CurrentDirection = FaceDirection::LEFT;
 
     static constexpr float MovementSpeed = 1.0f;
+
     void FindNearestPlayer();
-    bool PlayerAway = false;
     void MoveToPlayer();
+    void AttackPlayer();
+
+    bool Attacking = false;
+    bool PlayerAway = false;
 
 private:
     SDL_Renderer* renderer;

@@ -59,8 +59,10 @@ void Level_1::Update(SDL_Event* e)
         {
             e->Update(event);
         }
-        
+
+        PlayerCollidesEnemy();
         PlayerHitEnemyCollision();
+        EnemyHitPlayerCollision();
     }
     
     if (event->type == SDL_KEYDOWN)
@@ -105,17 +107,45 @@ void Level_1::AddEnemy()
     enemies.push_back(new FatGangMember(renderer, this));
 }
 
+bool Level_1::PlayerCollidesEnemy()
+{
+    for (auto &e: enemies)
+    {
+        if (Collisions::Collides(player->GetCollisionRect(), e->GetCollisionRect()))
+        {
+            std::cout << "player collides enemy" << std::endl;
+            return true;
+        }
+    }
+
+    return false;
+}
+
 bool Level_1::PlayerHitEnemyCollision()
 {
     for (auto &e: enemies)
     {
         if (Collisions::Collides(player->GetHitRect(), e->GetCollisionRect()))
         {
-            std::cout << "collides" << std::endl;
+            std::cout << "player hit rect collides enemy rect" << std::endl;
             return true;
         }
     }
     
+    return false;
+}
+
+bool Level_1::EnemyHitPlayerCollision()
+{
+    for (auto &e: enemies)
+    {
+        if (Collisions::Collides(e->GetHitRect(), player->GetCollisionRect()))
+        {
+            std::cout << "enemy hit rect collides player rect" << std::endl;
+            return true;
+        }
+    }
+
     return false;
 }
 

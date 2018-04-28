@@ -86,13 +86,13 @@ void IdleState::HandleAction(FatGangMember &gangMemberA, double delta)
              gangMemberA.state = new RunningState();
          }
      }
-     else
+     else if (!gangMemberA.PlayerAway || !gangMemberA.Attacking)
      {
-         gangMemberA.CurrentState = FatGangMember::State::IDLE;
+         gangMemberA.CurrentState = FatGangMember::State::ATTACKING;
          if (gangMemberA.state != nullptr)
          {
              delete gangMemberA.state;
-             gangMemberA.state = new IdleState();
+             gangMemberA.state = new AttackingState();
          }
      }
  }
@@ -377,3 +377,29 @@ void JumpingState::Update(Player &player, double delta)
     player.Animate(delta, player.JUMP_FRAMES);
 }
 // ------------- jumping state ------------- //
+
+
+
+// ------------- attacking state ------------- //
+void AttackingState::HandleAction(FatGangMember &gangMemberA, double delta)
+{
+    if (gangMemberA.Animating(gangMemberA.ATTACK_FRAMES))
+    {
+        // Attack
+    }
+    else
+    {
+        gangMemberA.CurrentState = FatGangMember::State::IDLE;
+        if (gangMemberA.state != nullptr)
+        {
+            delete gangMemberA.state;
+            gangMemberA.state = new IdleState();
+        }
+    }
+}
+
+void AttackingState::Update(FatGangMember &gangMemberA, double delta)
+{
+    gangMemberA.Animate(delta, gangMemberA.ATTACK_FRAMES);
+}
+// ------------- attacking state ------------- //

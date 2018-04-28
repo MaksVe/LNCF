@@ -319,18 +319,15 @@ void Player::Render()
         SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
         SDL_RenderDrawRect(renderer, &hitRect);
     }
-#ifdef DEBUG
-    // Draw player collision rectangle. TODO: setup debug switch or something
-    // As with screen diming, it doesn't work
+
     SDL_SetRenderDrawColor(renderer, 255, 51, 51, 255);
     SDL_RenderDrawRect(renderer, &collisionRect);
-#endif
 }
 
 void Player::Move()
 {
     // normalizing diagonal movement
-    float length = VELOCITY / (std::sqrt(std::pow(velX, 2) + std::pow(velY, 2)));
+    float length = movementSpeed / (std::sqrt(std::pow(velX, 2) + std::pow(velY, 2)));
 
     if (velX != 0)
     {
