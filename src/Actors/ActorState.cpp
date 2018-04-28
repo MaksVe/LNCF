@@ -67,20 +67,35 @@ void IdleState::HandleInput(Player &player, const Uint8* keyState, SDL_Event* ev
     }
 }
 
-void IdleState::HandleAction(FatGangMember &gangMemberA, double delta)
-{
-    gangMemberA.CurrentState = FatGangMember::State::IDLE;
-    if (gangMemberA.state != nullptr)
-    {
-        delete gangMemberA.state;
-        gangMemberA.state = new IdleState();
-    }
-}
-
 void IdleState::Update(Player &player, double delta)
 {
     player.Animate(delta, player.IDLE_FRAMES);
 }
+
+
+
+void IdleState::HandleAction(FatGangMember &gangMemberA, double delta)
+ {
+     gangMemberA.FindNearestPlayer();
+     if (gangMemberA.PlayerAway)
+     {
+         gangMemberA.CurrentState = FatGangMember::State::RUNNING;
+         if (gangMemberA.state != nullptr)
+         {
+             delete gangMemberA.state;
+             gangMemberA.state = new RunningState();
+         }
+     }
+     else
+     {
+         gangMemberA.CurrentState = FatGangMember::State::IDLE;
+         if (gangMemberA.state != nullptr)
+         {
+             delete gangMemberA.state;
+             gangMemberA.state = new IdleState();
+         }
+     }
+ }
 
 void IdleState::Update(FatGangMember &gangMemberA, double delta)
 {
@@ -202,6 +217,28 @@ void RunningState::Update(Player &player, double delta)
 {
     player.Move();
     player.Animate(delta, player.RUN_FRAMES);
+}
+
+
+
+void RunningState::HandleAction(FatGangMember &gangMemberA, double delta)
+{
+    gangMemberA.MoveToPlayer();
+    if (!gangMemberA.PlayerAway)
+    {
+        gangMemberA.CurrentState = FatGangMember::State::IDLE;
+        if (gangMemberA.state != nullptr)
+        {
+            delete gangMemberA.state;
+            gangMemberA.state = new IdleState();
+        }
+    }
+}
+
+void RunningState::Update(FatGangMember &gangMemberA, double delta)
+{
+    gangMemberA.Move();
+    gangMemberA.Animate(delta, gangMemberA.RUN_FRAMES);
 }
 // ------------- running state ------------- //
 

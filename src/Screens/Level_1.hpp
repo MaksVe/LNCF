@@ -28,6 +28,10 @@ public:
     
     void AddEnemy();
     bool PlayerHitEnemyCollision();
+
+    int GetScreenWidth();
+    int GetScreenHeight();
+    Player* FindPlayer();
     
     bool Paused = false;
     bool ExitToMainMenu = false;
@@ -45,7 +49,6 @@ private:
     
     // Actors
     Player* player;
-    
     std::list<Actor*> enemies;
     std::list<Actor*>::iterator enemyIt;
 };

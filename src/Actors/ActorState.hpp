@@ -21,8 +21,8 @@ public:
     virtual ~ActorState() {}
     
     virtual void HandleInput(Player& player, const Uint8* keyState, SDL_Event* event) {}
-    virtual void HandleAction(FatGangMember& gangMemberA, double delta) {}
     virtual void Update(Player& player, double delta) {}
+    virtual void HandleAction(FatGangMember& gangMemberA, double delta) {}
     virtual void Update(FatGangMember& gangMemberA, double delta) {}
 };
 
@@ -34,8 +34,8 @@ public:
     IdleState() {}
     
     void HandleInput(Player& player, const Uint8* keyState, SDL_Event* event) override;
-    void HandleAction(FatGangMember& gangMemberA, double delta) override;
     void Update(Player& player, double delta) override;
+    void HandleAction(FatGangMember& gangMemberA, double delta) override;
     void Update(FatGangMember& gangMemberA, double delta) override;
 };
 
@@ -46,8 +46,10 @@ class RunningState : public ActorState
 public:
     RunningState() {}
     
-    virtual void HandleInput(Player& player, const Uint8* keyState, SDL_Event* event);
-    virtual void Update(Player& player, double delta);
+    void HandleInput(Player& player, const Uint8* keyState, SDL_Event* event) override;
+    void Update(Player& player, double delta) override;
+    void HandleAction(FatGangMember& gangMemberA, double delta) override;
+    void Update(FatGangMember& gangMemberA, double delta) override;
 };
 
 
@@ -56,9 +58,9 @@ class KickingState : public ActorState
 {
 public:
     KickingState() {}
-    
-    virtual void HandleInput(Player& player, const Uint8* keyState, SDL_Event* event);
-    virtual void Update(Player& player, double delta);
+
+    void HandleInput(Player& player, const Uint8* keyState, SDL_Event* event) override;
+    void Update(Player& player, double delta) override;
 };
 
 
@@ -67,9 +69,9 @@ class PunchingState : public ActorState
 {
 public:
     PunchingState() {}
-    
-    virtual void HandleInput(Player& player, const Uint8* keyState, SDL_Event* event);
-    virtual void Update(Player& player, double delta);
+
+    void HandleInput(Player& player, const Uint8* keyState, SDL_Event* event) override;
+    void Update(Player& player, double delta) override;
     
     bool linkingPunch = false;
 };
@@ -80,9 +82,9 @@ class JumpingState : public ActorState
 {
 public:
     JumpingState() {}
-    
-    virtual void HandleInput(Player& player, const Uint8* keyState, SDL_Event* event);
-    virtual void Update(Player& player, double delta);
+
+    void HandleInput(Player& player, const Uint8* keyState, SDL_Event* event) override;
+    void Update(Player& player, double delta) override;
     
     float JumpVelocity = 10.0f;
 };

@@ -102,7 +102,7 @@ void Level_1::Render()
 
 void Level_1::AddEnemy()
 {
-    enemies.push_back(new FatGangMember(renderer, width, height));
+    enemies.push_back(new FatGangMember(renderer, this));
 }
 
 bool Level_1::PlayerHitEnemyCollision()
@@ -117,4 +117,19 @@ bool Level_1::PlayerHitEnemyCollision()
     }
     
     return false;
+}
+
+Player* Level_1::FindPlayer()
+{
+    return player;
+}
+
+int Level_1::GetScreenWidth()
+{
+    return width;
+}
+
+int Level_1::GetScreenHeight()
+{
+    return height;
 }

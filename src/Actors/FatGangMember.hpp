@@ -16,10 +16,12 @@
 #include "Actor.hpp"
 #include "ActorState.hpp"
 
+class Level_1;
+
 class FatGangMember : public virtual Actor
 {
 public:
-    FatGangMember(SDL_Renderer* renderer, int screenWidth, int screenHeight);
+    FatGangMember(SDL_Renderer* renderer, Level_1* level1);
     ~FatGangMember() override;
 
     void LoadContent() override;
@@ -57,7 +59,12 @@ public:
         RIGHT,
     };
     FaceDirection CurrentDirection = FaceDirection::LEFT;
-    
+
+    static constexpr float MovementSpeed = 1.0f;
+    void FindNearestPlayer();
+    bool PlayerAway = false;
+    void MoveToPlayer();
+
 private:
     SDL_Renderer* renderer;
     SDL_Event* event;
@@ -78,6 +85,9 @@ private:
     const float animationSpeed = 7.0f;
     float animUpdateTime = 1.0f / animationSpeed;
     float timeSinceLastFrame = 0.0f;
+
+    Level_1* level1;
+    Player* target;
 };
 
 #endif /* FatGangMember_hpp */

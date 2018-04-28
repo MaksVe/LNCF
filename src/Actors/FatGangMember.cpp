@@ -7,12 +7,14 @@
 //
 
 #include "FatGangMember.hpp"
+#include "../Screens/Level_1.hpp"
 
-FatGangMember::FatGangMember(SDL_Renderer* r, int gameScreenWidth, int gameScreenHeight)
+FatGangMember::FatGangMember(SDL_Renderer* r, Level_1* l1)
 {
     renderer = r;
-    screenWidth = gameScreenWidth;
-    screenHeight = gameScreenHeight;
+    level1 = l1;
+    screenWidth = l1->GetScreenWidth();
+    screenHeight = l1->GetScreenHeight();
     
     collisionRect.x = posX;
     collisionRect.y = posY;
@@ -83,6 +85,8 @@ void FatGangMember::Update(SDL_Event *e)
 {
     event = e;
     double delta = timer->GetDelta();
+
+    FindNearestPlayer();
 
     state->HandleAction(*this, delta);
     state->Update(*this, delta);
@@ -225,4 +229,35 @@ const SDL_Rect FatGangMember::GetCollisionRect()
 const SDL_Rect FatGangMember::GetHitRect()
 {
     return hitRect;
+}
+
+void FatGangMember::FindNearestPlayer()
+{
+    target = level1->FindPlayer();
+    if (posX > target->posX + 20 || posX < target->posX - 5)
+    {
+        PlayerAway = true;
+    }
+    else
+    {
+        PlayerAway = false;
+    }
+}
+
+void FatGangMember::MoveToPlayer()
+{
+    if (posX > target->posX + 20)
+    {
+        CurrentDirection = FaceDirection::LEFT;
+        VelX = -MovementSpeed;
+    }
+    else if (posX < target->posX - 15)
+    {
+        CurrentDirection = FaceDirection::RIGHT;
+        VelX = MovementSpeed;
+    }
+    else
+    {
+        VelX = 0;
+    }
 }
