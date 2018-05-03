@@ -89,10 +89,10 @@ void Game::Run()
 
         if (SDL_PollEvent(&e))
         {
-            if (e.type == SDL_QUIT || screenManager->QuitGameFromMenu)
-            {
-                quit = true;
-            }
+//            if (e.type == SDL_QUIT || screenManager->QuitGameFromMenu)
+//            {
+//                quit = true;
+//            }
         }
 
         Update(&e);

@@ -134,7 +134,10 @@ bool Level_1::PlayerHitEnemyCollision()
             player->DoDamage();
             if (e->GetHP() <= 0)
             {
+                std::cout << "enemy is dead" << std::endl;
+                enemies.remove(e);
                 delete e;
+                CurrentEnemy = nullptr;
             }
             return true;
         }
