@@ -14,7 +14,7 @@ Level_1::Level_1(SDL_Renderer* r, int screenWidth, int screenHeight)
     width       = screenWidth;
     height      = screenHeight;
     
-    player              = new Player(renderer, width, height);
+    player              = new Player(renderer, this);
     pauseTextTexture    = new Texture2D(renderer);
     
     /* TODO: create a list of enemies,
@@ -24,7 +24,8 @@ Level_1::Level_1(SDL_Renderer* r, int screenWidth, int screenHeight)
      http://headerphile.blogspot.ru/2014/04/part-5-game-programming-in-sdl2.html
      */
     AddEnemy();
-    
+    CurrentEnemy = nullptr;
+
     LoadContent();
 }
 
@@ -113,7 +114,8 @@ bool Level_1::PlayerCollidesEnemy()
     {
         if (Collisions::Collides(player->GetCollisionRect(), e->GetCollisionRect()))
         {
-            std::cout << "player collides enemy" << std::endl;
+            //std::cout << "player collides enemy" << std::endl;
+            // don't move any further
             return true;
         }
     }
@@ -127,7 +129,13 @@ bool Level_1::PlayerHitEnemyCollision()
     {
         if (Collisions::Collides(player->GetHitRect(), e->GetCollisionRect()))
         {
-            std::cout << "player hit rect collides enemy rect" << std::endl;
+            //std::cout << "player hit rect collides enemy rect" << std::endl;
+            CurrentEnemy = e;
+            player->DoDamage();
+            if (e->GetHP() <= 0)
+            {
+                delete e;
+            }
             return true;
         }
     }
@@ -141,7 +149,13 @@ bool Level_1::EnemyHitPlayerCollision()
     {
         if (Collisions::Collides(e->GetHitRect(), player->GetCollisionRect()))
         {
-            std::cout << "enemy hit rect collides player rect" << std::endl;
+            //std::cout << "enemy hit rect collides player rect" << std::endl;
+            CurrentEnemy = e;
+            player->ReceiveDamage();
+            if (player->GetHP() <= 0)
+            {
+                std::cout << "player is dead" << std::endl;
+            }
             return true;
         }
     }

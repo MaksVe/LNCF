@@ -54,7 +54,7 @@ void MenuEntry::Render(int menuEntryX, int menuEntryY)
     }
     else
     {
-        menuEntryTexture.SetAlpha(alpha - 200);
+        menuEntryTexture.SetAlpha(alpha - (Uint8)200);
     }
     
     menuEntryTexture.Render(x, y);

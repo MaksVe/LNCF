@@ -21,6 +21,10 @@ public:
     virtual void Render() {}
     virtual const SDL_Rect GetCollisionRect() = 0;
     virtual const SDL_Rect GetHitRect() = 0;
+
+    virtual void DoDamage() {}
+    virtual void ReceiveDamage() {}
+    virtual int GetHP() = 0;
 };
 
 #endif /* Actor_h */

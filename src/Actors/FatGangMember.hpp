@@ -73,6 +73,11 @@ public:
 
     int AttackCounter = 0;
 
+
+    void DoDamage() override;
+    void ReceiveDamage() override;
+    int GetHP() override;
+
 private:
     SDL_Renderer* renderer;
     SDL_Event* event;
@@ -96,6 +101,8 @@ private:
 
     Level_1* level1;
     Player* target;
+
+    int HP;
 };
 
 #endif /* FatGangMember_hpp */

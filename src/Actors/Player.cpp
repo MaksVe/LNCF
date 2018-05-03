@@ -7,14 +7,16 @@
 //
 
 #include "Player.hpp"
+#include "../Screens/Level_1.hpp"
 
 Timer timer;
 
-Player::Player(SDL_Renderer* r, int gameScreenWidth, int gameScreenHeight)
+Player::Player(SDL_Renderer* r, Level_1* l1)
 {
     renderer = r;
-    screenWidth = gameScreenWidth;
-    screenHeight = gameScreenHeight;
+    level1 = l1;
+    screenWidth = l1->GetScreenWidth();
+    screenHeight = l1->GetScreenHeight();
     
     spriteSheet = new Texture2D(renderer);
     
@@ -29,6 +31,8 @@ Player::Player(SDL_Renderer* r, int gameScreenWidth, int gameScreenHeight)
     hitRect.y = 0;
     hitRect.w = 0;
     hitRect.h = 0;
+
+    HP = 100;
 }
 
 Player::~Player()
@@ -382,6 +386,37 @@ bool Player::Animating(int maxFrames)
     return false;
 }
 
+void Player::DoDamage()
+{
+    if (level1->CurrentEnemy != nullptr)
+    {
+        /* get the current enemy who's collision rect collided with the player hit rect
+         * lock that enemy while player do the damage and send him in a receiving damage state
+         */
+        target = level1->CurrentEnemy;
+        target->ReceiveDamage();
+    }
+    else
+    {
+        std::cout << "Current enemy is null" << std::endl;
+    }
+}
+
+void Player::ReceiveDamage()
+{
+    if (level1->CurrentEnemy != nullptr)
+    {
+        if (level1->CurrentEnemy == enemyTypeFat)
+        {
+            // receive damage according to the type of an enemy
+        }
+    }
+    else
+    {
+        std::cout << "Current enemy is null" << std::endl;
+    }
+}
+
 const SDL_Rect Player::GetCollisionRect()
 {
     return collisionRect;
@@ -390,5 +425,10 @@ const SDL_Rect Player::GetCollisionRect()
 const SDL_Rect Player::GetHitRect()
 {
     return hitRect;
+}
+
+int Player::GetHP()
+{
+    return HP;
 }
 

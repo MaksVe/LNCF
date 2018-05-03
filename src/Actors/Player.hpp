@@ -21,10 +21,12 @@
 /*Some parts of this class was originally from Lazy Foo' Productions
  (http://lazyfoo.net/)*/
 
+class Level_1;
+
 class Player : public virtual Actor
 {
 public:
-    Player(SDL_Renderer* renderer, int screenWidth, int screenHeight);
+    Player(SDL_Renderer* renderer, Level_1* level1);
     ~Player() override;
 
     void LoadContent() override;
@@ -68,7 +70,13 @@ public:
     };
     faceDirection currentDirection = faceDirection::right;
     
-    static constexpr float movementSpeed = 2.0f;
+    static constexpr float movementSpeed = 1.2f;
+
+    void DoDamage() override;
+    void ReceiveDamage() override;
+    int GetHP() override;
+
+    bool LinkingPunch = false;
     
 private:
     SDL_Renderer * renderer;
@@ -93,6 +101,12 @@ private:
     const float animationSpeed = 7.0f;
     float animUpdateTime = 1.0f / animationSpeed;
     float timeSinceLastFrame = 0.0f;
+
+    Level_1* level1;
+    Actor* target;
+    FatGangMember* enemyTypeFat;
+
+    int HP;
 };
 
 #endif /* Player_hpp */

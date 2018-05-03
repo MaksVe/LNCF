@@ -35,6 +35,7 @@ public:
     int GetScreenWidth();
     int GetScreenHeight();
     Player* FindPlayer();
+    Actor* CurrentEnemy;
     
     bool Paused = false;
     bool ExitToMainMenu = false;

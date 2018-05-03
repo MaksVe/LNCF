@@ -72,8 +72,6 @@ public:
 
     void HandleInput(Player& player, const Uint8* keyState, SDL_Event* event) override;
     void Update(Player& player, double delta) override;
-    
-    bool linkingPunch = false;
 };
 
 

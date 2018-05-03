@@ -21,6 +21,8 @@ FatGangMember::FatGangMember(SDL_Renderer* r, Level_1* l1)
     collisionRect.w = 14;
     collisionRect.h = 28;
 
+    HP = 1050;
+
     spriteSheet = new Texture2D(renderer);
     timer = new Timer();
     state = new IdleState();
@@ -232,6 +234,11 @@ const SDL_Rect FatGangMember::GetHitRect()
     return hitRect;
 }
 
+int FatGangMember::GetHP()
+{
+    return HP;
+}
+
 void FatGangMember::FindNearestPlayer()
 {
     target = level1->FindPlayer();
@@ -296,4 +303,33 @@ bool FatGangMember::PlayerFarAway()
     }
 
     return false;
+}
+
+void FatGangMember::DoDamage()
+{
+
+}
+
+void FatGangMember::ReceiveDamage()
+{
+    if (target->CurrentState == target->PUNCHING)
+    {
+        if (target->LinkingPunch)
+        {
+            HP -= 10;
+            std::cout << "HP: " << HP << std::endl;
+        }
+        HP -= 5;
+        std::cout << "HP: " << HP << std::endl;
+    }
+    else if (target->CurrentState == target->KICKING)
+    {
+        HP -= 7;
+        std::cout << "HP: " << HP << std::endl;
+    }
+    else if (target->CurrentState == target->JUMPKICK)
+    {
+        HP -= 8;
+        std::cout << "HP: " << HP << std::endl;
+    }
 }

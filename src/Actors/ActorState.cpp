@@ -313,7 +313,7 @@ void PunchingState::HandleInput(Player &player, const Uint8 *keyState, SDL_Event
                 {
 //                    std::cout << "Continue animation to the second punch (kinda combo/link... :P)" << std::endl;
                     // combo activated, make more damage
-                    linkingPunch = true;
+                    player.LinkingPunch = true;
                 }
             }
             else
@@ -330,7 +330,7 @@ void PunchingState::HandleInput(Player &player, const Uint8 *keyState, SDL_Event
     }
     else
     {
-        linkingPunch = false;
+        player.LinkingPunch = false;
         player.CurrentState = player.IDLE;
         if (player.state != nullptr)
         {
