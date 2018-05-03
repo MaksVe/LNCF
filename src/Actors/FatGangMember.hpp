@@ -64,10 +64,14 @@ public:
 
     void FindNearestPlayer();
     void MoveToPlayer();
+    void MoveAwayFromPlayer();
     void AttackPlayer();
 
     bool Attacking = false;
     bool PlayerAway = false;
+    bool PlayerFarAway();
+
+    int AttackCounter = 0;
 
 private:
     SDL_Renderer* renderer;

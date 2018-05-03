@@ -198,7 +198,7 @@ void FatGangMember::Animate(double delta, int maxFrames)
 }
 
 bool FatGangMember::Animating(int maxFrames)
-{
+{    
     //std::cout << frameToDraw << std::endl;
     while (FrameToDraw < maxFrames)
     {
@@ -209,7 +209,10 @@ bool FatGangMember::Animating(int maxFrames)
          20 is a safe bet. If we use something less than 10, we might still be at our
          first zeroes of frameToDraw and then the loop will break too early. */
         if (FrameCount > 20 && FrameToDraw == 0)
+        {
+            AttackCounter++;
             break;
+        }
         //std::cout << frameCount << " " << frameToDraw << std::endl;
         return true;
     }
@@ -232,7 +235,7 @@ const SDL_Rect FatGangMember::GetHitRect()
 void FatGangMember::FindNearestPlayer()
 {
     target = level1->FindPlayer();
-    if (posX > target->posX + 20 || posX < target->posX - 5)
+    if (posX > target->posX + 25 || posX < target->posX - 23)
     {
         PlayerAway = true;
     }
@@ -244,15 +247,31 @@ void FatGangMember::FindNearestPlayer()
 
 void FatGangMember::MoveToPlayer()
 {
-    if (posX > target->posX + 20)
+    if (posX > target->posX + 25)
     {
         CurrentDirection = FaceDirection::LEFT;
         VelX = -MovementSpeed;
     }
-    else if (posX < target->posX - 15)
+    else if (posX < target->posX - 23)
     {
         CurrentDirection = FaceDirection::RIGHT;
         VelX = MovementSpeed;
+    }
+    else
+    {
+        VelX = 0;
+    }
+}
+
+void FatGangMember::MoveAwayFromPlayer()
+{
+    if (posX < target->posX + 100)
+    {
+        VelX = MovementSpeed;
+    }
+    else if (posX > target->posX - 100)
+    {
+        VelX = -MovementSpeed;
     }
     else
     {
@@ -266,4 +285,15 @@ void FatGangMember::AttackPlayer()
     {
         Attacking = true;
     }
+}
+
+bool FatGangMember::PlayerFarAway()
+{
+    target = level1->FindPlayer();
+    if (posX > target->posX + 70 || posX < target->posX - 70)
+    {
+        return true;
+    }
+
+    return false;
 }

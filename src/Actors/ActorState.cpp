@@ -20,8 +20,8 @@ void IdleState::HandleInput(Player &player, const Uint8* keyState, SDL_Event* ev
     player.velX = 0;
     player.velY = 0;
     
-    if (keyState[SDL_SCANCODE_LEFT] || keyState[SDL_SCANCODE_RIGHT] ||
-        keyState[SDL_SCANCODE_UP]   || keyState[SDL_SCANCODE_DOWN])
+    if (keyState[SDL_SCANCODE_W] || keyState[SDL_SCANCODE_S] ||
+        keyState[SDL_SCANCODE_A]   || keyState[SDL_SCANCODE_D])
     {
         player.CurrentState = player.RUNNING;
         if (player.state != nullptr)
@@ -33,7 +33,7 @@ void IdleState::HandleInput(Player &player, const Uint8* keyState, SDL_Event* ev
     
     if (event->type == SDL_KEYDOWN && event->key.repeat == 0)
     {
-        if (event->key.keysym.sym == SDLK_h)
+        if (keyState[SDL_SCANCODE_H])
         {
             player.CurrentState = player.KICKING;
             player.frameToDraw = 0;
@@ -43,7 +43,7 @@ void IdleState::HandleInput(Player &player, const Uint8* keyState, SDL_Event* ev
                 player.state = new KickingState();
             }
         }
-        else if (event->key.keysym.sym == SDLK_g)
+        else if (keyState[SDL_SCANCODE_G])
         {
             player.CurrentState = player.PUNCHING;
             player.frameToDraw = 0;
@@ -53,7 +53,7 @@ void IdleState::HandleInput(Player &player, const Uint8* keyState, SDL_Event* ev
                 player.state = new PunchingState();
             }
         }
-        else if (event->key.keysym.sym == SDLK_SPACE)
+        else if (keyState[SDL_SCANCODE_SPACE])
         {
             player.CurrentState = player.JUMPING;
             player.frameToDraw = 0;
@@ -75,27 +75,29 @@ void IdleState::Update(Player &player, double delta)
 
 
 void IdleState::HandleAction(FatGangMember &gangMemberA, double delta)
- {
-     gangMemberA.FindNearestPlayer();
-     if (gangMemberA.PlayerAway)
-     {
-         gangMemberA.CurrentState = FatGangMember::State::RUNNING;
-         if (gangMemberA.state != nullptr)
-         {
-             delete gangMemberA.state;
-             gangMemberA.state = new RunningState();
-         }
-     }
-     else if (!gangMemberA.PlayerAway || !gangMemberA.Attacking)
-     {
-         gangMemberA.CurrentState = FatGangMember::State::ATTACKING;
-         if (gangMemberA.state != nullptr)
-         {
-             delete gangMemberA.state;
-             gangMemberA.state = new AttackingState();
-         }
-     }
- }
+{
+    gangMemberA.Attacking = false;
+
+    gangMemberA.FindNearestPlayer();
+    if (gangMemberA.PlayerAway)
+    {
+        gangMemberA.CurrentState = FatGangMember::State::RUNNING;
+        if (gangMemberA.state != nullptr)
+        {
+            delete gangMemberA.state;
+            gangMemberA.state = new RunningState();
+        }
+    }
+    else if (!gangMemberA.PlayerAway && !gangMemberA.Attacking)
+    {
+        gangMemberA.CurrentState = FatGangMember::State::ATTACKING;
+        if (gangMemberA.state != nullptr)
+        {
+            delete gangMemberA.state;
+            gangMemberA.state = new AttackingState();
+        }
+    }
+}
 
 void IdleState::Update(FatGangMember &gangMemberA, double delta)
 {
@@ -108,16 +110,16 @@ void IdleState::Update(FatGangMember &gangMemberA, double delta)
 // ------------- running state ------------- //
 void RunningState::HandleInput(Player &player, const Uint8* keyState, SDL_Event* event)
 {
-    if (keyState[SDL_SCANCODE_LEFT])
+    if (keyState[SDL_SCANCODE_A])
     {
         player.currentDirection = Player::faceDirection::left;
         
-        if (keyState[SDL_SCANCODE_UP])
+        if (keyState[SDL_SCANCODE_W])
         {
             player.velX = -player.movementSpeed;
             player.velY = -player.movementSpeed;
         }
-        else if (keyState[SDL_SCANCODE_DOWN])
+        else if (keyState[SDL_SCANCODE_S])
         {
             player.velX = -player.movementSpeed;
             player.velY = player.movementSpeed;
@@ -129,7 +131,7 @@ void RunningState::HandleInput(Player &player, const Uint8* keyState, SDL_Event*
             
             if (event->type == SDL_KEYDOWN && event->key.repeat == 0)
             {
-                if (event->key.keysym.sym == SDLK_SPACE)
+                if (keyState[SDL_SCANCODE_SPACE])
                 {
                     player.CurrentState = player.JUMPING;
                     player.frameToDraw = 0;
@@ -143,16 +145,16 @@ void RunningState::HandleInput(Player &player, const Uint8* keyState, SDL_Event*
             }
         }
     }
-    else if (keyState[SDL_SCANCODE_RIGHT])
+    else if (keyState[SDL_SCANCODE_D])
     {
         player.currentDirection = Player::faceDirection::right;
         
-        if (keyState[SDL_SCANCODE_UP])
+        if (keyState[SDL_SCANCODE_W])
         {
             player.velX = player.movementSpeed;
             player.velY = -player.movementSpeed;
         }
-        else if (keyState[SDL_SCANCODE_DOWN])
+        else if (keyState[SDL_SCANCODE_S])
         {
             player.velX = player.movementSpeed;
             player.velY = player.movementSpeed;
@@ -164,7 +166,7 @@ void RunningState::HandleInput(Player &player, const Uint8* keyState, SDL_Event*
             
             if (event->type == SDL_KEYDOWN && event->key.repeat == 0)
             {
-                if (event->key.keysym.sym == SDLK_SPACE)
+                if (keyState[SDL_SCANCODE_SPACE])
                 {
                     player.CurrentState = player.JUMPING;
                     player.frameToDraw = 0;
@@ -178,19 +180,19 @@ void RunningState::HandleInput(Player &player, const Uint8* keyState, SDL_Event*
             }
         }
     }
-    else if (keyState[SDL_SCANCODE_UP])
+    else if (keyState[SDL_SCANCODE_W])
     {
         player.velY = -player.movementSpeed;
         player.velX = 0;
     }
-    else if(keyState[SDL_SCANCODE_DOWN])
+    else if(keyState[SDL_SCANCODE_S])
     {
         player.velY = player.movementSpeed;
         player.velX = 0;
     }
     else if (event->type == SDL_KEYDOWN && event->key.repeat == 0)
     {
-        if (event->key.keysym.sym == SDLK_SPACE)
+        if (keyState[SDL_SCANCODE_SPACE])
         {
             player.CurrentState = player.JUMPING;
             player.frameToDraw = 0;
@@ -223,14 +225,33 @@ void RunningState::Update(Player &player, double delta)
 
 void RunningState::HandleAction(FatGangMember &gangMemberA, double delta)
 {
-    gangMemberA.MoveToPlayer();
-    if (!gangMemberA.PlayerAway)
+    if (gangMemberA.AttackCounter >= 1)
     {
-        gangMemberA.CurrentState = FatGangMember::State::IDLE;
-        if (gangMemberA.state != nullptr)
+        gangMemberA.MoveAwayFromPlayer();
+
+        if (gangMemberA.PlayerFarAway())
         {
-            delete gangMemberA.state;
-            gangMemberA.state = new IdleState();
+            gangMemberA.AttackCounter = 0;
+            gangMemberA.CurrentState = FatGangMember::State::IDLE;
+            if (gangMemberA.state != nullptr)
+            {
+                delete gangMemberA.state;
+                gangMemberA.state = new IdleState();
+            }
+        }
+    }
+    else
+    {
+        gangMemberA.MoveToPlayer();
+
+        if (!gangMemberA.PlayerAway)
+        {
+            gangMemberA.CurrentState = FatGangMember::State::IDLE;
+            if (gangMemberA.state != nullptr)
+            {
+                delete gangMemberA.state;
+                gangMemberA.state = new IdleState();
+            }
         }
     }
 }
@@ -386,6 +407,18 @@ void AttackingState::HandleAction(FatGangMember &gangMemberA, double delta)
     if (gangMemberA.Animating(gangMemberA.ATTACK_FRAMES))
     {
         // Attack
+        gangMemberA.Attacking = true;
+        if (gangMemberA.AttackCounter >= 1)
+        {
+            std::cout << "Attacked once" << std::endl;
+            gangMemberA.CurrentState = FatGangMember::State::RUNNING;
+            gangMemberA.FrameToDraw = 0;
+            if (gangMemberA.state != nullptr)
+            {
+                delete gangMemberA.state;
+                gangMemberA.state = new RunningState();
+            }
+        }
     }
     else
     {
