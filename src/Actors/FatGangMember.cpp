@@ -257,12 +257,40 @@ void FatGangMember::MoveToPlayer()
     if (posX > target->posX + 25)
     {
         CurrentDirection = FaceDirection::LEFT;
-        VelX = -MovementSpeed;
+        if (posY > target->posY + 2)
+        {
+            VelX = -MovementSpeed;
+            VelY = -MovementSpeed;
+        }
+        else if (posY < target->posY - 2)
+        {
+            VelX = -MovementSpeed;
+            VelY = MovementSpeed;
+        }
+        else
+        {
+            VelX = -MovementSpeed;
+            VelY = 0;
+        }
     }
-    else if (posX < target->posX - 23)
+    else if (posX < target->posX - 5)
     {
         CurrentDirection = FaceDirection::RIGHT;
-        VelX = MovementSpeed;
+        if (posY > target->posY + 2)
+        {
+            VelX = MovementSpeed;
+            VelY = -MovementSpeed;
+        }
+        else if (posY < target->posY - 2)
+        {
+            VelX = MovementSpeed;
+            VelY = MovementSpeed;
+        }
+        else
+        {
+            VelX = MovementSpeed;
+            VelY = 0;
+        }
     }
     else
     {

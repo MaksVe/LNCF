@@ -37,8 +37,10 @@ public:
 
     float posX = 100;
     float posY = 300;
+    float posZ = 0;
     float velX = 0;
     float velY = 0;
+    float velZ = 0;
     void Move();
 
     void Animate(double delta, int maxFrames);

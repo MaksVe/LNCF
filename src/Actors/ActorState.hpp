@@ -84,7 +84,7 @@ public:
     void HandleInput(Player& player, const Uint8* keyState, SDL_Event* event) override;
     void Update(Player& player, double delta) override;
     
-    float JumpVelocity = 10.0f;
+    float JumpVelocity = 1.1f;
 };
 
 class AttackingState : public ActorState

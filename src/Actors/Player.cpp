@@ -300,11 +300,11 @@ void Player::Render()
         currentClip = &jumpSpriteClips[frameToDraw];
         if (currentDirection == faceDirection::left)
         {
-            spriteSheet->Render(posX, posY, currentClip, 0.0, nullptr, SDL_FLIP_NONE);
+            spriteSheet->Render(posX, posY + posZ, currentClip, 0.0, nullptr, SDL_FLIP_NONE);
         }
         else if (currentDirection == faceDirection::right)
         {
-            spriteSheet->Render(posX, posY, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+            spriteSheet->Render(posX, posY + posZ, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
     }
     
@@ -313,11 +313,11 @@ void Player::Render()
         currentClip = &jumpKickClip;
         if (currentDirection == faceDirection::left)
         {
-            spriteSheet->Render(posX, posY, currentClip, 0.0, nullptr, SDL_FLIP_NONE);
+            spriteSheet->Render(posX, posY + posZ, currentClip, 0.0, nullptr, SDL_FLIP_NONE);
         }
         else if (currentDirection == faceDirection::right)
         {
-            spriteSheet->Render(posX, posY, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+            spriteSheet->Render(posX, posY + posZ, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
         
         SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
@@ -341,6 +341,11 @@ void Player::Move()
     if (velY != 0)
     {
         posY += velY * length;
+    }
+
+    if (velZ != 0)
+    {
+        posZ += velZ;
     }
 }
 
