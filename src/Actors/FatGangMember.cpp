@@ -21,7 +21,7 @@ FatGangMember::FatGangMember(SDL_Renderer* r, Level_1* l1)
     collisionRect.w = 14;
     collisionRect.h = 28;
 
-    HP = 1050;
+    HP = 650;
 
     spriteSheet = new Texture2D(renderer);
     timer = new Timer();
@@ -34,6 +34,7 @@ FatGangMember::~FatGangMember()
 {
     delete spriteSheet;
     delete state;
+    delete timer;
 }
 
 void FatGangMember::LoadContent()
@@ -155,12 +156,12 @@ void FatGangMember::Render()
             spriteSheet->Render(posX, posY, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
 
-        SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
-        SDL_RenderDrawRect(renderer, &hitRect);
+//        SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
+//        SDL_RenderDrawRect(renderer, &hitRect);
     }
 
-    SDL_SetRenderDrawColor(renderer, 255, 51, 51, 255);
-    SDL_RenderDrawRect(renderer, &collisionRect);
+//    SDL_SetRenderDrawColor(renderer, 255, 51, 51, 255);
+//    SDL_RenderDrawRect(renderer, &collisionRect);
 }
 
 void FatGangMember::Move()
@@ -342,6 +343,8 @@ void FatGangMember::ReceiveDamage()
 {
     if (target->CurrentState == target->PUNCHING)
     {
+        ReceivingDamage = true;
+
         if (target->LinkingPunch)
         {
             HP -= 10;
@@ -352,12 +355,20 @@ void FatGangMember::ReceiveDamage()
     }
     else if (target->CurrentState == target->KICKING)
     {
+        ReceivingDamage = true;
+
         HP -= 7;
         std::cout << "HP: " << HP << std::endl;
     }
     else if (target->CurrentState == target->JUMPKICK)
     {
+        ReceivingDamage = true;
+
         HP -= 8;
         std::cout << "HP: " << HP << std::endl;
+    }
+    else
+    {
+        ReceivingDamage = false;
     }
 }

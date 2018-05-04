@@ -9,8 +9,6 @@
 #include "Player.hpp"
 #include "../Screens/Level_1.hpp"
 
-Timer timer;
-
 Player::Player(SDL_Renderer* r, Level_1* l1)
 {
     renderer = r;
@@ -19,7 +17,7 @@ Player::Player(SDL_Renderer* r, Level_1* l1)
     screenHeight = l1->GetScreenHeight();
     
     spriteSheet = new Texture2D(renderer);
-    
+    timer = new Timer();
     state = new IdleState();
     
     collisionRect.x = posX;
@@ -39,6 +37,7 @@ Player::~Player()
 {
     delete spriteSheet;
     delete state;
+    delete timer;
 }
 
 void Player::LoadContent()
@@ -166,7 +165,7 @@ void Player::Update(SDL_Event* e)
 {
     event = e;
     
-    double delta = timer.GetDelta();
+    double delta = timer->GetDelta();
     const Uint8* currentKeyStates = SDL_GetKeyboardState(nullptr);
 
     state->HandleInput(*this, currentKeyStates, event);
@@ -275,8 +274,8 @@ void Player::Render()
             spriteSheet->Render(posX, posY, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
         
-        SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
-        SDL_RenderDrawRect(renderer, &hitRect);
+//        SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
+//        SDL_RenderDrawRect(renderer, &hitRect);
     }
     
     if (CurrentState == PUNCHING)
@@ -291,8 +290,8 @@ void Player::Render()
             spriteSheet->Render(posX, posY, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
         
-        SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
-        SDL_RenderDrawRect(renderer, &hitRect);
+//        SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
+//        SDL_RenderDrawRect(renderer, &hitRect);
     }
     
     if (CurrentState == JUMPING)
@@ -320,12 +319,12 @@ void Player::Render()
             spriteSheet->Render(posX, posY + posZ, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
         
-        SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
-        SDL_RenderDrawRect(renderer, &hitRect);
+//        SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
+//        SDL_RenderDrawRect(renderer, &hitRect);
     }
 
-    SDL_SetRenderDrawColor(renderer, 255, 51, 51, 255);
-    SDL_RenderDrawRect(renderer, &collisionRect);
+//    SDL_SetRenderDrawColor(renderer, 255, 51, 51, 255);
+//    SDL_RenderDrawRect(renderer, &collisionRect);
 }
 
 void Player::Move()

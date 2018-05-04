@@ -84,6 +84,7 @@ private:
     SDL_Renderer * renderer;
     SDL_Event* event;
     Texture2D* spriteSheet;
+    Timer* timer;
 
     SDL_Rect collisionRect;
     SDL_Rect hitRect;
