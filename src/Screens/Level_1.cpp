@@ -159,6 +159,7 @@ bool Level_1::EnemyHitPlayerCollision()
             {
                 std::cout << "player is dead" << std::endl;
             }
+
             return true;
         }
     }

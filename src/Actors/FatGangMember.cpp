@@ -343,32 +343,29 @@ void FatGangMember::ReceiveDamage()
 {
     if (target->CurrentState == target->PUNCHING)
     {
-        ReceivingDamage = true;
-
         if (target->LinkingPunch)
         {
             HP -= 10;
             std::cout << "HP: " << HP << std::endl;
+ReceivingDamage = true;
         }
         HP -= 5;
         std::cout << "HP: " << HP << std::endl;
+ReceivingDamage = true;
     }
     else if (target->CurrentState == target->KICKING)
     {
-        ReceivingDamage = true;
-
         HP -= 7;
         std::cout << "HP: " << HP << std::endl;
+ReceivingDamage = true;
     }
     else if (target->CurrentState == target->JUMPKICK)
     {
-        ReceivingDamage = true;
 
         HP -= 8;
         std::cout << "HP: " << HP << std::endl;
+        ReceivingDamage = true;
     }
-    else
-    {
-        ReceivingDamage = false;
-    }
+
+    //ReceivingDamage = false;
 }
