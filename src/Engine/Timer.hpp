@@ -10,7 +10,7 @@
 
 #include <chrono>
 #include <iostream>
-#include <SDL2/SDL.h>
+#include "SDL.h"
 
 /*This class was originally from headerphile
  (http://headerphile.com/sdl2/sdl2-part-9-no-more-delays/)*/
