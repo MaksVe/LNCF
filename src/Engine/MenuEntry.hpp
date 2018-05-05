@@ -6,8 +6,7 @@
 //  Copyright © 2018 Максим. All rights reserved.
 //
 
-#ifndef MenuEntry_hpp
-#define MenuEntry_hpp
+#pragma once
 
 #include "Texture2D.hpp"
 
@@ -16,23 +15,21 @@ class MenuEntry
 public:
     MenuEntry(SDL_Renderer* r);
     ~MenuEntry();
-    
+
     bool Create(SDL_Color color, std::string text, std::string font, int fontSize);
     void Render(int menuEntryX, int menuEntryY);
     void Free();
-    
+
     bool Active = false;
-    
+
     Texture2D menuEntryTexture;
-    
+
 private:
     SDL_Renderer* renderer;
     TTF_Font* menuEntryFont;
-    
+
     SDL_Color menuEntryColor;
-    
+
     int x;
     int y;
 };
-
-#endif /* MenuEntry_hpp */

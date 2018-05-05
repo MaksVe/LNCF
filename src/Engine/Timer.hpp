@@ -6,8 +6,7 @@
 //  Copyright © 2018 Максим. All rights reserved.
 //
 
-#ifndef Timer_hpp
-#define Timer_hpp
+#pragma once
 
 #include <chrono>
 #include <iostream>
@@ -20,11 +19,9 @@ class Timer
 {
 public:
     Timer();
-    
+
     double GetDelta();
-    
+
 private:
     std::chrono::time_point<std::chrono::high_resolution_clock> timePrev;
 };
-
-#endif /* Timer_hpp */

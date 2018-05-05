@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 11)
 file(GLOB_RECURSE SOURCES "*.cpp")
 file(GLOB_RECURSE HEADERS "*.hpp")
 
-set(RESOURCE_FILES src/Assets/player.png src/Assets/Roboto-Black.ttf)
+set(RESOURCE_FILES src/Assets/player.png src/Assets/foes.png src/Assets/Roboto-Black.ttf)
 FILE(COPY ${RESOURCE_FILES} DESTINATION "${CMAKE_BINARY_DIR}")
 
 add_executable(${PROJECT_NAME} WIN32 ${SOURCES})

@@ -6,8 +6,7 @@
 //  Copyright © 2018 Максим. All rights reserved.
 //
 
-#ifndef Game_hpp
-#define Game_hpp
+#pragma once
 
 #include <iostream>
 #include "SDL2/SDL.h"
@@ -23,24 +22,22 @@ class Game
 public:
     Game();
     ~Game();
-    
+
     const static int SCREEN_WIDTH = 800;
     const static int SCREEN_HEIGHT = 400;
-    
+
     bool Init();
     void Run();
-    
+
     void Update(SDL_Event* event);
     void Render();
-    
+
     void Close();
-    
+
 private:
     SDL_Window * window;
     SDL_Renderer* renderer;
     SDL_Event* event;
-    
+
     ScreenManager* screenManager;
 };
-
-#endif /* Game_hpp */

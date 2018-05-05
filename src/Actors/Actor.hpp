@@ -6,16 +6,15 @@
 //  Copyright © 2018 Максим. All rights reserved.
 //
 
-#ifndef Actor_h
-#define Actor_h
+#pragma once
 
 #include <SDL2/SDL.h>
 
 class Actor
 {
-public:    
+public:
     virtual ~Actor() {}
-    
+
     virtual void LoadContent() {}
     virtual void Update(SDL_Event* event) {}
     virtual void Render() {}
@@ -26,5 +25,3 @@ public:
     virtual void ReceiveDamage() {}
     virtual int GetHP() = 0;
 };
-
-#endif /* Actor_h */
