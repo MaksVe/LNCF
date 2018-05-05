@@ -6,8 +6,7 @@
 //  Copyright © 2018 Максим. All rights reserved.
 //
 
-#ifndef FatGangMember_hpp
-#define FatGangMember_hpp
+#pragma once
 
 #include <iostream>
 #include <SDL2/SDL.h>
@@ -29,7 +28,7 @@ public:
     void Render() override;
     const SDL_Rect GetCollisionRect() override;
     const SDL_Rect GetHitRect() override;
-    
+
     float posX = 400;
     float posY = 300;
     float VelX = 0;
@@ -105,5 +104,3 @@ private:
 
     int HP;
 };
-
-#endif /* FatGangMember_hpp */

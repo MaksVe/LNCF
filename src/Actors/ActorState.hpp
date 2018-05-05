@@ -6,8 +6,7 @@
 //  Copyright © 2018 Максим. All rights reserved.
 //
 
-#ifndef PlayerState_hpp
-#define PlayerState_hpp
+#pragma once
 
 #include <iostream>
 #include <SDL2/SDL.h>
@@ -19,7 +18,7 @@ class ActorState
 {
 public:
     virtual ~ActorState() {}
-    
+
     virtual void HandleInput(Player& player, const Uint8* keyState, SDL_Event* event) {}
     virtual void Update(Player& player, double delta) {}
     virtual void HandleAction(FatGangMember& gangMemberA, double delta) {}
@@ -32,7 +31,7 @@ class IdleState : public ActorState
 {
 public:
     IdleState() {}
-    
+
     void HandleInput(Player& player, const Uint8* keyState, SDL_Event* event) override;
     void Update(Player& player, double delta) override;
     void HandleAction(FatGangMember& gangMemberA, double delta) override;
@@ -45,7 +44,7 @@ class RunningState : public ActorState
 {
 public:
     RunningState() {}
-    
+
     void HandleInput(Player& player, const Uint8* keyState, SDL_Event* event) override;
     void Update(Player& player, double delta) override;
     void HandleAction(FatGangMember& gangMemberA, double delta) override;
@@ -83,7 +82,7 @@ public:
 
     void HandleInput(Player& player, const Uint8* keyState, SDL_Event* event) override;
     void Update(Player& player, double delta) override;
-    
+
     float JumpVelocity = 1.1f;
 };
 
@@ -95,7 +94,3 @@ public:
     void HandleAction(FatGangMember& gangMemberA, double delta) override;
     void Update(FatGangMember& gangMemberA, double delta) override;
 };
-
-
-
-#endif /* PlayerState_hpp */

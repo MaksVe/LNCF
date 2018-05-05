@@ -6,8 +6,7 @@
 //  Copyright © 2018 Максим. All rights reserved.
 //
 
-#ifndef Texture2D_hpp
-#define Texture2D_hpp
+#pragma once
 
 #include <iostream>
 #include <string>
@@ -25,29 +24,27 @@ class Texture2D
 public:
     Texture2D(SDL_Renderer * renderer);
     ~Texture2D();
-    
+
     bool LoadFromFile(std::string path);
     bool LoadFromRenderedText(std::string textTexture, SDL_Color textColor, TTF_Font* font);
-    
+
     void Free();
-    
+
     void SetColor(Uint8 red, Uint8 green, Uint8 blue);
     void SetBlendMode(SDL_BlendMode blending);
     void SetAlpha(Uint8 alpha);
-    
+
     void Render(int x, int y, SDL_Rect* rect = nullptr, double angle = 0.0,
                 SDL_Point* center = nullptr, SDL_RendererFlip flip = SDL_FLIP_NONE);
-    
+
     int GetWidth();
     int GetHeight();
-    
+
 private:
     SDL_Renderer * renderer;
     SDL_Texture * texture;
     TTF_Font* font;
-    
+
     int width;
     int height;
 };
-
-#endif /* Texture2D_hpp */

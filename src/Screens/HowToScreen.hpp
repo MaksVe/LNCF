@@ -6,8 +6,7 @@
 //  Copyright © 2018 Максим. All rights reserved.
 //
 
-#ifndef HowToScreen_hpp
-#define HowToScreen_hpp
+#pragma once
 
 #include <iostream>
 #include <vector>
@@ -22,26 +21,25 @@ class HowToScreen : public virtual Screen
 public:
     HowToScreen(SDL_Renderer* renderer, int screenWidth, int screenHeight);
     ~HowToScreen() override;
-    
+
     void LoadContent() override;
     void Update(SDL_Event* event) override;
     void Render() override;
-    
+
     bool BackToMainMenu = false;
-    
+
 private:
     SDL_Renderer * renderer;
     SDL_Event* event;
-    
+
     MenuEntry* backToMainMenu;
     Texture2D* howToTexture;
-    
+
     SDL_Color textColor = { 0, 0, 0 };
-    
+
     std::vector<Texture2D*> menuEntries;
     std::vector<Texture2D*>::iterator it;
-    
+
     int width;
     int height;
 };
-#endif /* HowToScreen_hpp */

@@ -6,8 +6,7 @@
 //  Copyright © 2018 Максим. All rights reserved.
 //
 
-#ifndef Player_hpp
-#define Player_hpp
+#pragma once
 
 #include <iostream>
 #include <cmath>
@@ -71,7 +70,7 @@ public:
         right,
     };
     faceDirection currentDirection = faceDirection::right;
-    
+
     static constexpr float movementSpeed = 1.2f;
 
     void DoDamage() override;
@@ -79,7 +78,7 @@ public:
     int GetHP() override;
 
     bool LinkingPunch = false;
-    
+
 private:
     SDL_Renderer * renderer;
     SDL_Event* event;
@@ -94,9 +93,9 @@ private:
     SDL_Rect punchSpriteClips[PUNCH_FRAMES];
     SDL_Rect jumpSpriteClips[JUMP_FRAMES];
     SDL_Rect jumpKickClip;
-    
+
     SDL_Rect* currentClip;
-    
+
     int screenWidth;
     int screenHeight;
 
@@ -111,5 +110,3 @@ private:
 
     int HP;
 };
-
-#endif /* Player_hpp */

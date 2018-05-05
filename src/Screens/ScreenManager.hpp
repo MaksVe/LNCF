@@ -6,8 +6,7 @@
 //  Copyright © 2018 Максим. All rights reserved.
 //
 
-#ifndef ScreenManager_hpp
-#define ScreenManager_hpp
+#pragma once
 
 #include <stack>
 #include <SDL2/SDL.h>
@@ -20,20 +19,18 @@ class ScreenManager
 public:
     ScreenManager(SDL_Renderer* renderer, int screenWidth, int screenHeight);
     ~ScreenManager();
-    
+
     void Update(SDL_Event* event);
     void Render();
-    
+
     bool QuitGameFromMenu;
-    
+
 private:
     MainMenuScreen * mainMenu;
     Level_1* level_1;
     HowToScreen* howToScreen;
-    
+
     //Screen* currentScreen;
-    
+
     std::stack<Screen*> screens;
 };
-
-#endif /* ScreenManager_hpp */

@@ -6,8 +6,7 @@
 //  Copyright © 2018 Максим. All rights reserved.
 //
 
-#ifndef Collisions_hpp
-#define Collisions_hpp
+#pragma once
 
 #include <iostream>
 #include <SDL2/SDL.h>
@@ -16,5 +15,3 @@ namespace Collisions
 {
     bool Collides(const SDL_Rect &a, const SDL_Rect &b);
 }
-
-#endif /* Collisions_hpp */
