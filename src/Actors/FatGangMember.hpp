@@ -9,7 +9,7 @@
 #pragma once
 
 #include <iostream>
-#include <SDL2/SDL.h>
+#include "SDL.h"
 #include "../Engine/Texture2D.hpp"
 #include "../Engine/Timer.hpp"
 #include "Actor.hpp"

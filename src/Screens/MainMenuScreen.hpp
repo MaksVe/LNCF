@@ -10,7 +10,7 @@
 
 #include <iostream>
 #include <vector>
-#include <SDL2/SDL.h>
+#include "SDL.h"
 #include "Screen.hpp"
 #include "../Engine/MenuEntry.hpp"
 

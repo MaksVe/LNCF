@@ -11,7 +11,7 @@
 #include <iostream>
 #include <cmath>
 
-#include <SDL2/SDL.h>
+#include "SDL.h"
 #include "../Engine/Texture2D.hpp"
 #include "../Engine/Timer.hpp"
 #include "ActorState.hpp"

@@ -9,7 +9,7 @@
 #pragma once
 
 #include <stack>
-#include <SDL2/SDL.h>
+#include "SDL.h"
 #include "MainMenuScreen.hpp"
 #include "Level_1.hpp"
 #include "HowToScreen.hpp"
