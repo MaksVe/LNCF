@@ -30,7 +30,7 @@ public:
     const SDL_Rect GetHitRect() override;
 
     float posX = 400;
-    float posY = 300;
+    float posY = 155;
     float VelX = 0;
     float VelY = 0;
     void Move();

@@ -23,8 +23,8 @@ public:
     Game();
     ~Game();
 
-    const static int SCREEN_WIDTH = 800;
-    const static int SCREEN_HEIGHT = 400;
+    const static int SCREEN_WIDTH = 427;
+    const static int SCREEN_HEIGHT = 240;
 
     bool Init();
     void Run();

@@ -35,7 +35,7 @@ private:
     MenuEntry* backToMainMenu;
     Texture2D* howToTexture;
 
-    SDL_Color textColor = { 0, 0, 0 };
+    SDL_Color textColor = { 255, 255, 255  };
 
     std::vector<Texture2D*> menuEntries;
     std::vector<Texture2D*>::iterator it;

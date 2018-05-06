@@ -44,8 +44,10 @@ void Level_1::LoadContent()
 {
     player->LoadContent();
     
-    pauseFont = TTF_OpenFont("Roboto-Black.ttf", 36);
+    pauseFont = TTF_OpenFont("PressStart2P.ttf", 16);
     pauseTextTexture->LoadFromRenderedText("Paused", textColor, pauseFont);
+
+    levelTiledMap.LoadContent("level_01.tmx", renderer);
 }
 
 void Level_1::Update(SDL_Event* e)
@@ -86,12 +88,15 @@ void Level_1::Update(SDL_Event* e)
 
 void Level_1::Render()
 {
+    levelTiledMap.Render(renderer);
     player->Render();
 
     for (auto &e: enemies)
     {
         e->Render();
     }
+
+
     
     // --- pause text ---
     if (pauseFont != nullptr)

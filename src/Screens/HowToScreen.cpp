@@ -30,7 +30,7 @@ HowToScreen::~HowToScreen()
 
 void HowToScreen::LoadContent()
 {
-    if (!backToMainMenu->Create(textColor, "Back", "Roboto-Black.ttf", 36))
+    if (!backToMainMenu->Create(textColor, "Back", "PressStart2P.ttf", 8))
     {
         std::cout << "Unable to create menu entry!" << std::endl;
     }
@@ -54,7 +54,7 @@ void HowToScreen::Render()
     if (backToMainMenu != nullptr)
     {
         backToMainMenu->Active = true;
-        backToMainMenu->Render((width / 2) - (backToMainMenu->menuEntryTexture.GetWidth() / 2), 320);
+        backToMainMenu->Render((width / 2) - (backToMainMenu->menuEntryTexture.GetWidth() / 2), 200);
     }
 }
 

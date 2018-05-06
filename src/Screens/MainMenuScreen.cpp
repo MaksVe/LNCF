@@ -38,17 +38,17 @@ MainMenuScreen::~MainMenuScreen()
 void MainMenuScreen::LoadContent()
 {
     // start
-    if (!startGame->Create(textColor, "Start", "Roboto-Black.ttf", 36))
+    if (!startGame->Create(textColor, "Start", "PressStart2P.ttf", 8))
     {
         std::cout << "Unable to create menu entry!" << std::endl;
     }
     // howTo
-    if (!howTo->Create(textColor, "HowTo", "Roboto-Black.ttf", 36))
+    if (!howTo->Create(textColor, "HowTo", "PressStart2P.ttf", 8))
     {
         std::cout << "Unable to create menu entry!" << std::endl;
     }
     // quit
-    if (!quit->Create(textColor, "Quit", "Roboto-Black.ttf", 36))
+    if (!quit->Create(textColor, "Quit", "PressStart2P.ttf", 8))
     {
         std::cout << "Unable to create menu entry!" << std::endl;
     }
@@ -109,7 +109,7 @@ void MainMenuScreen::Render()
         {
             startGame->Active = false;
         }
-        startGame->Render((width / 2) - (startGame->menuEntryTexture.GetWidth() / 2), 120);
+        startGame->Render((width / 2) - (startGame->menuEntryTexture.GetWidth() / 2), (height / 2) - 20);
     }
     
     if (howTo != nullptr)
@@ -122,7 +122,7 @@ void MainMenuScreen::Render()
         {
             howTo->Active = false;
         }
-        howTo->Render((width / 2) - (howTo->menuEntryTexture.GetWidth() / 2), 170);
+        howTo->Render((width / 2) - (howTo->menuEntryTexture.GetWidth() / 2), (height / 2));
     }
 
     if (quit != nullptr)
@@ -135,6 +135,6 @@ void MainMenuScreen::Render()
         {
             quit->Active = false;
         }
-        quit->Render((width / 2) - (quit->menuEntryTexture.GetWidth() / 2), 220);
+        quit->Render((width / 2) - (quit->menuEntryTexture.GetWidth() / 2), (height / 2) + 20);
     }
 }

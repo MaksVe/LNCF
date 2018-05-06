@@ -130,7 +130,7 @@ void Game::Update(SDL_Event* e)
 
 void Game::Render()
 {
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
     //SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_ADD); // test
     SDL_RenderClear(renderer);
     

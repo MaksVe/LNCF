@@ -14,6 +14,7 @@
 #include "../Actors/Player.hpp"
 #include "../Actors/FatGangMember.hpp"
 #include "../Engine/Collisions.hpp"
+#include "../Engine/TiledMap.hpp"
 
 class Level_1 : public virtual Screen
 {
@@ -42,7 +43,7 @@ public:
 private:
     SDL_Renderer * renderer;
     SDL_Event* event;
-    SDL_Color textColor = { 0, 0, 0 };
+    SDL_Color textColor = { 255, 255, 255  };
 
     int width;
     int height;
@@ -54,4 +55,6 @@ private:
     Player* player;
     std::list<Actor*> enemies;
     std::list<Actor*>::iterator enemyIt;
+
+    TiledMap levelTiledMap = TiledMap("Level 01");
 };

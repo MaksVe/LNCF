@@ -32,7 +32,7 @@ private:
     SDL_Renderer * renderer;
     SDL_Event* event;
 
-    SDL_Color textColor = { 0, 0, 0 };
+    SDL_Color textColor = { 255, 255, 255 };
 
     MenuEntry* startGame;
     MenuEntry* howTo;

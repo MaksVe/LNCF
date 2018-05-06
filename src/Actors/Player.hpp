@@ -34,8 +34,8 @@ public:
     const SDL_Rect GetCollisionRect() override;
     const SDL_Rect GetHitRect() override;
 
-    float posX = 100;
-    float posY = 300;
+    float posX = 20;
+    float posY = 155;
     float posZ = 0;
     float velX = 0;
     float velY = 0;
