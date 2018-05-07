@@ -40,6 +40,9 @@ public:
     bool Paused = false;
     bool ExitToMainMenu = false;
 
+    SDL_Rect DownerCollider;
+    bool PlayerCollidesDown();
+
 private:
     SDL_Renderer * renderer;
     SDL_Event* event;

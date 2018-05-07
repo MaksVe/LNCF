@@ -48,6 +48,7 @@ void Level_1::LoadContent()
     pauseTextTexture->LoadFromRenderedText("Paused", textColor, pauseFont);
 
     levelTiledMap.LoadContent("level_01.tmx", renderer);
+    DownerCollider = levelTiledMap.GetDownerEnd();
 }
 
 void Level_1::Update(SDL_Event* e)
@@ -63,6 +64,7 @@ void Level_1::Update(SDL_Event* e)
             e->Update(event);
         }
 
+        PlayerCollidesDown();
         PlayerCollidesEnemy();
         PlayerHitEnemyCollision();
         EnemyHitPlayerCollision();
@@ -167,6 +169,18 @@ bool Level_1::EnemyHitPlayerCollision()
 
             return true;
         }
+    }
+
+    return false;
+}
+
+bool Level_1::PlayerCollidesDown()
+{
+    if (Collisions::Collides(player->GetCollisionRect(), DownerCollider))
+    {
+        std::cout << "Player collides down end" << std::endl;
+
+        return true;
     }
 
     return false;

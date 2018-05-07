@@ -33,6 +33,8 @@ public:
     void LoadContent(const std::string& path, SDL_Renderer* renderer);
     void Render(SDL_Renderer* renderer);
 
+    SDL_Rect GetDownerEnd();
+
 private:
     std::string name;
     int rows;
@@ -41,4 +43,7 @@ private:
     int tileHeight;
     std::vector<tile> tiles;
     std::map<gid, SDL_Texture*> tilesets;
+
+    // Objects
+    SDL_Rect nonWalkableDown;
 };

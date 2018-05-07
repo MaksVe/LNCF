@@ -41,7 +41,7 @@ TiledMap::TiledMap(const std::string &name) :
 
 void TiledMap::LoadContent(const std::string& path, SDL_Renderer* renderer)
 {
-    // soad and parse the tiled map
+    // load and parse the tiled map
     tmx::Map tiledMap;
     tiledMap.load(path);
 
@@ -75,6 +75,22 @@ void TiledMap::LoadContent(const std::string& path, SDL_Renderer* renderer)
         // skip if it's not a tile layer
         if (layer->getType() != tmx::Layer::Type::Tile)
         {
+            if (layer->getType() == tmx::Layer::Type::Object)
+            {
+                const auto& objects = dynamic_cast<tmx::ObjectGroup*>(layer.get())->getObjects();
+                std::cout << "Found " << objects.size() << " objects in layer" << std::endl;
+                for (auto& obj : objects)
+                {
+                    const std::string &objGroup = obj.getName();
+                    if (objGroup == "nonWalkableDown")
+                    {
+                        nonWalkableDown.x = (int)obj.getPosition().x;
+                        nonWalkableDown.y = (int)obj.getPosition().y;
+                        nonWalkableDown.w = (int)obj.getAABB().width;
+                        nonWalkableDown.h = (int)obj.getAABB().height;
+                    }
+                }
+            }
             continue;
         }
 
@@ -117,7 +133,7 @@ void TiledMap::LoadContent(const std::string& path, SDL_Renderer* renderer)
                 // find the dimensions of the tile sheet
                 auto tsWidth = 0;
                 auto tsHeight = 0;
-                SDL_QueryTexture(tilesets[tsetGid], NULL, NULL, &tsWidth, &tsHeight);
+                SDL_QueryTexture(tilesets[tsetGid], nullptr, nullptr, &tsWidth, &tsHeight);
 
                 // calculate the area on the tilesheet to draw from
                 auto regionX = (currentGid % (tsWidth / tileWidth)) * tileWidth;
@@ -141,4 +157,9 @@ void TiledMap::Render(SDL_Renderer *renderer)
     {
         tile.draw(renderer);
     }
+}
+
+SDL_Rect TiledMap::GetDownerEnd()
+{
+    return nonWalkableDown;
 }

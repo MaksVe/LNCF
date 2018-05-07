@@ -21,7 +21,7 @@ void IdleState::HandleInput(Player &player, const Uint8* keyState, SDL_Event* ev
     player.velY = 0;
     
     if (keyState[SDL_SCANCODE_W] || keyState[SDL_SCANCODE_S] ||
-        keyState[SDL_SCANCODE_A]   || keyState[SDL_SCANCODE_D])
+        keyState[SDL_SCANCODE_A] || keyState[SDL_SCANCODE_D])
     {
         player.CurrentState = player.RUNNING;
         if (player.state != nullptr)
