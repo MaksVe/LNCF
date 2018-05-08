@@ -118,6 +118,9 @@ void Level_1::AddEnemy()
     enemies.push_back(new FatGangMember(renderer, this));
 }
 
+
+
+// --- Player Collisions --- //
 bool Level_1::PlayerCollidesEnemy()
 {
     for (auto &e: enemies)
@@ -156,6 +159,30 @@ bool Level_1::PlayerHitEnemyCollision()
     return false;
 }
 
+bool Level_1::PlayerCollidesUp()
+{
+    return Collisions::Collides(player->GetCollisionRect(), upperCollider);
+}
+
+bool Level_1::PlayerCollidesLeft()
+{
+    return Collisions::Collides(player->GetCollisionRect(), leftCollider);
+}
+
+bool Level_1::PlayerCollidesRight()
+{
+    return Collisions::Collides(player->GetCollisionRect(), rightCollider);
+}
+
+bool Level_1::PlayerCollidesDown()
+{
+    return Collisions::Collides(player->GetCollisionRect(), downerCollider);
+}
+// --- Player Collisions --- //
+
+
+
+// --- Enemy Collisions --- //
 bool Level_1::EnemyHitPlayerCollision()
 {
     for (auto &e: enemies)
@@ -177,47 +204,16 @@ bool Level_1::EnemyHitPlayerCollision()
     return false;
 }
 
-bool Level_1::PlayerCollidesUp()
+SDL_Rect Level_1::GetLevelUpperCollider()
 {
-    if (Collisions::Collides(player->GetCollisionRect(), upperCollider))
-    {
-        return  true;
-    }
-
-    return false;
+    return upperCollider;
 }
 
-bool Level_1::PlayerCollidesLeft()
+SDL_Rect Level_1::GelLevelDownerCollider()
 {
-    if (Collisions::Collides(player->GetCollisionRect(), leftCollider))
-    {
-        return  true;
-    }
-
-    return false;
+    return downerCollider;
 }
-
-bool Level_1::PlayerCollidesRight()
-{
-    if (Collisions::Collides(player->GetCollisionRect(), rightCollider))
-    {
-        return  true;
-    }
-
-    return false;
-}
-
-bool Level_1::PlayerCollidesDown()
-{
-    if (Collisions::Collides(player->GetCollisionRect(), downerCollider))
-    {
-        //std::cout << "Player collides down end" << std::endl;
-
-        return true;
-    }
-
-    return false;
-}
+// --- Enemy Collisions --- //
 
 Player* Level_1::FindPlayer()
 {

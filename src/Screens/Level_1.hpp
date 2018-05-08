@@ -28,14 +28,18 @@ public:
 
     void AddEnemy();
 
-    // Collisions
+    // Player Collisions
     bool PlayerCollidesEnemy();
     bool PlayerHitEnemyCollision();
-    bool EnemyHitPlayerCollision();
     bool PlayerCollidesUp();
     bool PlayerCollidesRight();
     bool PlayerCollidesDown();
     bool PlayerCollidesLeft();
+
+    // Enemy Collisions
+    bool EnemyHitPlayerCollision();
+    SDL_Rect GetLevelUpperCollider();
+    SDL_Rect GelLevelDownerCollider();
 
     int GetScreenWidth();
     int GetScreenHeight();
