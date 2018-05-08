@@ -33,7 +33,10 @@ public:
     void LoadContent(const std::string& path, SDL_Renderer* renderer);
     void Render(SDL_Renderer* renderer);
 
+    SDL_Rect GetUpperEnd();
+    SDL_Rect GetLeftEnd();
     SDL_Rect GetDownerEnd();
+    SDL_Rect GetRightEnd();
 
 private:
     std::string name;
@@ -46,4 +49,7 @@ private:
 
     // Objects
     SDL_Rect nonWalkableDown;
+    SDL_Rect nonWalkableUp;
+    SDL_Rect nonWalkableLeft;
+    SDL_Rect nonWalkableRight;
 };

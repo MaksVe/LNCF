@@ -117,16 +117,40 @@ void RunningState::HandleInput(Player &player, const Uint8* keyState, SDL_Event*
         if (keyState[SDL_SCANCODE_W])
         {
             player.velX = -player.movementSpeed;
+            if (player.CollidesLeft())
+            {
+                std::cout << "collides left" << std::endl;
+                player.velX = 0;
+            }
+
             player.velY = -player.movementSpeed;
+            if (player.CollidesUp())
+            {
+                std::cout << "collides up" << std::endl;
+                player.velY = 0;
+            }
         }
         else if (keyState[SDL_SCANCODE_S])
         {
             player.velX = -player.movementSpeed;
+            if (player.CollidesLeft())
+            {
+                player.velX = 0;
+            }
+
             player.velY = player.movementSpeed;
+            if (player.CollidesDown())
+            {
+                player.velY = 0;
+            }
         }
         else
         {
             player.velX = -player.movementSpeed;
+            if (player.CollidesLeft())
+            {
+                player.velX = 0;
+            }
             player.velY = 0;
             
             if (event->type == SDL_KEYDOWN && event->key.repeat == 0)
@@ -152,16 +176,37 @@ void RunningState::HandleInput(Player &player, const Uint8* keyState, SDL_Event*
         if (keyState[SDL_SCANCODE_W])
         {
             player.velX = player.movementSpeed;
+            if (player.CollidesRight())
+            {
+                player.velX = 0;
+            }
+
             player.velY = -player.movementSpeed;
+            if (player.CollidesUp())
+            {
+                player.velY = 0;
+            }
         }
         else if (keyState[SDL_SCANCODE_S])
         {
             player.velX = player.movementSpeed;
+            if (player.CollidesRight())
+            {
+                player.velX = 0;
+            }
             player.velY = player.movementSpeed;
+            if (player.CollidesDown())
+            {
+                player.velY = 0;
+            }
         }
         else
         {
             player.velX = player.movementSpeed;
+            if (player.CollidesRight())
+            {
+                player.velX = 0;
+            }
             player.velY = 0;
             
             if (event->type == SDL_KEYDOWN && event->key.repeat == 0)
@@ -183,11 +228,19 @@ void RunningState::HandleInput(Player &player, const Uint8* keyState, SDL_Event*
     else if (keyState[SDL_SCANCODE_W])
     {
         player.velY = -player.movementSpeed;
+        if (player.CollidesUp())
+        {
+            player.velY = 0;
+        }
         player.velX = 0;
     }
     else if(keyState[SDL_SCANCODE_S])
     {
         player.velY = player.movementSpeed;
+        if (player.CollidesDown())
+        {
+            player.velY = 0;
+        }
         player.velX = 0;
     }
     else if (event->type == SDL_KEYDOWN && event->key.repeat == 0)
@@ -271,15 +324,6 @@ void KickingState::HandleInput(Player &player, const Uint8 *keyState, SDL_Event*
     if (player.Animating(player.KICK_FRAMES))
     {
         // wait animation to finish
-        // put some kicking logic here?
-        
-        /* TODO: Create a kickingHitRect, binding it to the leg.
-         Binding: animation frames are static, we just have to calculate x/y once
-         and move the rectangle accordingly (magic numbers).
-         If it ever meets another rectangle:
-         if it meets enemy collision rectangle -> do damage
-         if it meets game object -> if game object is destructible -> do damage
-         */
     }
     else
     {

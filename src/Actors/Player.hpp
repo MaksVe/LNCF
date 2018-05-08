@@ -79,6 +79,11 @@ public:
 
     bool LinkingPunch = false;
 
+    bool CollidesUp();
+    bool CollidesRight();
+    bool CollidesDown();
+    bool CollidesLeft();
+
 private:
     SDL_Renderer * renderer;
     SDL_Event* event;

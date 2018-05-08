@@ -48,7 +48,10 @@ void Level_1::LoadContent()
     pauseTextTexture->LoadFromRenderedText("Paused", textColor, pauseFont);
 
     levelTiledMap.LoadContent("level_01.tmx", renderer);
-    DownerCollider = levelTiledMap.GetDownerEnd();
+    upperCollider   = levelTiledMap.GetUpperEnd();
+    rightCollider   = levelTiledMap.GetRightEnd();
+    downerCollider  = levelTiledMap.GetDownerEnd();
+    leftCollider    = levelTiledMap.GetLeftEnd();
 }
 
 void Level_1::Update(SDL_Event* e)
@@ -174,11 +177,41 @@ bool Level_1::EnemyHitPlayerCollision()
     return false;
 }
 
+bool Level_1::PlayerCollidesUp()
+{
+    if (Collisions::Collides(player->GetCollisionRect(), upperCollider))
+    {
+        return  true;
+    }
+
+    return false;
+}
+
+bool Level_1::PlayerCollidesLeft()
+{
+    if (Collisions::Collides(player->GetCollisionRect(), leftCollider))
+    {
+        return  true;
+    }
+
+    return false;
+}
+
+bool Level_1::PlayerCollidesRight()
+{
+    if (Collisions::Collides(player->GetCollisionRect(), rightCollider))
+    {
+        return  true;
+    }
+
+    return false;
+}
+
 bool Level_1::PlayerCollidesDown()
 {
-    if (Collisions::Collides(player->GetCollisionRect(), DownerCollider))
+    if (Collisions::Collides(player->GetCollisionRect(), downerCollider))
     {
-        std::cout << "Player collides down end" << std::endl;
+        //std::cout << "Player collides down end" << std::endl;
 
         return true;
     }

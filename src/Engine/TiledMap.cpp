@@ -82,15 +82,38 @@ void TiledMap::LoadContent(const std::string& path, SDL_Renderer* renderer)
                 for (auto& obj : objects)
                 {
                     const std::string &objGroup = obj.getName();
+
                     if (objGroup == "nonWalkableDown")
                     {
                         nonWalkableDown.x = (int)obj.getPosition().x;
-                        nonWalkableDown.y = (int)obj.getPosition().y;
+                        nonWalkableDown.y = (int)obj.getPosition().y + 3;
                         nonWalkableDown.w = (int)obj.getAABB().width;
                         nonWalkableDown.h = (int)obj.getAABB().height;
                     }
+                    else if (objGroup == "nonWalkableUp")
+                    {
+                        nonWalkableUp.x = (int)obj.getPosition().x;
+                        nonWalkableUp.y = (int)obj.getPosition().y - 27;
+                        nonWalkableUp.w = (int)obj.getAABB().width;
+                        nonWalkableUp.h = (int)obj.getAABB().height;
+                    }
+                    else if (objGroup == "leftEnd")
+                    {
+                        nonWalkableLeft.x = (int)obj.getPosition().x;
+                        nonWalkableLeft.y = (int)obj.getPosition().y;
+                        nonWalkableLeft.w = (int)obj.getAABB().width;
+                        nonWalkableLeft.h = (int)obj.getAABB().height;
+                    }
+                    else if (objGroup == "rightEnd")
+                    {
+                        nonWalkableRight.x = (int)obj.getPosition().x;
+                        nonWalkableRight.y = (int)obj.getPosition().y;
+                        nonWalkableRight.w = (int)obj.getAABB().width;
+                        nonWalkableRight.h = (int)obj.getAABB().height;
+                    }
                 }
             }
+
             continue;
         }
 
@@ -159,7 +182,22 @@ void TiledMap::Render(SDL_Renderer *renderer)
     }
 }
 
+SDL_Rect TiledMap::GetUpperEnd()
+{
+    return nonWalkableUp;
+}
+
+SDL_Rect TiledMap::GetRightEnd()
+{
+    return nonWalkableRight;
+}
+
 SDL_Rect TiledMap::GetDownerEnd()
 {
     return nonWalkableDown;
+}
+
+SDL_Rect TiledMap::GetLeftEnd()
+{
+    return nonWalkableLeft;
 }

@@ -28,9 +28,14 @@ public:
 
     void AddEnemy();
 
+    // Collisions
     bool PlayerCollidesEnemy();
     bool PlayerHitEnemyCollision();
     bool EnemyHitPlayerCollision();
+    bool PlayerCollidesUp();
+    bool PlayerCollidesRight();
+    bool PlayerCollidesDown();
+    bool PlayerCollidesLeft();
 
     int GetScreenWidth();
     int GetScreenHeight();
@@ -39,9 +44,6 @@ public:
 
     bool Paused = false;
     bool ExitToMainMenu = false;
-
-    SDL_Rect DownerCollider;
-    bool PlayerCollidesDown();
 
 private:
     SDL_Renderer * renderer;
@@ -60,4 +62,10 @@ private:
     std::list<Actor*>::iterator enemyIt;
 
     TiledMap levelTiledMap = TiledMap("Level 01");
+
+    // map colliders
+    SDL_Rect upperCollider;
+    SDL_Rect rightCollider;
+    SDL_Rect downerCollider;
+    SDL_Rect leftCollider;
 };

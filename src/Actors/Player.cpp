@@ -436,3 +436,43 @@ int Player::GetHP()
     return HP;
 }
 
+bool Player::CollidesUp()
+{
+    if (level1->PlayerCollidesUp())
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool Player::CollidesRight()
+{
+    if (level1->PlayerCollidesRight())
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool Player::CollidesDown()
+{
+    if (level1->PlayerCollidesDown())
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool Player::CollidesLeft()
+{
+    if (level1->PlayerCollidesLeft())
+    {
+        return true;
+    }
+
+    return false;
+}
+
