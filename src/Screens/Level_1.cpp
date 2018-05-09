@@ -152,6 +152,7 @@ bool Level_1::PlayerHitEnemyCollision()
                 delete e;
                 CurrentEnemy = nullptr;
             }
+
             return true;
         }
     }

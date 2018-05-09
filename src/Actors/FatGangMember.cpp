@@ -21,7 +21,7 @@ FatGangMember::FatGangMember(SDL_Renderer* r, Level_1* l1)
     collisionRect.w = 14;
     collisionRect.h = 28;
 
-    HP = 650;
+    HP = 1050;
 
     spriteSheet = new Texture2D(renderer);
     timer = new Timer();
@@ -156,12 +156,12 @@ void FatGangMember::Render()
             spriteSheet->Render(static_cast<int>(posX), static_cast<int>(posY), currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
 
-//        SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
-//        SDL_RenderDrawRect(renderer, &hitRect);
+        SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
+        SDL_RenderDrawRect(renderer, &hitRect);
     }
 
-//    SDL_SetRenderDrawColor(renderer, 255, 51, 51, 255);
-//    SDL_RenderDrawRect(renderer, &collisionRect);
+    SDL_SetRenderDrawColor(renderer, 255, 51, 51, 255);
+    SDL_RenderDrawRect(renderer, &collisionRect);
 }
 
 void FatGangMember::Move()
@@ -283,6 +283,7 @@ void FatGangMember::MoveToPlayer()
         if (posY > target->posY + 2)
         {
             VelX = MovementSpeed;
+
             VelY = -MovementSpeed;
             if (posY <= level1->GetLevelUpperCollider().y)
             {
@@ -316,6 +317,7 @@ void FatGangMember::MoveAwayFromPlayer()
     if (posX < target->posX + 100)
     {
         VelX = MovementSpeed;
+
         if (posY <= level1->GetLevelUpperCollider().y)
         {
             VelY = 0;
@@ -324,6 +326,7 @@ void FatGangMember::MoveAwayFromPlayer()
     else if (posX > target->posX - 100)
     {
         VelX = -MovementSpeed;
+
         if (posY >= level1->GelLevelDownerCollider().y + level1->GelLevelDownerCollider().h)
         {
             VelY = 0;
@@ -355,7 +358,7 @@ void FatGangMember::DoDamage()
 
 }
 
-void FatGangMember::ReceiveDamage()
+bool FatGangMember::ReceiveDamage()
 {
     if (target->CurrentState == target->PUNCHING)
     {
@@ -363,25 +366,29 @@ void FatGangMember::ReceiveDamage()
         {
             HP -= 10;
             std::cout << "HP: " << HP << std::endl;
-ReceivingDamage = true;
+            spriteSheet->SetColor(255, 0, 0);
+            return true;
         }
         HP -= 5;
         std::cout << "HP: " << HP << std::endl;
-ReceivingDamage = true;
+        spriteSheet->SetColor(255, 0, 0);
+        return true;
     }
     else if (target->CurrentState == target->KICKING)
     {
         HP -= 7;
         std::cout << "HP: " << HP << std::endl;
-ReceivingDamage = true;
+        spriteSheet->SetColor(255, 0, 0);
+        return true;
     }
     else if (target->CurrentState == target->JUMPKICK)
     {
 
         HP -= 8;
         std::cout << "HP: " << HP << std::endl;
-        ReceivingDamage = true;
+        spriteSheet->SetColor(255, 0, 0);
+        return true;
     }
-
-    //ReceivingDamage = false;
+    spriteSheet->SetColor(255, 255, 255);
+    return false;
 }

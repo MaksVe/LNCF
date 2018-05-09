@@ -74,7 +74,7 @@ public:
     static constexpr float movementSpeed = 1.2f;
 
     void DoDamage() override;
-    void ReceiveDamage() override;
+    bool ReceiveDamage() override;
     int GetHP() override;
 
     bool LinkingPunch = false;

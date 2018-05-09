@@ -22,6 +22,6 @@ public:
     virtual const SDL_Rect GetHitRect() = 0;
 
     virtual void DoDamage() {}
-    virtual void ReceiveDamage() {}
+    virtual bool ReceiveDamage() {}
     virtual int GetHP() = 0;
 };

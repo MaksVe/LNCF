@@ -79,7 +79,7 @@ void IdleState::HandleAction(FatGangMember &gangMemberA, double delta)
     gangMemberA.Attacking = false;
 
     gangMemberA.FindNearestPlayer();
-    if (gangMemberA.PlayerAway /*&& !gangMemberA.ReceivingDamage*/)
+    if (gangMemberA.PlayerAway && !gangMemberA.ReceiveDamage())
     {
         gangMemberA.CurrentState = FatGangMember::State::RUNNING;
         if (gangMemberA.state != nullptr)
@@ -88,7 +88,7 @@ void IdleState::HandleAction(FatGangMember &gangMemberA, double delta)
             gangMemberA.state = new RunningState();
         }
     }
-    else if (!gangMemberA.PlayerAway && !gangMemberA.Attacking /*&& !gangMemberA.ReceivingDamage*/)
+    else if (!gangMemberA.PlayerAway && !gangMemberA.Attacking && !gangMemberA.ReceiveDamage())
     {
         gangMemberA.CurrentState = FatGangMember::State::ATTACKING;
         if (gangMemberA.state != nullptr)

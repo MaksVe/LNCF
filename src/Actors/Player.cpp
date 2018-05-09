@@ -274,8 +274,8 @@ void Player::Render()
             spriteSheet->Render((int)posX, (int)posY, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
         
-//        SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
-//        SDL_RenderDrawRect(renderer, &hitRect);
+        SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
+        SDL_RenderDrawRect(renderer, &hitRect);
     }
     
     if (CurrentState == PUNCHING)
@@ -290,8 +290,8 @@ void Player::Render()
             spriteSheet->Render((int)posX, (int)posY, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
         
-//        SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
-//        SDL_RenderDrawRect(renderer, &hitRect);
+        SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
+        SDL_RenderDrawRect(renderer, &hitRect);
     }
     
     if (CurrentState == JUMPING)
@@ -319,12 +319,12 @@ void Player::Render()
             spriteSheet->Render((int)posX, (int)(posY + posZ), currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
         
-//        SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
-//        SDL_RenderDrawRect(renderer, &hitRect);
+        SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
+        SDL_RenderDrawRect(renderer, &hitRect);
     }
 
-//    SDL_SetRenderDrawColor(renderer, 255, 51, 51, 255);
-//    SDL_RenderDrawRect(renderer, &collisionRect);
+    SDL_SetRenderDrawColor(renderer, 255, 51, 51, 255);
+    SDL_RenderDrawRect(renderer, &collisionRect);
 }
 
 void Player::Move()
@@ -406,19 +406,24 @@ void Player::DoDamage()
     }
 }
 
-void Player::ReceiveDamage()
+bool Player::ReceiveDamage()
 {
     if (level1->CurrentEnemy != nullptr)
     {
         if (level1->CurrentEnemy == enemyTypeFat)
         {
             // receive damage according to the type of an enemy
+
         }
+
+        return true;
     }
     else
     {
         std::cout << "Current enemy is null" << std::endl;
     }
+
+    return false;
 }
 
 const SDL_Rect Player::GetCollisionRect()

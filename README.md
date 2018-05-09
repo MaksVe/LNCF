@@ -14,4 +14,4 @@
 Assets provided upon request for contributors.
 
 **Current progress:**  
-![Gameplay GIF](https://i.imgur.com/vDUoEvI.gif)
+![Gameplay GIF](https://i.imgur.com/PaKRbyj.gif)

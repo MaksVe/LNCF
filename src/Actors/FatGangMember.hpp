@@ -73,10 +73,8 @@ public:
     int AttackCounter = 0;
 
     void DoDamage() override;
-    void ReceiveDamage() override;
+    bool ReceiveDamage() override;
     int GetHP() override;
-
-    bool ReceivingDamage = false;
 
 private:
     SDL_Renderer* renderer;
