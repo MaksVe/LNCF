@@ -405,7 +405,7 @@ void JumpingState::HandleInput(Player &player, const Uint8 *keyState, SDL_Event*
         {
             player.velZ = -JumpVelocity;
             
-            std::cout << startPosZ << " " << player.posZ << player.posY << std::endl;
+            std::cout << startPosZ << " " << player.posZ << player.GetPosY() << std::endl;
             
             // draw jumpkick
             if (keyState[SDL_SCANCODE_H])
@@ -421,7 +421,7 @@ void JumpingState::HandleInput(Player &player, const Uint8 *keyState, SDL_Event*
             {
                 player.velZ = 0; // don't go over the start Y position
                 //player.posZ = 0;
-                std::cout << startPosZ << " " << player.posZ << " " << player.posY << std::endl;
+                std::cout << startPosZ << " " << player.posZ << " " << player.GetPosY() << std::endl;
             }
         }
     }

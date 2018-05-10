@@ -12,6 +12,7 @@
 #include "SDL.h"
 #include "../Engine/Texture2D.hpp"
 #include "../Engine/Timer.hpp"
+#include "../Engine/GameObject.hpp"
 #include "Actor.hpp"
 #include "ActorState.hpp"
 
@@ -29,8 +30,6 @@ public:
     const SDL_Rect GetCollisionRect() override;
     const SDL_Rect GetHitRect() override;
 
-    float posX = 400;
-    float posY = 155;
     float VelX = 0;
     float VelY = 0;
     void Move();

@@ -20,8 +20,8 @@ Player::Player(SDL_Renderer* r, Level_1* l1)
     timer           = new Timer();
     state           = new IdleState();
     
-    collisionRect.x = static_cast<int>(posX);
-    collisionRect.y = static_cast<int>(posY);
+    collisionRect.x = static_cast<int>(PosX);
+    collisionRect.y = static_cast<int>(PosY);
     collisionRect.w = 14;   // we don't need the whole frame (48x48), because
     collisionRect.h = 28;   // it's too big for our collision rect (hitbox)
     
@@ -31,6 +31,8 @@ Player::Player(SDL_Renderer* r, Level_1* l1)
     hitRect.h = 0;
 
     HP = 100;
+    PosX = 20;
+    PosY = 155;
 }
 
 Player::~Player()
@@ -171,22 +173,22 @@ void Player::Update(SDL_Event* e)
     state->HandleInput(*this, currentKeyStates, event);
     state->Update(*this, delta);
     
-    collisionRect.x = static_cast<int>(posX + 17);    // we don't need the whole frame (48x48), because
-    collisionRect.y = static_cast<int>(posY + 20);    // it's too big for our collision rect (hitbox)
+    collisionRect.x = static_cast<int>(PosX + 17);    // we don't need the whole frame (48x48), because
+    collisionRect.y = static_cast<int>(PosY + 20);    // it's too big for our collision rect (hitbox)
     
     if (CurrentState == KICKING)
     {
         if (currentDirection == faceDirection::right)
         {
-            hitRect.x = static_cast<int>(posX + 36);
-            hitRect.y = static_cast<int>(posY + 25);
+            hitRect.x = static_cast<int>(PosX + 36);
+            hitRect.y = static_cast<int>(PosY + 25);
             hitRect.w = 5;
             hitRect.h = 5;
         }
         else if (currentDirection == faceDirection::left)
         {
-            hitRect.x = static_cast<int>(posX + 6);
-            hitRect.y = static_cast<int>(posY + 25);
+            hitRect.x = static_cast<int>(PosX + 6);
+            hitRect.y = static_cast<int>(PosY + 25);
             hitRect.w = 5;
             hitRect.h = 5;
         }
@@ -195,15 +197,15 @@ void Player::Update(SDL_Event* e)
     {
         if (currentDirection == faceDirection::right)
         {
-            hitRect.x = static_cast<int>(posX + 38);
-            hitRect.y = static_cast<int>(posY + 26);
+            hitRect.x = static_cast<int>(PosX + 38);
+            hitRect.y = static_cast<int>(PosY + 26);
             hitRect.w = 5;
             hitRect.h = 5;
         }
         else if (currentDirection == faceDirection::left)
         {
-            hitRect.x = static_cast<int>(posX + 6);
-            hitRect.y = static_cast<int>(posY + 26);
+            hitRect.x = static_cast<int>(PosX + 6);
+            hitRect.y = static_cast<int>(PosY + 26);
             hitRect.w = 5;
             hitRect.h = 5;
         }
@@ -212,15 +214,15 @@ void Player::Update(SDL_Event* e)
     {
         if (currentDirection == faceDirection::right)
         {
-            hitRect.x = static_cast<int>(posX + 37);
-            hitRect.y = static_cast<int>(posY + 40);
+            hitRect.x = static_cast<int>(PosX + 37);
+            hitRect.y = static_cast<int>(PosY + 40);
             hitRect.w = 7;
             hitRect.h = 7;
         }
         else if (currentDirection == faceDirection::left)
         {
-            hitRect.x = static_cast<int>(posX + 5);
-            hitRect.y = static_cast<int>(posY + 40);
+            hitRect.x = static_cast<int>(PosX + 5);
+            hitRect.y = static_cast<int>(PosY + 40);
             hitRect.w = 7;
             hitRect.h = 7;
         }
@@ -241,11 +243,11 @@ void Player::Render()
         currentClip = &idleSpriteClips[frameToDraw];
         if (currentDirection == faceDirection::left)
         {
-            spriteSheet->Render((int)posX, (int)posY, currentClip);
+            spriteSheet->Render((int)PosX, (int)PosY, currentClip);
         }
         else if (currentDirection == faceDirection::right)
         {
-            spriteSheet->Render((int)posX, (int)posY, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+            spriteSheet->Render((int)PosX, (int)PosY, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
     }
     
@@ -254,11 +256,11 @@ void Player::Render()
         currentClip = &runSpriteClips[frameToDraw];
         if (currentDirection == faceDirection::left)
         {
-            spriteSheet->Render((int)posX, (int)posY, currentClip, 0.0, nullptr, SDL_FLIP_NONE);
+            spriteSheet->Render((int)PosX, (int)PosY, currentClip, 0.0, nullptr, SDL_FLIP_NONE);
         }
         else if (currentDirection == faceDirection::right)
         {
-            spriteSheet->Render((int)posX, (int)posY, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+            spriteSheet->Render((int)PosX, (int)PosY, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
     }
     
@@ -267,11 +269,11 @@ void Player::Render()
         currentClip = &kickSpriteClips[frameToDraw];
         if (currentDirection == faceDirection::left)
         {
-            spriteSheet->Render((int)posX, (int)posY, currentClip, 0.0, nullptr, SDL_FLIP_NONE);
+            spriteSheet->Render((int)PosX, (int)PosY, currentClip, 0.0, nullptr, SDL_FLIP_NONE);
         }
         else if (currentDirection == faceDirection::right)
         {
-            spriteSheet->Render((int)posX, (int)posY, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+            spriteSheet->Render((int)PosX, (int)PosY, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
         
         SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
@@ -283,11 +285,11 @@ void Player::Render()
         currentClip = &punchSpriteClips[frameToDraw];
         if (currentDirection == faceDirection::left)
         {
-            spriteSheet->Render((int)posX, (int)posY, currentClip, 0.0, nullptr, SDL_FLIP_NONE);
+            spriteSheet->Render((int)PosX, (int)PosY, currentClip, 0.0, nullptr, SDL_FLIP_NONE);
         }
         else if (currentDirection == faceDirection::right)
         {
-            spriteSheet->Render((int)posX, (int)posY, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+            spriteSheet->Render((int)PosX, (int)PosY, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
         
         SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
@@ -299,11 +301,11 @@ void Player::Render()
         currentClip = &jumpSpriteClips[frameToDraw];
         if (currentDirection == faceDirection::left)
         {
-            spriteSheet->Render((int)posX, (int)(posY + posZ), currentClip, 0.0, nullptr, SDL_FLIP_NONE);
+            spriteSheet->Render((int)PosX, (int)(PosY + posZ), currentClip, 0.0, nullptr, SDL_FLIP_NONE);
         }
         else if (currentDirection == faceDirection::right)
         {
-            spriteSheet->Render((int)posX, (int)(posY + posZ), currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+            spriteSheet->Render((int)PosX, (int)(PosY + posZ), currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
     }
     
@@ -312,11 +314,11 @@ void Player::Render()
         currentClip = &jumpKickClip;
         if (currentDirection == faceDirection::left)
         {
-            spriteSheet->Render((int)posX, (int)(posY + posZ), currentClip, 0.0, nullptr, SDL_FLIP_NONE);
+            spriteSheet->Render((int)PosX, (int)(PosY + posZ), currentClip, 0.0, nullptr, SDL_FLIP_NONE);
         }
         else if (currentDirection == faceDirection::right)
         {
-            spriteSheet->Render((int)posX, (int)(posY + posZ), currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+            spriteSheet->Render((int)PosX, (int)(PosY + posZ), currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
         
         SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
@@ -334,12 +336,12 @@ void Player::Move()
 
     if (velX != 0)
     {
-        posX += velX * length;
+        PosX += velX * length;
     }
     
     if (velY != 0)
     {
-        posY += velY * length;
+        PosY += velY * length;
     }
 
     if (velZ != 0)

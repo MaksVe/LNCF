@@ -9,11 +9,14 @@
 #pragma once
 
 #include <list>
+#include <vector>
+#include <algorithm>
 #include "Screen.hpp"
 #include "../Actors/Actor.hpp"
 #include "../Actors/Player.hpp"
 #include "../Actors/FatGangMember.hpp"
 #include "../Engine/Collisions.hpp"
+#include "../Engine/GameObject.hpp"
 #include "../Engine/TiledMap.hpp"
 
 class Level_1 : public virtual Screen
@@ -63,9 +66,11 @@ private:
     // Actors
     Player* player;
     std::list<Actor*> enemies;
-    std::list<Actor*>::iterator enemyIt;
 
     TiledMap levelTiledMap = TiledMap("Level 01");
+
+    // Vector of all our level objects including player and enemies
+    std::vector<GameObject*> gameObjects;
 
     // map colliders
     SDL_Rect upperCollider;

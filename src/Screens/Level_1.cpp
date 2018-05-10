@@ -34,7 +34,7 @@ Level_1::~Level_1()
 {
     delete player;
     delete pauseTextTexture;    
-    for (auto &e: enemies)
+    for (auto &e : enemies)
     {
         delete e;
     }
@@ -52,6 +52,13 @@ void Level_1::LoadContent()
     rightCollider   = levelTiledMap.GetRightEnd();
     downerCollider  = levelTiledMap.GetDownerEnd();
     leftCollider    = levelTiledMap.GetLeftEnd();
+
+    // store all our game objects in a vector
+    gameObjects.push_back(player);
+    for (auto& e : enemies)
+    {
+        gameObjects.push_back(e);
+    }
 }
 
 void Level_1::Update(SDL_Event* e)
@@ -62,7 +69,7 @@ void Level_1::Update(SDL_Event* e)
     {
         player->Update(event);
 
-        for (auto &e: enemies)
+        for (auto &e : enemies)
         {
             e->Update(event);
         }
@@ -71,6 +78,10 @@ void Level_1::Update(SDL_Event* e)
         PlayerCollidesEnemy();
         PlayerHitEnemyCollision();
         EnemyHitPlayerCollision();
+
+        // sort all our game objects by their Y position
+        std::sort(gameObjects.begin(), gameObjects.end(),
+                  [](GameObject* a, GameObject* b) { return a->GetPosY() < b->GetPosY(); });
     }
     
     if (event->type == SDL_KEYDOWN)
@@ -94,15 +105,13 @@ void Level_1::Update(SDL_Event* e)
 void Level_1::Render()
 {
     levelTiledMap.Render(renderer);
-    player->Render();
 
-    for (auto &e: enemies)
+    // draw all our game objects sorted by their Y position
+    for (auto &o : gameObjects)
     {
-        e->Render();
+        o->Render();
     }
 
-
-    
     // --- pause text ---
     if (pauseFont != nullptr)
     {
@@ -123,7 +132,7 @@ void Level_1::AddEnemy()
 // --- Player Collisions --- //
 bool Level_1::PlayerCollidesEnemy()
 {
-    for (auto &e: enemies)
+    for (auto &e : enemies)
     {
         if (Collisions::Collides(player->GetCollisionRect(), e->GetCollisionRect()))
         {
@@ -138,7 +147,7 @@ bool Level_1::PlayerCollidesEnemy()
 
 bool Level_1::PlayerHitEnemyCollision()
 {
-    for (auto &e: enemies)
+    for (auto &e : enemies)
     {
         if (Collisions::Collides(player->GetHitRect(), e->GetCollisionRect()))
         {

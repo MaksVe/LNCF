@@ -16,12 +16,14 @@ FatGangMember::FatGangMember(SDL_Renderer* r, Level_1* l1)
     screenWidth = l1->GetScreenWidth();
     screenHeight = l1->GetScreenHeight();
     
-    collisionRect.x = static_cast<int>(posX);
-    collisionRect.y = static_cast<int>(posY);
+    collisionRect.x = static_cast<int>(PosX);
+    collisionRect.y = static_cast<int>(PosY);
     collisionRect.w = 14;
     collisionRect.h = 28;
 
     HP = 1050;
+    PosX = 400;
+    PosY = 155;
 
     spriteSheet = new Texture2D(renderer);
     timer = new Timer();
@@ -94,22 +96,22 @@ void FatGangMember::Update(SDL_Event *e)
     state->HandleAction(*this, delta);
     state->Update(*this, delta);
     
-    collisionRect.x = static_cast<int>(posX + 17);    // we don't need the whole frame (48x48), because
-    collisionRect.y = static_cast<int>(posY + 20);    // it's too big for our collision rect (hitbox)
+    collisionRect.x = static_cast<int>(PosX + 17);    // we don't need the whole frame (48x48), because
+    collisionRect.y = static_cast<int>(PosY + 20);    // it's too big for our collision rect (hitbox)
 
     if (CurrentState == State::ATTACKING)
     {
         if (CurrentDirection == FaceDirection::RIGHT)
         {
-            hitRect.x = static_cast<int>(posX + 36);
-            hitRect.y = static_cast<int>(posY + 25);
+            hitRect.x = static_cast<int>(PosX + 36);
+            hitRect.y = static_cast<int>(PosY + 25);
             hitRect.w = 5;
             hitRect.h = 5;
         }
         else if (CurrentDirection == FaceDirection::LEFT)
         {
-            hitRect.x = static_cast<int>(posX + 6);
-            hitRect.y = static_cast<int>(posY + 25);
+            hitRect.x = static_cast<int>(PosX + 6);
+            hitRect.y = static_cast<int>(PosY + 25);
             hitRect.w = 5;
             hitRect.h = 5;
         }
@@ -123,11 +125,11 @@ void FatGangMember::Render()
         currentClip = &idleSpriteClips[FrameToDraw];
         if (CurrentDirection == FaceDirection::LEFT)
         {
-            spriteSheet->Render(static_cast<int>(posX), static_cast<int>(posY), currentClip);
+            spriteSheet->Render(static_cast<int>(PosX), static_cast<int>(PosY), currentClip);
         }
         else if (CurrentDirection == FaceDirection::RIGHT)
         {
-            spriteSheet->Render(static_cast<int>(posX), static_cast<int>(posY), currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+            spriteSheet->Render(static_cast<int>(PosX), static_cast<int>(PosY), currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
     }
 
@@ -136,11 +138,11 @@ void FatGangMember::Render()
         currentClip = &runSpriteClips[FrameToDraw];
         if (CurrentDirection == FaceDirection::LEFT)
         {
-            spriteSheet->Render(static_cast<int>(posX), static_cast<int>(posY), currentClip);
+            spriteSheet->Render(static_cast<int>(PosX), static_cast<int>(PosY), currentClip);
         }
         else if (CurrentDirection == FaceDirection::RIGHT)
         {
-            spriteSheet->Render(static_cast<int>(posX), static_cast<int>(posY), currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+            spriteSheet->Render(static_cast<int>(PosX), static_cast<int>(PosY), currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
     }
 
@@ -149,11 +151,11 @@ void FatGangMember::Render()
         currentClip = &attackSpriteClips[FrameToDraw];
         if (CurrentDirection == FaceDirection::LEFT)
         {
-            spriteSheet->Render(static_cast<int>(posX), static_cast<int>(posY), currentClip);
+            spriteSheet->Render(static_cast<int>(PosX), static_cast<int>(PosY), currentClip);
         }
         else if (CurrentDirection == FaceDirection::RIGHT)
         {
-            spriteSheet->Render(static_cast<int>(posX), static_cast<int>(posY), currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+            spriteSheet->Render(static_cast<int>(PosX), static_cast<int>(PosY), currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
 
         SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
@@ -171,12 +173,12 @@ void FatGangMember::Move()
 
     if (VelX != 0)
     {
-        posX += VelX * length;
+        PosX += VelX * length;
     }
 
     if (VelY != 0)
     {
-        posY += VelY * length;
+        PosY += VelY * length;
     }
 }
 
@@ -243,30 +245,30 @@ int FatGangMember::GetHP()
 void FatGangMember::FindNearestPlayer()
 {
     target = level1->FindPlayer();
-    PlayerAway = posX > target->posX + 25 || posX < target->posX - 23;
+    PlayerAway = PosX > target->GetPosX() + 25 || PosX < target->GetPosX() - 23;
 }
 
 void FatGangMember::MoveToPlayer()
 {
-    if (posX > target->posX + 25)
+    if (PosX > target->GetPosX() + 25)
     {
         CurrentDirection = FaceDirection::LEFT;
-        if (posY > target->posY + 2)
+        if (PosY > target->GetPosY() + 2)
         {
             VelX = -MovementSpeed;
 
             VelY = -MovementSpeed;
-            if (posY <= level1->GetLevelUpperCollider().y)
+            if (PosY <= level1->GetLevelUpperCollider().y)
             {
                 VelY = 0;
             }
         }
-        else if (posY < target->posY - 2)
+        else if (GetPosY() < target->GetPosY() - 2)
         {
             VelX = -MovementSpeed;
 
             VelY = MovementSpeed;
-            if (posY >= level1->GelLevelDownerCollider().y + level1->GelLevelDownerCollider().h)
+            if (PosY >= level1->GelLevelDownerCollider().y + level1->GelLevelDownerCollider().h)
             {
                 VelY = 0;
             }
@@ -277,25 +279,25 @@ void FatGangMember::MoveToPlayer()
             VelY = 0;
         }
     }
-    else if (posX < target->posX - 5)
+    else if (PosX < target->GetPosX() - 5)
     {
         CurrentDirection = FaceDirection::RIGHT;
-        if (posY > target->posY + 2)
+        if (GetPosY() > target->GetPosY() + 2)
         {
             VelX = MovementSpeed;
 
             VelY = -MovementSpeed;
-            if (posY <= level1->GetLevelUpperCollider().y)
+            if (PosY <= level1->GetLevelUpperCollider().y)
             {
                 VelY = 0;
             }
         }
-        else if (posY < target->posY - 2)
+        else if (PosY < target->GetPosY() - 2)
         {
             VelX = MovementSpeed;
 
             VelY = MovementSpeed;
-            if (posY >= level1->GelLevelDownerCollider().y + level1->GelLevelDownerCollider().h)
+            if (PosY >= level1->GelLevelDownerCollider().y + level1->GelLevelDownerCollider().h)
             {
                 VelY = 0;
             }
@@ -314,20 +316,20 @@ void FatGangMember::MoveToPlayer()
 
 void FatGangMember::MoveAwayFromPlayer()
 {
-    if (posX < target->posX + 100)
+    if (PosX < target->GetPosX() + 100)
     {
         VelX = MovementSpeed;
 
-        if (posY <= level1->GetLevelUpperCollider().y)
+        if (GetPosY() <= level1->GetLevelUpperCollider().y)
         {
             VelY = 0;
         }
     }
-    else if (posX > target->posX - 100)
+    else if (PosX > target->GetPosX() - 100)
     {
         VelX = -MovementSpeed;
 
-        if (posY >= level1->GelLevelDownerCollider().y + level1->GelLevelDownerCollider().h)
+        if (PosY >= level1->GelLevelDownerCollider().y + level1->GelLevelDownerCollider().h)
         {
             VelY = 0;
         }
@@ -349,7 +351,7 @@ void FatGangMember::AttackPlayer()
 bool FatGangMember::PlayerFarAway()
 {
     target = level1->FindPlayer();
-    return posX > target->posX + 70 || posX < target->posX - 70;
+    return GetPosX() > target->GetPosX() + 70 || GetPosX() < target->GetPosX() - 70;
 
 }
 

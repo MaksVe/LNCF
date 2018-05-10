@@ -9,8 +9,9 @@
 #pragma once
 
 #include "SDL.h"
+#include "../Engine/GameObject.hpp"
 
-class Actor
+class Actor : public virtual GameObject
 {
 public:
     virtual ~Actor() {}
@@ -22,6 +23,6 @@ public:
     virtual const SDL_Rect GetHitRect() = 0;
 
     virtual void DoDamage() {}
-    virtual bool ReceiveDamage() {}
+    virtual bool ReceiveDamage() = 0;
     virtual int GetHP() = 0;
 };
