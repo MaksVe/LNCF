@@ -4,13 +4,16 @@
 
 #pragma once
 
+#include "SDL.h"
 
 class GameObject
 {
 public:
-    virtual ~GameObject() {}
+    virtual ~GameObject()                   {}
 
-    virtual void Render() {}
+    virtual void LoadContent()              {}
+    virtual void Update(SDL_Event* event)   {}
+    virtual void Render()                   {}
 
     virtual float GetPosY() { return PosY; }
     virtual float GetPosX() { return PosX; }

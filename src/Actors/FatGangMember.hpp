@@ -71,9 +71,8 @@ public:
 
     int AttackCounter = 0;
 
-    void DoDamage() override;
+    bool DoDamage() override;
     bool ReceiveDamage() override;
-    int GetHP() override;
 
 private:
     SDL_Renderer* renderer;
@@ -98,6 +97,4 @@ private:
 
     Level_1* level1;
     Player* target;
-
-    int HP;
 };

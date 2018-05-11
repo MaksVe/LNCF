@@ -71,9 +71,8 @@ public:
 
     static constexpr float movementSpeed = 1.2f;
 
-    void DoDamage() override;
+    bool DoDamage() override;
     bool ReceiveDamage() override;
-    int GetHP() override;
 
     bool LinkingPunch = false;
 
@@ -110,6 +109,4 @@ private:
     Level_1* level1;
     Actor* target;
     FatGangMember* enemyTypeFat;
-
-    int HP;
 };

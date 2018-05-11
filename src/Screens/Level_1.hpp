@@ -11,6 +11,8 @@
 #include <list>
 #include <vector>
 #include <algorithm>
+#include <iterator>
+#include <cstddef>
 #include "Screen.hpp"
 #include "../Actors/Actor.hpp"
 #include "../Actors/Player.hpp"

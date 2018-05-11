@@ -67,11 +67,9 @@ void Level_1::Update(SDL_Event* e)
     
     if (!Paused)
     {
-        player->Update(event);
-
-        for (auto &e : enemies)
+        for (auto& o : gameObjects)
         {
-            e->Update(event);
+            o->Update(e);
         }
 
         PlayerCollidesDown();
@@ -153,12 +151,29 @@ bool Level_1::PlayerHitEnemyCollision()
         {
             //std::cout << "player hit rect collides enemy rect" << std::endl;
             CurrentEnemy = e;
+
             player->DoDamage();
+
+            // DELETE THE SHIT OUT OF IT
             if (e->GetHP() <= 0)
             {
                 std::cout << "enemy is dead" << std::endl;
+
                 enemies.remove(e);
+
+                auto it = std::find(gameObjects.begin(), gameObjects.end(), e);
+                if (it == gameObjects.end())
+                {
+                    // oops
+                }
+                else
+                {
+                    auto index = std::distance(gameObjects.begin(), it);
+                    gameObjects.erase(gameObjects.begin() + index);
+                }
+
                 delete e;
+
                 CurrentEnemy = nullptr;
             }
 
@@ -201,7 +216,8 @@ bool Level_1::EnemyHitPlayerCollision()
         {
             //std::cout << "enemy hit rect collides player rect" << std::endl;
             CurrentEnemy = e;
-            player->ReceiveDamage();
+            e->DoDamage();
+
             if (player->GetHP() <= 0)
             {
                 std::cout << "player is dead" << std::endl;
@@ -227,7 +243,16 @@ SDL_Rect Level_1::GelLevelDownerCollider()
 
 Player* Level_1::FindPlayer()
 {
-    return player;
+    if (player == nullptr)
+    {
+        std::cout << "player is null" << std::endl;
+
+        return nullptr;
+    }
+    else
+    {
+        return player;
+    }
 }
 
 int Level_1::GetScreenWidth()

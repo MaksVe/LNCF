@@ -237,11 +237,6 @@ const SDL_Rect FatGangMember::GetHitRect()
     return hitRect;
 }
 
-int FatGangMember::GetHP()
-{
-    return HP;
-}
-
 void FatGangMember::FindNearestPlayer()
 {
     target = level1->FindPlayer();
@@ -351,46 +346,60 @@ void FatGangMember::AttackPlayer()
 bool FatGangMember::PlayerFarAway()
 {
     target = level1->FindPlayer();
-    return GetPosX() > target->GetPosX() + 70 || GetPosX() < target->GetPosX() - 70;
 
+    if (target != nullptr)
+    {
+        return GetPosX() > target->GetPosX() + 70 || GetPosX() < target->GetPosX() - 70;
+    }
+
+    return true;
 }
 
-void FatGangMember::DoDamage()
+bool FatGangMember::DoDamage()
 {
+    target = level1->FindPlayer();
 
+    if (target != nullptr)
+    {
+        if (CurrentState == State::ATTACKING)
+        {
+            target->SetHP(5);
+            std::cout << target->GetHP() << std::endl;
+
+            return true;
+        }
+    }
+    else
+    {
+        std::cout << "target is null" << std::endl;
+    }
+
+    return false;
 }
 
 bool FatGangMember::ReceiveDamage()
 {
-    if (target->CurrentState == target->PUNCHING)
+    //target = level1->FindPlayer();
+
+    if (target != nullptr)
     {
-        if (target->LinkingPunch)
+        if (target->DoDamage())
         {
-            HP -= 10;
-            std::cout << "HP: " << HP << std::endl;
             spriteSheet->SetColor(255, 0, 0);
+
             return true;
         }
-        HP -= 5;
-        std::cout << "HP: " << HP << std::endl;
-        spriteSheet->SetColor(255, 0, 0);
-        return true;
-    }
-    else if (target->CurrentState == target->KICKING)
-    {
-        HP -= 7;
-        std::cout << "HP: " << HP << std::endl;
-        spriteSheet->SetColor(255, 0, 0);
-        return true;
-    }
-    else if (target->CurrentState == target->JUMPKICK)
-    {
+        else
+        {
+            spriteSheet->SetColor(255, 255, 255);
 
-        HP -= 8;
-        std::cout << "HP: " << HP << std::endl;
-        spriteSheet->SetColor(255, 0, 0);
-        return true;
+            return false;
+        }
     }
-    spriteSheet->SetColor(255, 255, 255);
+    else
+    {
+        std::cout << "target is null" << std::endl;
+    }
+
     return false;
 }

@@ -14,15 +14,17 @@
 class Actor : public virtual GameObject
 {
 public:
-    virtual ~Actor() {}
+    virtual ~Actor()                            {}
 
-    virtual void LoadContent() {}
-    virtual void Update(SDL_Event* event) {}
-    virtual void Render() {}
-    virtual const SDL_Rect GetCollisionRect() = 0;
-    virtual const SDL_Rect GetHitRect() = 0;
+    virtual const SDL_Rect GetCollisionRect()   = 0;
+    virtual const SDL_Rect GetHitRect()         = 0;
 
-    virtual void DoDamage() {}
-    virtual bool ReceiveDamage() = 0;
-    virtual int GetHP() = 0;
+    virtual bool DoDamage()                     = 0;
+    virtual bool ReceiveDamage()                = 0;
+
+    virtual int GetHP()                         { return HP; }
+    virtual void SetHP(int amountOfDamage)      { HP = HP - amountOfDamage; }
+
+protected:
+    int HP{};
 };

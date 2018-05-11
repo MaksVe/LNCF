@@ -8,6 +8,8 @@
 
 #include "Player.hpp"
 #include "../Screens/Level_1.hpp"
+#include <type_traits>
+#include <typeinfo>
 
 Player::Player(SDL_Renderer* r, Level_1* l1)
 {
@@ -30,7 +32,7 @@ Player::Player(SDL_Renderer* r, Level_1* l1)
     hitRect.w = 0;
     hitRect.h = 0;
 
-    HP = 100;
+    HP = 10000;
     PosX = 20;
     PosY = 155;
 }
@@ -392,7 +394,7 @@ bool Player::Animating(int maxFrames)
     return false;
 }
 
-void Player::DoDamage()
+bool Player::DoDamage()
 {
     if (level1->CurrentEnemy != nullptr)
     {
@@ -400,25 +402,46 @@ void Player::DoDamage()
          * lock that enemy while player do the damage and send him in a receiving damage state
          */
         target = level1->CurrentEnemy;
-        target->ReceiveDamage();
+
+        if (CurrentState == PUNCHING)
+        {
+            target->SetHP(5);
+            std::cout << target->GetHP() << std::endl;
+            return true;
+        }
+        else if (CurrentState == KICKING)
+        {
+            target->SetHP(10);
+            std::cout << target->GetHP() << std::endl;
+            return true;
+        }
     }
     else
     {
         std::cout << "Current enemy is null" << std::endl;
     }
+
+    return false;
 }
 
 bool Player::ReceiveDamage()
 {
     if (level1->CurrentEnemy != nullptr)
     {
-        if (level1->CurrentEnemy == enemyTypeFat)
+        target = level1->CurrentEnemy;
+
+        if (target->DoDamage())
         {
-            // receive damage according to the type of an enemy
+            spriteSheet->SetColor(255, 0, 0);
 
+            return true;
         }
+        else
+        {
+            spriteSheet->SetColor(255, 255, 255);
 
-        return true;
+            return false;
+        }
     }
     else
     {
@@ -436,11 +459,6 @@ const SDL_Rect Player::GetCollisionRect()
 const SDL_Rect Player::GetHitRect()
 {
     return hitRect;
-}
-
-int Player::GetHP()
-{
-    return HP;
 }
 
 bool Player::CollidesUp()
