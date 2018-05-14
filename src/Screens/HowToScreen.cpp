@@ -30,7 +30,7 @@ HowToScreen::~HowToScreen()
 
 void HowToScreen::LoadContent()
 {
-    if (!backToMainMenu->Create(textColor, "Back", "PressStart2P.ttf", 8))
+    if (!backToMainMenu->Create(textColor, "Back", "PressStart2P.ttf", 16))
     {
         std::cout << "Unable to create menu entry!" << std::endl;
     }

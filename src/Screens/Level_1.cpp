@@ -216,8 +216,9 @@ bool Level_1::EnemyHitPlayerCollision()
         {
             //std::cout << "enemy hit rect collides player rect" << std::endl;
             CurrentEnemy = e;
-            e->DoDamage();
-            //player->SetState(new StaggeredState);
+
+            CurrentEnemy->DoDamage();
+            player->SetState(new StaggeredState);
 
             if (player->GetHP() <= 0)
             {

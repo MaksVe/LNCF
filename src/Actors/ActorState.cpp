@@ -468,16 +468,25 @@ void AttackingState::Update(FatGangMember &gangMemberA, double delta)
 // ------------- staggered state ------------- //
 void StaggeredState::HandleInput(Player& player, const Uint8* keyState, SDL_Event* event)
 {
+    // TODO: why he never leaves?
     player.CurrentState = player.IDLE;
-    if (player.GetState() != nullptr)
+    if (player.Animating(Player::IDLE_FRAMES))
     {
-        player.SetState(new IdleState);
+
+    }
+    else
+    {
+        player.CurrentState = Player::IDLE;
+        if (player.GetState() != nullptr)
+        {
+            player.SetState(new IdleState);
+        }
     }
 }
 
 void StaggeredState::Update(Player &player, double delta)
 {
-    //player.ReceiveDamage();
+    player.ReceiveDamage();
     player.Animate(delta, Player::IDLE_FRAMES);
 }
 
@@ -485,6 +494,7 @@ void StaggeredState::Update(Player &player, double delta)
 
 void StaggeredState::HandleAction(FatGangMember &gangMemberA, double delta)
 {
+    gangMemberA.CurrentState = FatGangMember::State::IDLE;
     if (gangMemberA.Animating(FatGangMember::IDLE_FRAMES))
     {
         // receiving damage

@@ -38,17 +38,17 @@ MainMenuScreen::~MainMenuScreen()
 void MainMenuScreen::LoadContent()
 {
     // start
-    if (!startGame->Create(textColor, "Start", "PressStart2P.ttf", 8))
+    if (!startGame->Create(textColor, "Start", "PressStart2P.ttf", 16))
     {
         std::cout << "Unable to create menu entry!" << std::endl;
     }
     // howTo
-    if (!howTo->Create(textColor, "HowTo", "PressStart2P.ttf", 8))
+    if (!howTo->Create(textColor, "HowTo", "PressStart2P.ttf", 16))
     {
         std::cout << "Unable to create menu entry!" << std::endl;
     }
     // quit
-    if (!quit->Create(textColor, "Quit", "PressStart2P.ttf", 8))
+    if (!quit->Create(textColor, "Quit", "PressStart2P.ttf", 16))
     {
         std::cout << "Unable to create menu entry!" << std::endl;
     }

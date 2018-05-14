@@ -396,12 +396,13 @@ bool Player::Animating(int maxFrames)
 
 bool Player::DoDamage()
 {
-    if (level1->CurrentEnemy != nullptr)
+    target = level1->CurrentEnemy;
+
+    if (target != nullptr)
     {
         /* get the current enemy who's collision rect collided with the player hit rect
          * lock that enemy while player do the damage and send him in a receiving damage state
          */
-        target = level1->CurrentEnemy;
 
         if (CurrentState == PUNCHING)
         {
@@ -426,10 +427,10 @@ bool Player::DoDamage()
 
 bool Player::ReceiveDamage()
 {
-    if (level1->CurrentEnemy != nullptr)
-    {
-        target = level1->CurrentEnemy;
+    target = level1->CurrentEnemy;
 
+    if (target != nullptr)
+    {
         if (target->DoDamage())
         {
             spriteSheet->SetColor(255, 0, 0);
