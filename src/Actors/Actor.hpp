@@ -8,8 +8,9 @@
 
 #pragma once
 
-#include "SDL.h"
+#include <memory>
 #include "../Engine/GameObject.hpp"
+#include "ActorState.hpp"
 
 class Actor : public virtual GameObject
 {
@@ -25,6 +26,10 @@ public:
     virtual int GetHP()                         { return HP; }
     virtual void SetHP(int amountOfDamage)      { HP = HP - amountOfDamage; }
 
+    virtual ActorState* GetState()                                      { return state; }
+    virtual void SetState(ActorState* actorState)   { delete state; state = actorState; }
+
 protected:
     int HP{};
+    ActorState* state;
 };

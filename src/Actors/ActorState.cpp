@@ -24,10 +24,9 @@ void IdleState::HandleInput(Player &player, const Uint8* keyState, SDL_Event* ev
         keyState[SDL_SCANCODE_A] || keyState[SDL_SCANCODE_D])
     {
         player.CurrentState = player.RUNNING;
-        if (player.state != nullptr)
+        if (player.GetState() != nullptr)
         {
-            delete player.state;
-            player.state = new RunningState();
+            player.SetState(new RunningState);
         }
     }
     
@@ -37,30 +36,27 @@ void IdleState::HandleInput(Player &player, const Uint8* keyState, SDL_Event* ev
         {
             player.CurrentState = player.KICKING;
             player.frameToDraw = 0;
-            if (player.state != nullptr)
+            if (player.GetState() != nullptr)
             {
-                delete player.state;
-                player.state = new KickingState();
+                player.SetState(new KickingState);
             }
         }
         else if (keyState[SDL_SCANCODE_G])
         {
             player.CurrentState = player.PUNCHING;
             player.frameToDraw = 0;
-            if (player.state != nullptr)
+            if (player.GetState() != nullptr)
             {
-                delete player.state;
-                player.state = new PunchingState();
+                player.SetState(new PunchingState);
             }
         }
         else if (keyState[SDL_SCANCODE_SPACE])
         {
             player.CurrentState = player.JUMPING;
             player.frameToDraw = 0;
-            if (player.state != nullptr)
+            if (player.GetState() != nullptr)
             {
-                delete player.state;
-                player.state = new JumpingState();
+                player.SetState(new JumpingState);
                 startPosZ = 0;
             }
         }
@@ -69,7 +65,7 @@ void IdleState::HandleInput(Player &player, const Uint8* keyState, SDL_Event* ev
 
 void IdleState::Update(Player &player, double delta)
 {
-    player.Animate(delta, player.IDLE_FRAMES);
+    player.Animate(delta, Player::IDLE_FRAMES);
 }
 
 
@@ -79,29 +75,27 @@ void IdleState::HandleAction(FatGangMember &gangMemberA, double delta)
     gangMemberA.Attacking = false;
 
     gangMemberA.FindNearestPlayer();
-    if (gangMemberA.PlayerAway && !gangMemberA.ReceiveDamage())
+    if (gangMemberA.PlayerAway)
     {
         gangMemberA.CurrentState = FatGangMember::State::RUNNING;
-        if (gangMemberA.state != nullptr)
+        if (gangMemberA.GetState() != nullptr)
         {
-            delete gangMemberA.state;
-            gangMemberA.state = new RunningState();
+            gangMemberA.SetState(new RunningState);
         }
     }
-    else if (!gangMemberA.PlayerAway && !gangMemberA.Attacking && !gangMemberA.ReceiveDamage())
+    else if (!gangMemberA.PlayerAway && !gangMemberA.Attacking)
     {
         gangMemberA.CurrentState = FatGangMember::State::ATTACKING;
-        if (gangMemberA.state != nullptr)
+        if (gangMemberA.GetState() != nullptr)
         {
-            delete gangMemberA.state;
-            gangMemberA.state = new AttackingState();
+            gangMemberA.SetState(new AttackingState);
         }
     }
 }
 
 void IdleState::Update(FatGangMember &gangMemberA, double delta)
 {
-    gangMemberA.Animate(delta, gangMemberA.IDLE_FRAMES);
+    gangMemberA.Animate(delta, FatGangMember::IDLE_FRAMES);
 }
 // ------------- idle state ------------- //
 
@@ -116,14 +110,14 @@ void RunningState::HandleInput(Player &player, const Uint8* keyState, SDL_Event*
         
         if (keyState[SDL_SCANCODE_W])
         {
-            player.velX = -player.movementSpeed;
+            player.velX = -Player::movementSpeed;
             if (player.CollidesLeft())
             {
                 std::cout << "collides left" << std::endl;
                 player.velX = 0;
             }
 
-            player.velY = -player.movementSpeed;
+            player.velY = -Player::movementSpeed;
             if (player.CollidesUp())
             {
                 std::cout << "collides up" << std::endl;
@@ -132,13 +126,13 @@ void RunningState::HandleInput(Player &player, const Uint8* keyState, SDL_Event*
         }
         else if (keyState[SDL_SCANCODE_S])
         {
-            player.velX = -player.movementSpeed;
+            player.velX = -Player::movementSpeed;
             if (player.CollidesLeft())
             {
                 player.velX = 0;
             }
 
-            player.velY = player.movementSpeed;
+            player.velY = Player::movementSpeed;
             if (player.CollidesDown())
             {
                 player.velY = 0;
@@ -146,7 +140,7 @@ void RunningState::HandleInput(Player &player, const Uint8* keyState, SDL_Event*
         }
         else
         {
-            player.velX = -player.movementSpeed;
+            player.velX = -Player::movementSpeed;
             if (player.CollidesLeft())
             {
                 player.velX = 0;
@@ -159,10 +153,9 @@ void RunningState::HandleInput(Player &player, const Uint8* keyState, SDL_Event*
                 {
                     player.CurrentState = player.JUMPING;
                     player.frameToDraw = 0;
-                    if (player.state != nullptr)
+                    if (player.GetState() != nullptr)
                     {
-                        delete player.state;
-                        player.state = new JumpingState();
+                        player.SetState(new JumpingState);
                         startPosZ = 0;
                     }
                 }
@@ -175,13 +168,13 @@ void RunningState::HandleInput(Player &player, const Uint8* keyState, SDL_Event*
         
         if (keyState[SDL_SCANCODE_W])
         {
-            player.velX = player.movementSpeed;
+            player.velX = Player::movementSpeed;
             if (player.CollidesRight())
             {
                 player.velX = 0;
             }
 
-            player.velY = -player.movementSpeed;
+            player.velY = -Player::movementSpeed;
             if (player.CollidesUp())
             {
                 player.velY = 0;
@@ -189,12 +182,12 @@ void RunningState::HandleInput(Player &player, const Uint8* keyState, SDL_Event*
         }
         else if (keyState[SDL_SCANCODE_S])
         {
-            player.velX = player.movementSpeed;
+            player.velX = Player::movementSpeed;
             if (player.CollidesRight())
             {
                 player.velX = 0;
             }
-            player.velY = player.movementSpeed;
+            player.velY = Player::movementSpeed;
             if (player.CollidesDown())
             {
                 player.velY = 0;
@@ -202,7 +195,7 @@ void RunningState::HandleInput(Player &player, const Uint8* keyState, SDL_Event*
         }
         else
         {
-            player.velX = player.movementSpeed;
+            player.velX = Player::movementSpeed;
             if (player.CollidesRight())
             {
                 player.velX = 0;
@@ -215,10 +208,9 @@ void RunningState::HandleInput(Player &player, const Uint8* keyState, SDL_Event*
                 {
                     player.CurrentState = player.JUMPING;
                     player.frameToDraw = 0;
-                    if (player.state != nullptr)
+                    if (player.GetState() != nullptr)
                     {
-                        delete player.state;
-                        player.state = new JumpingState();
+                        player.SetState(new JumpingState);
                         startPosZ = 0;
                     }
                 }
@@ -227,7 +219,7 @@ void RunningState::HandleInput(Player &player, const Uint8* keyState, SDL_Event*
     }
     else if (keyState[SDL_SCANCODE_W])
     {
-        player.velY = -player.movementSpeed;
+        player.velY = -Player::movementSpeed;
         if (player.CollidesUp())
         {
             player.velY = 0;
@@ -236,7 +228,7 @@ void RunningState::HandleInput(Player &player, const Uint8* keyState, SDL_Event*
     }
     else if(keyState[SDL_SCANCODE_S])
     {
-        player.velY = player.movementSpeed;
+        player.velY = Player::movementSpeed;
         if (player.CollidesDown())
         {
             player.velY = 0;
@@ -249,10 +241,9 @@ void RunningState::HandleInput(Player &player, const Uint8* keyState, SDL_Event*
         {
             player.CurrentState = player.JUMPING;
             player.frameToDraw = 0;
-            if (player.state != nullptr)
+            if (player.GetState() != nullptr)
             {
-                delete player.state;
-                player.state = new JumpingState();
+                player.SetState(new JumpingState);
                 startPosZ = 0;
             }
         }
@@ -260,10 +251,9 @@ void RunningState::HandleInput(Player &player, const Uint8* keyState, SDL_Event*
     else
     {
         player.CurrentState = player.IDLE;
-        if (player.state != nullptr)
+        if (player.GetState() != nullptr)
         {
-            delete player.state;
-            player.state = new IdleState();
+            player.SetState(new IdleState);
         }
     }
 }
@@ -271,7 +261,7 @@ void RunningState::HandleInput(Player &player, const Uint8* keyState, SDL_Event*
 void RunningState::Update(Player &player, double delta)
 {
     player.Move();
-    player.Animate(delta, player.RUN_FRAMES);
+    player.Animate(delta, Player::RUN_FRAMES);
 }
 
 
@@ -286,10 +276,9 @@ void RunningState::HandleAction(FatGangMember &gangMemberA, double delta)
         {
             gangMemberA.AttackCounter = 0;
             gangMemberA.CurrentState = FatGangMember::State::IDLE;
-            if (gangMemberA.state != nullptr)
+            if (gangMemberA.GetState() != nullptr)
             {
-                delete gangMemberA.state;
-                gangMemberA.state = new IdleState();
+                gangMemberA.SetState(new IdleState);
             }
         }
     }
@@ -300,10 +289,9 @@ void RunningState::HandleAction(FatGangMember &gangMemberA, double delta)
         if (!gangMemberA.PlayerAway)
         {
             gangMemberA.CurrentState = FatGangMember::State::IDLE;
-            if (gangMemberA.state != nullptr)
+            if (gangMemberA.GetState() != nullptr)
             {
-                delete gangMemberA.state;
-                gangMemberA.state = new IdleState();
+                gangMemberA.SetState(new IdleState);
             }
         }
     }
@@ -312,7 +300,7 @@ void RunningState::HandleAction(FatGangMember &gangMemberA, double delta)
 void RunningState::Update(FatGangMember &gangMemberA, double delta)
 {
     gangMemberA.Move();
-    gangMemberA.Animate(delta, gangMemberA.RUN_FRAMES);
+    gangMemberA.Animate(delta, FatGangMember::RUN_FRAMES);
 }
 // ------------- running state ------------- //
 
@@ -321,24 +309,23 @@ void RunningState::Update(FatGangMember &gangMemberA, double delta)
 // ------------- kicking state ------------- //
 void KickingState::HandleInput(Player &player, const Uint8 *keyState, SDL_Event* event)
 {
-    if (player.Animating(player.KICK_FRAMES))
+    if (player.Animating(Player::KICK_FRAMES))
     {
         // wait animation to finish
     }
     else
     {
         player.CurrentState = player.IDLE;
-        if (player.state != nullptr)
+        if (player.GetState() != nullptr)
         {
-            delete player.state;
-            player.state = new IdleState();
+            player.SetState(new IdleState);
         }
     }
 }
 
 void KickingState::Update(Player &player, double delta)
 {
-    player.Animate(delta, player.KICK_FRAMES);
+    player.Animate(delta, Player::KICK_FRAMES);
 }
 // ------------- kicking state ------------- //
 
@@ -347,7 +334,7 @@ void KickingState::Update(Player &player, double delta)
 // ------------- punching state ------------- //
 void PunchingState::HandleInput(Player &player, const Uint8 *keyState, SDL_Event* event)
 {
-    if (player.Animating(player.PUNCH_FRAMES))
+    if (player.Animating(Player::PUNCH_FRAMES))
     {
         if (player.frameToDraw >= 2)
         {
@@ -364,10 +351,9 @@ void PunchingState::HandleInput(Player &player, const Uint8 *keyState, SDL_Event
             {
 //                std::cout << "Stop punching, ignore the second punch from the sprite sheet" << std::endl;
                 player.CurrentState = player.IDLE;
-                if (player.state != nullptr)
+                if (player.GetState() != nullptr)
                 {
-                    delete player.state;
-                    player.state = new IdleState();
+                    player.SetState(new IdleState);
                 }
             }
         }
@@ -376,17 +362,16 @@ void PunchingState::HandleInput(Player &player, const Uint8 *keyState, SDL_Event
     {
         player.LinkingPunch = false;
         player.CurrentState = player.IDLE;
-        if (player.state != nullptr)
+        if (player.GetState() != nullptr)
         {
-            delete player.state;
-            player.state = new IdleState();
+            player.SetState(new IdleState);
         }
     }
 }
 
 void PunchingState::Update(Player &player, double delta)
 {
-    player.Animate(delta, player.PUNCH_FRAMES);
+    player.Animate(delta, Player::PUNCH_FRAMES);
 }
 // ------------- punching state ------------- //
 
@@ -395,7 +380,7 @@ void PunchingState::Update(Player &player, double delta)
 // ------------- jumping state ------------- //
 void JumpingState::HandleInput(Player &player, const Uint8 *keyState, SDL_Event* event)
 {
-    if (player.Animating(player.JUMP_FRAMES))
+    if (player.Animating(Player::JUMP_FRAMES))
     {
         /* This method isn't the optimal way to do the jump. Actually,
          it's an absolute bullshit. But it'll work for now. */
@@ -428,10 +413,9 @@ void JumpingState::HandleInput(Player &player, const Uint8 *keyState, SDL_Event*
     else
     {
         player.CurrentState = player.IDLE;
-        if (player.state != nullptr)
+        if (player.GetState() != nullptr)
         {
-            delete player.state;
-            player.state = new IdleState();
+            player.SetState(new IdleState);
         }
     }
 }
@@ -439,7 +423,7 @@ void JumpingState::HandleInput(Player &player, const Uint8 *keyState, SDL_Event*
 void JumpingState::Update(Player &player, double delta)
 {
     player.Move();
-    player.Animate(delta, player.JUMP_FRAMES);
+    player.Animate(delta, Player::JUMP_FRAMES);
 }
 // ------------- jumping state ------------- //
 
@@ -448,7 +432,7 @@ void JumpingState::Update(Player &player, double delta)
 // ------------- attacking state ------------- //
 void AttackingState::HandleAction(FatGangMember &gangMemberA, double delta)
 {
-    if (gangMemberA.Animating(gangMemberA.ATTACK_FRAMES))
+    if (gangMemberA.Animating(FatGangMember::ATTACK_FRAMES))
     {
         // Attack
         gangMemberA.Attacking = true;
@@ -457,26 +441,67 @@ void AttackingState::HandleAction(FatGangMember &gangMemberA, double delta)
             std::cout << "Attacked once" << std::endl;
             gangMemberA.CurrentState = FatGangMember::State::RUNNING;
             gangMemberA.FrameToDraw = 0;
-            if (gangMemberA.state != nullptr)
+            if (gangMemberA.GetState() != nullptr)
             {
-                delete gangMemberA.state;
-                gangMemberA.state = new RunningState();
+                gangMemberA.SetState(new RunningState);
             }
         }
     }
     else
     {
         gangMemberA.CurrentState = FatGangMember::State::IDLE;
-        if (gangMemberA.state != nullptr)
+        if (gangMemberA.GetState() != nullptr)
         {
-            delete gangMemberA.state;
-            gangMemberA.state = new IdleState();
+            gangMemberA.SetState(new IdleState);
         }
     }
 }
 
 void AttackingState::Update(FatGangMember &gangMemberA, double delta)
 {
-    gangMemberA.Animate(delta, gangMemberA.ATTACK_FRAMES);
+    gangMemberA.Animate(delta, FatGangMember::ATTACK_FRAMES);
 }
 // ------------- attacking state ------------- //
+
+
+
+// ------------- staggered state ------------- //
+void StaggeredState::HandleInput(Player& player, const Uint8* keyState, SDL_Event* event)
+{
+    player.CurrentState = player.IDLE;
+    if (player.GetState() != nullptr)
+    {
+        player.SetState(new IdleState);
+    }
+}
+
+void StaggeredState::Update(Player &player, double delta)
+{
+    //player.ReceiveDamage();
+    player.Animate(delta, Player::IDLE_FRAMES);
+}
+
+
+
+void StaggeredState::HandleAction(FatGangMember &gangMemberA, double delta)
+{
+    if (gangMemberA.Animating(FatGangMember::IDLE_FRAMES))
+    {
+        // receiving damage
+    }
+    else
+    {
+        gangMemberA.CurrentState = FatGangMember::State::IDLE;
+        if (gangMemberA.GetState() != nullptr)
+        {
+            gangMemberA.SetState(new IdleState);
+        }
+    }
+}
+
+void StaggeredState::Update(FatGangMember &gangMemberA, double delta)
+{
+    gangMemberA.ReceiveDamage();
+    gangMemberA.Animate(delta, FatGangMember::IDLE_FRAMES);
+}
+// ------------- staggered state ------------- //

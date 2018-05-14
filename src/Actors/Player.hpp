@@ -10,7 +10,6 @@
 
 #include <iostream>
 #include <cmath>
-
 #include "SDL.h"
 #include "../Engine/Texture2D.hpp"
 #include "../Engine/Timer.hpp"
@@ -60,7 +59,7 @@ public:
         JUMPKICK
     };
     State CurrentState = IDLE;
-    ActorState* state;
+
 
     enum class faceDirection
     {

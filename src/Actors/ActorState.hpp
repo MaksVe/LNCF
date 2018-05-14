@@ -94,3 +94,14 @@ public:
     void HandleAction(FatGangMember& gangMemberA, double delta) override;
     void Update(FatGangMember& gangMemberA, double delta) override;
 };
+
+class StaggeredState : public ActorState
+{
+public:
+    StaggeredState() {}
+
+    void HandleInput(Player& player, const Uint8* keyState, SDL_Event* event) override;
+    void Update(Player& player, double delta) override;
+    void HandleAction(FatGangMember& gangMemberA, double delta) override;
+    void Update(FatGangMember& gangMemberA, double delta) override;
+};

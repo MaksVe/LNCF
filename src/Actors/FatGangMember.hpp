@@ -49,7 +49,6 @@ public:
         ATTACKING
     };
     State CurrentState = State::IDLE;
-    ActorState* state;
 
     enum class FaceDirection
     {
