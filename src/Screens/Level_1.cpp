@@ -152,8 +152,11 @@ bool Level_1::PlayerHitEnemyCollision()
             //std::cout << "player hit rect collides enemy rect" << std::endl;
             CurrentEnemy = e;
 
-            player->DoDamage();
-            CurrentEnemy->SetState(new StaggeredState);
+            if (player->DoDamage())
+            {
+                CurrentEnemy->SetState(new StaggeredState);
+            }
+
 
             // DELETE THE SHIT OUT OF IT
             if (e->GetHP() <= 0)
@@ -217,8 +220,11 @@ bool Level_1::EnemyHitPlayerCollision()
             //std::cout << "enemy hit rect collides player rect" << std::endl;
             CurrentEnemy = e;
 
-            CurrentEnemy->DoDamage();
-            player->SetState(new StaggeredState);
+            if (CurrentEnemy->DoDamage())
+            {
+                player->SetState(new StaggeredState);
+            }
+
 
             if (player->GetHP() <= 0)
             {
