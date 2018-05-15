@@ -31,12 +31,16 @@ class TiledMap
 public:
     TiledMap(const std::string& name);
     void LoadContent(const std::string& path, SDL_Renderer* renderer);
+    void LoadForeground(const std::string& path, SDL_Renderer* renderer);
     void Render(SDL_Renderer* renderer);
+    void RenderForeground(SDL_Renderer* renderer);
 
     SDL_Rect GetUpperEnd();
     SDL_Rect GetLeftEnd();
     SDL_Rect GetDownerEnd();
     SDL_Rect GetRightEnd();
+
+    float MapWidth;
 
 private:
     std::string name;
@@ -46,6 +50,8 @@ private:
     int tileHeight;
     std::vector<tile> tiles;
     std::map<gid, SDL_Texture*> tilesets;
+
+    std::vector<tile> foregroundTiles;
 
     // Objects
     SDL_Rect nonWalkableDown;

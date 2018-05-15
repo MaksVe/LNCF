@@ -9,7 +9,7 @@
 #include "FatGangMember.hpp"
 #include "../Screens/Level_1.hpp"
 
-FatGangMember::FatGangMember(SDL_Renderer* r, Level_1* l1)
+FatGangMember::FatGangMember(SDL_Renderer* r, Level_1* l1, int x, int y)
 {
     renderer = r;
     level1 = l1;
@@ -22,8 +22,8 @@ FatGangMember::FatGangMember(SDL_Renderer* r, Level_1* l1)
     collisionRect.h = 28;
 
     HP = 1050;
-    PosX = 400;
-    PosY = 155;
+    PosX = x;
+    PosY = y;
 
     spriteSheet = new Texture2D(renderer);
     timer = new Timer();
@@ -263,7 +263,7 @@ void FatGangMember::MoveToPlayer()
             VelX = -MovementSpeed;
 
             VelY = MovementSpeed;
-            if (PosY >= level1->GelLevelDownerCollider().y + level1->GelLevelDownerCollider().h)
+            if (PosY >= level1->GelLevelDownerCollider().y - level1->GelLevelDownerCollider().h)
             {
                 VelY = 0;
             }
@@ -292,7 +292,7 @@ void FatGangMember::MoveToPlayer()
             VelX = MovementSpeed;
 
             VelY = MovementSpeed;
-            if (PosY >= level1->GelLevelDownerCollider().y + level1->GelLevelDownerCollider().h)
+            if (PosY >= level1->GelLevelDownerCollider().y - level1->GelLevelDownerCollider().h)
             {
                 VelY = 0;
             }
@@ -315,7 +315,8 @@ void FatGangMember::MoveAwayFromPlayer()
     {
         VelX = MovementSpeed;
 
-        if (GetPosY() <= level1->GetLevelUpperCollider().y)
+        if (PosY <= level1->GetLevelUpperCollider().y ||
+            PosY >= level1->GelLevelDownerCollider().y - level1->GelLevelDownerCollider().h - 26)
         {
             VelY = 0;
         }
@@ -324,7 +325,7 @@ void FatGangMember::MoveAwayFromPlayer()
     {
         VelX = -MovementSpeed;
 
-        if (PosY >= level1->GelLevelDownerCollider().y + level1->GelLevelDownerCollider().h)
+        if (PosY >= level1->GelLevelDownerCollider().y - level1->GelLevelDownerCollider().h)
         {
             VelY = 0;
         }

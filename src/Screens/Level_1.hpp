@@ -21,6 +21,10 @@
 #include "../Engine/GameObject.hpp"
 #include "../Engine/TiledMap.hpp"
 
+//struct tile;
+//class TiledMap;
+class Camera2D;
+
 class Level_1 : public virtual Screen
 {
 public:
@@ -70,6 +74,7 @@ private:
     std::list<Actor*> enemies;
 
     TiledMap levelTiledMap = TiledMap("Level 01");
+    float levelWidth;
 
     // Vector of all our level objects including player and enemies
     std::vector<GameObject*> gameObjects;
@@ -79,4 +84,7 @@ private:
     SDL_Rect rightCollider;
     SDL_Rect downerCollider;
     SDL_Rect leftCollider;
+
+    Camera2D* camera;
+    tile* t;
 };

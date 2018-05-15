@@ -20,6 +20,7 @@
  (http://lazyfoo.net/)*/
 
 class Level_1;
+class Camera2D;
 
 class Player : public virtual Actor
 {
@@ -100,12 +101,12 @@ private:
     int screenWidth;
     int screenHeight;
 
-    static const int VELOCITY = 1;
     const float animationSpeed = 7.0f;
     float animUpdateTime = 1.0f / animationSpeed;
     float timeSinceLastFrame = 0.0f;
 
     Level_1* level1;
     Actor* target;
-    FatGangMember* enemyTypeFat;
+
+    Camera2D* camera;
 };

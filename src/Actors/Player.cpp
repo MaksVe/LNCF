@@ -8,6 +8,7 @@
 
 #include "Player.hpp"
 #include "../Screens/Level_1.hpp"
+#include "../Engine/Camera2D.hpp"
 #include <type_traits>
 #include <typeinfo>
 
@@ -21,6 +22,7 @@ Player::Player(SDL_Renderer* r, Level_1* l1)
     spriteSheet     = new Texture2D(renderer);
     timer           = new Timer();
     state           = new IdleState();
+    camera          = new Camera2D();
     
     collisionRect.x = static_cast<int>(PosX);
     collisionRect.y = static_cast<int>(PosY);
@@ -177,6 +179,13 @@ void Player::Update(SDL_Event* e)
     
     collisionRect.x = static_cast<int>(PosX + 17);    // we don't need the whole frame (48x48), because
     collisionRect.y = static_cast<int>(PosY + 20);    // it's too big for our collision rect (hitbox)
+
+    // camera follows
+    camera->SetCameraX(PosX - ((float)Game::SCREEN_WIDTH / 2));
+    if (camera->GetCameraRect().x < 0)
+    {
+        camera->SetCameraX(0.0);
+    }
     
     if (CurrentState == KICKING)
     {

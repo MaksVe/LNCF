@@ -8,6 +8,9 @@
 
 #include "Level_1.hpp"
 
+#include "../Engine/Camera2D.hpp"
+
+
 Level_1::Level_1(SDL_Renderer* r, int screenWidth, int screenHeight)
 {
     renderer    = r;
@@ -48,10 +51,14 @@ void Level_1::LoadContent()
     pauseTextTexture->LoadFromRenderedText("Paused", textColor, pauseFont);
 
     levelTiledMap.LoadContent("level_01.tmx", renderer);
+    levelTiledMap.LoadForeground("level_01.tmx", renderer);
+
     upperCollider   = levelTiledMap.GetUpperEnd();
     rightCollider   = levelTiledMap.GetRightEnd();
     downerCollider  = levelTiledMap.GetDownerEnd();
     leftCollider    = levelTiledMap.GetLeftEnd();
+
+    levelWidth = levelTiledMap.MapWidth;
 
     // store all our game objects in a vector
     gameObjects.push_back(player);
@@ -80,6 +87,15 @@ void Level_1::Update(SDL_Event* e)
         // sort all our game objects by their Y position
         std::sort(gameObjects.begin(), gameObjects.end(),
                   [](GameObject* a, GameObject* b) { return a->GetPosY() < b->GetPosY(); });
+
+        if (t != nullptr)
+        {
+            t->x = camera->GetCameraRect().x;
+        }
+        else
+        {
+            std::cout << "t is null" << std::endl;
+        }
     }
     
     if (event->type == SDL_KEYDOWN)
@@ -110,6 +126,8 @@ void Level_1::Render()
         o->Render();
     }
 
+    levelTiledMap.RenderForeground(renderer);
+
     // --- pause text ---
     if (pauseFont != nullptr)
     {
@@ -122,7 +140,8 @@ void Level_1::Render()
 
 void Level_1::AddEnemy()
 {
-    enemies.push_back(new FatGangMember(renderer, this));
+    enemies.push_back(new FatGangMember(renderer, this, 400, 155));
+    enemies.push_back(new FatGangMember(renderer, this, 385, 164));
 }
 
 

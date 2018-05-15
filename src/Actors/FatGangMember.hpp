@@ -21,7 +21,7 @@ class Level_1;
 class FatGangMember : public virtual Actor
 {
 public:
-    FatGangMember(SDL_Renderer* renderer, Level_1* level1);
+    FatGangMember(SDL_Renderer* renderer, Level_1* level1, int x, int y);
     ~FatGangMember() override;
 
     void LoadContent() override;

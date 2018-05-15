@@ -26,7 +26,7 @@ void IdleState::HandleInput(Player &player, const Uint8* keyState, SDL_Event* ev
         player.CurrentState = player.RUNNING;
         if (player.GetState() != nullptr)
         {
-            player.SetState(new RunningState);
+            player.SetState(new RunningState());
         }
     }
     
@@ -38,7 +38,7 @@ void IdleState::HandleInput(Player &player, const Uint8* keyState, SDL_Event* ev
             player.frameToDraw = 0;
             if (player.GetState() != nullptr)
             {
-                player.SetState(new KickingState);
+                player.SetState(new KickingState());
             }
         }
         else if (keyState[SDL_SCANCODE_G])
@@ -47,7 +47,7 @@ void IdleState::HandleInput(Player &player, const Uint8* keyState, SDL_Event* ev
             player.frameToDraw = 0;
             if (player.GetState() != nullptr)
             {
-                player.SetState(new PunchingState);
+                player.SetState(new PunchingState());
             }
         }
         else if (keyState[SDL_SCANCODE_SPACE])
@@ -56,7 +56,7 @@ void IdleState::HandleInput(Player &player, const Uint8* keyState, SDL_Event* ev
             player.frameToDraw = 0;
             if (player.GetState() != nullptr)
             {
-                player.SetState(new JumpingState);
+                player.SetState(new JumpingState());
                 startPosZ = 0;
             }
         }
@@ -80,7 +80,7 @@ void IdleState::HandleAction(FatGangMember &gangMemberA, double delta)
         gangMemberA.CurrentState = FatGangMember::State::RUNNING;
         if (gangMemberA.GetState() != nullptr)
         {
-            gangMemberA.SetState(new RunningState);
+            gangMemberA.SetState(new RunningState());
         }
     }
     else if (!gangMemberA.PlayerAway && !gangMemberA.Attacking)
@@ -88,7 +88,7 @@ void IdleState::HandleAction(FatGangMember &gangMemberA, double delta)
         gangMemberA.CurrentState = FatGangMember::State::ATTACKING;
         if (gangMemberA.GetState() != nullptr)
         {
-            gangMemberA.SetState(new AttackingState);
+            gangMemberA.SetState(new AttackingState());
         }
     }
 }
@@ -155,7 +155,7 @@ void RunningState::HandleInput(Player &player, const Uint8* keyState, SDL_Event*
                     player.frameToDraw = 0;
                     if (player.GetState() != nullptr)
                     {
-                        player.SetState(new JumpingState);
+                        player.SetState(new JumpingState());
                         startPosZ = 0;
                     }
                 }
@@ -210,7 +210,7 @@ void RunningState::HandleInput(Player &player, const Uint8* keyState, SDL_Event*
                     player.frameToDraw = 0;
                     if (player.GetState() != nullptr)
                     {
-                        player.SetState(new JumpingState);
+                        player.SetState(new JumpingState());
                         startPosZ = 0;
                     }
                 }
@@ -243,7 +243,7 @@ void RunningState::HandleInput(Player &player, const Uint8* keyState, SDL_Event*
             player.frameToDraw = 0;
             if (player.GetState() != nullptr)
             {
-                player.SetState(new JumpingState);
+                player.SetState(new JumpingState());
                 startPosZ = 0;
             }
         }
@@ -253,7 +253,7 @@ void RunningState::HandleInput(Player &player, const Uint8* keyState, SDL_Event*
         player.CurrentState = player.IDLE;
         if (player.GetState() != nullptr)
         {
-            player.SetState(new IdleState);
+            player.SetState(new IdleState());
         }
     }
 }
@@ -278,7 +278,7 @@ void RunningState::HandleAction(FatGangMember &gangMemberA, double delta)
             gangMemberA.CurrentState = FatGangMember::State::IDLE;
             if (gangMemberA.GetState() != nullptr)
             {
-                gangMemberA.SetState(new IdleState);
+                gangMemberA.SetState(new IdleState());
             }
         }
     }
@@ -291,7 +291,7 @@ void RunningState::HandleAction(FatGangMember &gangMemberA, double delta)
             gangMemberA.CurrentState = FatGangMember::State::IDLE;
             if (gangMemberA.GetState() != nullptr)
             {
-                gangMemberA.SetState(new IdleState);
+                gangMemberA.SetState(new IdleState());
             }
         }
     }
@@ -318,7 +318,7 @@ void KickingState::HandleInput(Player &player, const Uint8 *keyState, SDL_Event*
         player.CurrentState = player.IDLE;
         if (player.GetState() != nullptr)
         {
-            player.SetState(new IdleState);
+            player.SetState(new IdleState());
         }
     }
 }
@@ -353,7 +353,7 @@ void PunchingState::HandleInput(Player &player, const Uint8 *keyState, SDL_Event
                 player.CurrentState = player.IDLE;
                 if (player.GetState() != nullptr)
                 {
-                    player.SetState(new IdleState);
+                    player.SetState(new IdleState());
                 }
             }
         }
@@ -364,7 +364,7 @@ void PunchingState::HandleInput(Player &player, const Uint8 *keyState, SDL_Event
         player.CurrentState = player.IDLE;
         if (player.GetState() != nullptr)
         {
-            player.SetState(new IdleState);
+            player.SetState(new IdleState());
         }
     }
 }
@@ -405,17 +405,18 @@ void JumpingState::HandleInput(Player &player, const Uint8 *keyState, SDL_Event*
             if (player.posZ >= startPosZ)
             {
                 player.velZ = 0; // don't go over the start Y position
-                //player.posZ = 0;
+                player.posZ = 0;
                 std::cout << startPosZ << " " << player.posZ << " " << player.GetPosY() << std::endl;
             }
         }
     }
     else
     {
+        player.posZ = 0;
         player.CurrentState = player.IDLE;
         if (player.GetState() != nullptr)
         {
-            player.SetState(new IdleState);
+            player.SetState(new IdleState());
         }
     }
 }
@@ -443,7 +444,7 @@ void AttackingState::HandleAction(FatGangMember &gangMemberA, double delta)
             gangMemberA.FrameToDraw = 0;
             if (gangMemberA.GetState() != nullptr)
             {
-                gangMemberA.SetState(new RunningState);
+                gangMemberA.SetState(new RunningState());
             }
         }
     }
@@ -452,7 +453,7 @@ void AttackingState::HandleAction(FatGangMember &gangMemberA, double delta)
         gangMemberA.CurrentState = FatGangMember::State::IDLE;
         if (gangMemberA.GetState() != nullptr)
         {
-            gangMemberA.SetState(new IdleState);
+            gangMemberA.SetState(new IdleState());
         }
     }
 }
@@ -476,10 +477,11 @@ void StaggeredState::HandleInput(Player& player, const Uint8* keyState, SDL_Even
     }
     else
     {
+        player.posZ = 0;
         player.CurrentState = Player::IDLE;
         if (player.GetState() != nullptr)
         {
-            player.SetState(new IdleState);
+            player.SetState(new IdleState());
         }
     }
 }
@@ -504,7 +506,7 @@ void StaggeredState::HandleAction(FatGangMember &gangMemberA, double delta)
         gangMemberA.CurrentState = FatGangMember::State::IDLE;
         if (gangMemberA.GetState() != nullptr)
         {
-            gangMemberA.SetState(new IdleState);
+            gangMemberA.SetState(new IdleState());
         }
     }
 }
