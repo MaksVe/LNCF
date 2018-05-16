@@ -137,8 +137,6 @@ void Level_1::AddEnemy()
 {
     enemies.push_back(new FatGangMember(renderer, this, 400, 155));
     enemies.push_back(new FatGangMember(renderer, this, 385, 142));
-    enemies.push_back(new FatGangMember(renderer, this, 377, 164));
-    enemies.push_back(new FatGangMember(renderer, this, 364, 171));
 }
 
 
