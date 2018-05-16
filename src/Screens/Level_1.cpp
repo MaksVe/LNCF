@@ -19,6 +19,7 @@ Level_1::Level_1(SDL_Renderer* r, int screenWidth, int screenHeight)
     
     player              = new Player(renderer, this);
     pauseTextTexture    = new Texture2D(renderer);
+    camera              = new Camera2D();
     
     /* TODO: create a list of enemies,
      create methods to add and remove enemies,
@@ -81,6 +82,7 @@ void Level_1::Update(SDL_Event* e)
 
         PlayerCollidesDown();
         PlayerCollidesEnemy();
+        EnemyCollidesEnemy();
         PlayerHitEnemyCollision();
         EnemyHitPlayerCollision();
 
@@ -88,14 +90,7 @@ void Level_1::Update(SDL_Event* e)
         std::sort(gameObjects.begin(), gameObjects.end(),
                   [](GameObject* a, GameObject* b) { return a->GetPosY() < b->GetPosY(); });
 
-        if (t != nullptr)
-        {
-            t->x = camera->GetCameraRect().x;
-        }
-        else
-        {
-            std::cout << "t is null" << std::endl;
-        }
+        camera->SetCameraX(player->GetPosX());
     }
     
     if (event->type == SDL_KEYDOWN)
@@ -118,15 +113,15 @@ void Level_1::Update(SDL_Event* e)
 
 void Level_1::Render()
 {
-    levelTiledMap.Render(renderer);
+    levelTiledMap.Render(renderer, camera->GetCameraRect());
 
     // draw all our game objects sorted by their Y position
     for (auto &o : gameObjects)
     {
-        o->Render();
+        o->Render(camera->GetCameraRect()->x);
     }
 
-    levelTiledMap.RenderForeground(renderer);
+    levelTiledMap.RenderForeground(renderer, camera->GetCameraRect());
 
     // --- pause text ---
     if (pauseFont != nullptr)
@@ -141,7 +136,9 @@ void Level_1::Render()
 void Level_1::AddEnemy()
 {
     enemies.push_back(new FatGangMember(renderer, this, 400, 155));
-    enemies.push_back(new FatGangMember(renderer, this, 385, 164));
+    enemies.push_back(new FatGangMember(renderer, this, 385, 142));
+    enemies.push_back(new FatGangMember(renderer, this, 377, 164));
+    enemies.push_back(new FatGangMember(renderer, this, 364, 171));
 }
 
 
@@ -155,6 +152,11 @@ bool Level_1::PlayerCollidesEnemy()
         {
             //std::cout << "player collides enemy" << std::endl;
             // don't move any further
+            if (player->GetPosY() == e->GetPosY())
+            {
+                player->SetState(new IdleState());
+            }
+
             return true;
         }
     }
@@ -251,6 +253,36 @@ bool Level_1::EnemyHitPlayerCollision()
             }
 
             return true;
+        }
+    }
+
+    return false;
+}
+
+bool Level_1::EnemyCollidesEnemy()
+{
+    // probably doesn't have any effect
+    // probably can be void
+    // bs anyway
+    for (auto &e : enemies)
+    {
+        for (auto &ne : enemies)
+        {
+            if (e == ne)
+            {
+                continue;
+            }
+
+            if (Collisions::Collides(e->GetCollisionRect(), ne->GetCollisionRect()))
+            {
+                if (isInBound(e->GetPosY(), ne->GetPosY() - 0.3f, ne->GetPosY() + 0.3f))
+                {
+                    if (e->GetCollisionRect().x + e->GetCollisionRect().w >= ne->GetCollisionRect().x)
+                    {
+                        e->SetState(new IdleState());
+                    }
+                }
+            }
         }
     }
 

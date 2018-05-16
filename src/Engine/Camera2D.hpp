@@ -11,8 +11,8 @@ class Camera2D {
 public:
     Camera2D(){}
 
-    SDL_Rect GetCameraRect()    { return cameraRect; }
-    void SetCameraX(float x)      { cameraRect.x = (int)x; }
+    SDL_Rect* GetCameraRect()        { return &cameraRect; }
+    void SetCameraX(float x)        { cameraRect.x = (int)x; }
 private:
     SDL_Rect cameraRect = { 0, 0, Game::SCREEN_WIDTH, Game::SCREEN_HEIGHT };
 };

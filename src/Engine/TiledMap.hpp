@@ -23,7 +23,7 @@ struct tile
     int height;
 
     tile (SDL_Texture* tileSet, int x = 0, int y = 0, int spriteX = 0, int spriteY = 0, int w = 0, int h = 0);
-    void draw(SDL_Renderer* renderer);
+    void draw(SDL_Renderer* renderer, SDL_Rect *camera);
 };
 
 class TiledMap
@@ -32,8 +32,8 @@ public:
     TiledMap(const std::string& name);
     void LoadContent(const std::string& path, SDL_Renderer* renderer);
     void LoadForeground(const std::string& path, SDL_Renderer* renderer);
-    void Render(SDL_Renderer* renderer);
-    void RenderForeground(SDL_Renderer* renderer);
+    void Render(SDL_Renderer* renderer, SDL_Rect* camera);
+    void RenderForeground(SDL_Renderer* renderer, SDL_Rect* camera);
 
     SDL_Rect GetUpperEnd();
     SDL_Rect GetLeftEnd();
@@ -48,9 +48,8 @@ private:
     int cols;
     int tileWidth;
     int tileHeight;
-    std::vector<tile> tiles;
     std::map<gid, SDL_Texture*> tilesets;
-
+    std::vector<tile> tiles;
     std::vector<tile> foregroundTiles;
 
     // Objects

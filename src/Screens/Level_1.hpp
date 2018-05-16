@@ -47,6 +47,7 @@ public:
 
     // Enemy Collisions
     bool EnemyHitPlayerCollision();
+    bool EnemyCollidesEnemy();
     SDL_Rect GetLevelUpperCollider();
     SDL_Rect GelLevelDownerCollider();
 
@@ -87,4 +88,10 @@ private:
 
     Camera2D* camera;
     tile* t;
+
+    template <typename T>
+    bool isInBound(const T& value, const T& low, const T& high)
+    {
+        return !(value < low) && (high < value);
+    }
 };

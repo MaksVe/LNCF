@@ -13,7 +13,7 @@ public:
 
     virtual void LoadContent()              {}
     virtual void Update(SDL_Event* event)   {}
-    virtual void Render()                   {}
+    virtual void Render(int camX)                   {}
 
     virtual float GetPosY() { return PosY; }
     virtual float GetPosX() { return PosX; }

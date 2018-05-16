@@ -11,7 +11,7 @@ tile::tile(SDL_Texture *tileSet, int x, int y, int spriteX, int spriteY, int w, 
 
 }
 
-void tile::draw(SDL_Renderer *renderer)
+void tile::draw(SDL_Renderer *renderer, SDL_Rect* camera)
 {
     if (!renderer || !sheet)
     {
@@ -25,7 +25,7 @@ void tile::draw(SDL_Renderer *renderer)
     src.h = height;
 
     SDL_Rect dest;
-    dest.x = x;
+    dest.x = x - camera->x;
     dest.y = y;
     dest.w = src.w;
     dest.h = src.h;
@@ -281,19 +281,19 @@ void TiledMap::LoadForeground(const std::string &path, SDL_Renderer *renderer)
     }
 }
 
-void TiledMap::Render(SDL_Renderer *renderer)
+void TiledMap::Render(SDL_Renderer *renderer, SDL_Rect* camera)
 {
     for (auto& tile : tiles)
     {
-        tile.draw(renderer);
+        tile.draw(renderer, camera);
     }
 }
 
-void TiledMap::RenderForeground(SDL_Renderer *renderer)
+void TiledMap::RenderForeground(SDL_Renderer *renderer, SDL_Rect* camera)
 {
     for (auto& tile : foregroundTiles)
     {
-        tile.draw(renderer);
+        tile.draw(renderer, camera);
     }
 }
 

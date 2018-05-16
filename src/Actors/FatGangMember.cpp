@@ -118,18 +118,18 @@ void FatGangMember::Update(SDL_Event *e)
     }
 }
 
-void FatGangMember::Render()
+void FatGangMember::Render(int camX)
 {
     if (CurrentState == State::IDLE)
     {
         currentClip = &idleSpriteClips[FrameToDraw];
         if (CurrentDirection == FaceDirection::LEFT)
         {
-            spriteSheet->Render(static_cast<int>(PosX), static_cast<int>(PosY), currentClip);
+            spriteSheet->Render(static_cast<int>(PosX) - camX, static_cast<int>(PosY), currentClip);
         }
         else if (CurrentDirection == FaceDirection::RIGHT)
         {
-            spriteSheet->Render(static_cast<int>(PosX), static_cast<int>(PosY), currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+            spriteSheet->Render(static_cast<int>(PosX) - camX, static_cast<int>(PosY), currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
     }
 
@@ -138,11 +138,11 @@ void FatGangMember::Render()
         currentClip = &runSpriteClips[FrameToDraw];
         if (CurrentDirection == FaceDirection::LEFT)
         {
-            spriteSheet->Render(static_cast<int>(PosX), static_cast<int>(PosY), currentClip);
+            spriteSheet->Render(static_cast<int>(PosX) - camX, static_cast<int>(PosY), currentClip);
         }
         else if (CurrentDirection == FaceDirection::RIGHT)
         {
-            spriteSheet->Render(static_cast<int>(PosX), static_cast<int>(PosY), currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+            spriteSheet->Render(static_cast<int>(PosX) - camX, static_cast<int>(PosY), currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
     }
 
@@ -151,11 +151,11 @@ void FatGangMember::Render()
         currentClip = &attackSpriteClips[FrameToDraw];
         if (CurrentDirection == FaceDirection::LEFT)
         {
-            spriteSheet->Render(static_cast<int>(PosX), static_cast<int>(PosY), currentClip);
+            spriteSheet->Render(static_cast<int>(PosX) - camX, static_cast<int>(PosY), currentClip);
         }
         else if (CurrentDirection == FaceDirection::RIGHT)
         {
-            spriteSheet->Render(static_cast<int>(PosX), static_cast<int>(PosY), currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+            spriteSheet->Render(static_cast<int>(PosX) - camX, static_cast<int>(PosY), currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
 
         SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
@@ -365,10 +365,12 @@ bool FatGangMember::DoDamage()
         if (CurrentState == State::ATTACKING)
         {
             target->SetHP(5);
-            std::cout << target->GetHP() << std::endl;
+            Attacking = true;
 
             return true;
         }
+
+        Attacking = false;
     }
     else
     {

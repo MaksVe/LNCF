@@ -22,7 +22,6 @@ Player::Player(SDL_Renderer* r, Level_1* l1)
     spriteSheet     = new Texture2D(renderer);
     timer           = new Timer();
     state           = new IdleState();
-    camera          = new Camera2D();
     
     collisionRect.x = static_cast<int>(PosX);
     collisionRect.y = static_cast<int>(PosY);
@@ -179,13 +178,6 @@ void Player::Update(SDL_Event* e)
     
     collisionRect.x = static_cast<int>(PosX + 17);    // we don't need the whole frame (48x48), because
     collisionRect.y = static_cast<int>(PosY + 20);    // it's too big for our collision rect (hitbox)
-
-    // camera follows
-    camera->SetCameraX(PosX - ((float)Game::SCREEN_WIDTH / 2));
-    if (camera->GetCameraRect().x < 0)
-    {
-        camera->SetCameraX(0.0);
-    }
     
     if (CurrentState == KICKING)
     {
@@ -247,18 +239,18 @@ void Player::Update(SDL_Event* e)
     }
 }
 
-void Player::Render()
+void Player::Render(int camX)
 {
     if (CurrentState == IDLE)
     {
         currentClip = &idleSpriteClips[frameToDraw];
         if (currentDirection == faceDirection::left)
         {
-            spriteSheet->Render((int)PosX, (int)PosY, currentClip);
+            spriteSheet->Render((int)PosX - camX, (int)PosY, currentClip);
         }
         else if (currentDirection == faceDirection::right)
         {
-            spriteSheet->Render((int)PosX, (int)PosY, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+            spriteSheet->Render((int)PosX - camX, (int)PosY, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
     }
     
@@ -267,11 +259,11 @@ void Player::Render()
         currentClip = &runSpriteClips[frameToDraw];
         if (currentDirection == faceDirection::left)
         {
-            spriteSheet->Render((int)PosX, (int)PosY, currentClip, 0.0, nullptr, SDL_FLIP_NONE);
+            spriteSheet->Render((int)PosX - camX, (int)PosY, currentClip, 0.0, nullptr, SDL_FLIP_NONE);
         }
         else if (currentDirection == faceDirection::right)
         {
-            spriteSheet->Render((int)PosX, (int)PosY, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+            spriteSheet->Render((int)PosX - camX, (int)PosY, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
     }
     
@@ -280,11 +272,11 @@ void Player::Render()
         currentClip = &kickSpriteClips[frameToDraw];
         if (currentDirection == faceDirection::left)
         {
-            spriteSheet->Render((int)PosX, (int)PosY, currentClip, 0.0, nullptr, SDL_FLIP_NONE);
+            spriteSheet->Render((int)PosX - camX, (int)PosY, currentClip, 0.0, nullptr, SDL_FLIP_NONE);
         }
         else if (currentDirection == faceDirection::right)
         {
-            spriteSheet->Render((int)PosX, (int)PosY, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+            spriteSheet->Render((int)PosX - camX, (int)PosY, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
         
         SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
@@ -296,11 +288,11 @@ void Player::Render()
         currentClip = &punchSpriteClips[frameToDraw];
         if (currentDirection == faceDirection::left)
         {
-            spriteSheet->Render((int)PosX, (int)PosY, currentClip, 0.0, nullptr, SDL_FLIP_NONE);
+            spriteSheet->Render((int)PosX - camX, (int)PosY, currentClip, 0.0, nullptr, SDL_FLIP_NONE);
         }
         else if (currentDirection == faceDirection::right)
         {
-            spriteSheet->Render((int)PosX, (int)PosY, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+            spriteSheet->Render((int)PosX - camX, (int)PosY, currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
         
         SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
@@ -312,11 +304,11 @@ void Player::Render()
         currentClip = &jumpSpriteClips[frameToDraw];
         if (currentDirection == faceDirection::left)
         {
-            spriteSheet->Render((int)PosX, (int)(PosY + posZ), currentClip, 0.0, nullptr, SDL_FLIP_NONE);
+            spriteSheet->Render((int)PosX - camX, (int)(PosY + posZ), currentClip, 0.0, nullptr, SDL_FLIP_NONE);
         }
         else if (currentDirection == faceDirection::right)
         {
-            spriteSheet->Render((int)PosX, (int)(PosY + posZ), currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+            spriteSheet->Render((int)PosX - camX, (int)(PosY + posZ), currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
     }
     
@@ -325,11 +317,11 @@ void Player::Render()
         currentClip = &jumpKickClip;
         if (currentDirection == faceDirection::left)
         {
-            spriteSheet->Render((int)PosX, (int)(PosY + posZ), currentClip, 0.0, nullptr, SDL_FLIP_NONE);
+            spriteSheet->Render((int)PosX - camX, (int)(PosY + posZ), currentClip, 0.0, nullptr, SDL_FLIP_NONE);
         }
         else if (currentDirection == faceDirection::right)
         {
-            spriteSheet->Render((int)PosX, (int)(PosY + posZ), currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+            spriteSheet->Render((int)PosX - camX, (int)(PosY + posZ), currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
         
         SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
@@ -415,14 +407,22 @@ bool Player::DoDamage()
 
         if (CurrentState == PUNCHING)
         {
+            if (LinkingPunch)
+            {
+                target->SetHP(10);
+            }
+
             target->SetHP(5);
-            std::cout << target->GetHP() << std::endl;
             return true;
         }
         else if (CurrentState == KICKING)
         {
             target->SetHP(10);
-            std::cout << target->GetHP() << std::endl;
+            return true;
+        }
+        else if (CurrentState == JUMPKICK)
+        {
+            target->SetHP(12);
             return true;
         }
     }
