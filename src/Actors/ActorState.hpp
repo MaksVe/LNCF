@@ -12,7 +12,6 @@
 #include "SDL.h"
 
 class Player;
-class FatGangMember;
 
 class ActorState
 {
@@ -21,11 +20,7 @@ public:
 
     virtual void HandleInput(Player& player, const Uint8* keyState, SDL_Event* event) {}
     virtual void Update(Player& player, double delta) {}
-    virtual void HandleAction(FatGangMember& gangMemberA, double delta) {}
-    virtual void Update(FatGangMember& gangMemberA, double delta) {}
 };
-
-
 
 class IdleState : public ActorState
 {
@@ -34,11 +29,7 @@ public:
 
     void HandleInput(Player& player, const Uint8* keyState, SDL_Event* event) override;
     void Update(Player& player, double delta) override;
-    void HandleAction(FatGangMember& gangMemberA, double delta) override;
-    void Update(FatGangMember& gangMemberA, double delta) override;
 };
-
-
 
 class RunningState : public ActorState
 {
@@ -47,11 +38,7 @@ public:
 
     void HandleInput(Player& player, const Uint8* keyState, SDL_Event* event) override;
     void Update(Player& player, double delta) override;
-    void HandleAction(FatGangMember& gangMemberA, double delta) override;
-    void Update(FatGangMember& gangMemberA, double delta) override;
 };
-
-
 
 class KickingState : public ActorState
 {
@@ -62,8 +49,6 @@ public:
     void Update(Player& player, double delta) override;
 };
 
-
-
 class PunchingState : public ActorState
 {
 public:
@@ -72,8 +57,6 @@ public:
     void HandleInput(Player& player, const Uint8* keyState, SDL_Event* event) override;
     void Update(Player& player, double delta) override;
 };
-
-
 
 class JumpingState : public ActorState
 {
@@ -86,15 +69,6 @@ public:
     float JumpVelocity = 1.1f;
 };
 
-class AttackingState : public ActorState
-{
-public:
-    AttackingState() {}
-
-    void HandleAction(FatGangMember& gangMemberA, double delta) override;
-    void Update(FatGangMember& gangMemberA, double delta) override;
-};
-
 class StaggeredState : public ActorState
 {
 public:
@@ -102,6 +76,4 @@ public:
 
     void HandleInput(Player& player, const Uint8* keyState, SDL_Event* event) override;
     void Update(Player& player, double delta) override;
-    void HandleAction(FatGangMember& gangMemberA, double delta) override;
-    void Update(FatGangMember& gangMemberA, double delta) override;
 };

@@ -1,9 +1,5 @@
 //
-//  Enemy_1.hpp
-//  sdl_brawler_mac
-//
-//  Created by Максим on 4/24/18.
-//  Copyright © 2018 Максим. All rights reserved.
+// Created by Максим on 5/21/18.
 //
 
 #pragma once
@@ -17,11 +13,11 @@
 
 class Level_1;
 
-class FatGangMember : public virtual Actor
+class FastGangMember : public virtual Actor
 {
 public:
-    FatGangMember(SDL_Renderer* renderer, Level_1* level1, int x, int y);
-    ~FatGangMember() override;
+    FastGangMember(SDL_Renderer* renderer, Level_1* level1, int x, int y);
+    ~FastGangMember() override;
 
     void LoadContent() override;
     void HandleAction(double delta) override;
@@ -50,7 +46,7 @@ public:
     };
     FaceDirection CurrentDirection = FaceDirection::LEFT;
 
-    static constexpr float MovementSpeed = 1.0f;
+    static constexpr float MovementSpeed = 1.3f;
 
     void FindNearestPlayer();
     void MoveToPlayer();
@@ -82,7 +78,7 @@ private:
     int screenWidth;
     int screenHeight;
 
-    static const int VELOCITY = 1;
+    static constexpr float VELOCITY = 1.3;
     const float animationSpeed = 7.0f;
     float animUpdateTime = 1.0f / animationSpeed;
     float timeSinceLastFrame = 0.0f;

@@ -8,7 +8,6 @@
 
 #include "ActorState.hpp"
 #include "Player.hpp"
-#include "FatGangMember.hpp"
 
 // startposY will remember player current Y position to get the player back
 // where he was after jumping.
@@ -34,8 +33,9 @@ void IdleState::HandleInput(Player &player, const Uint8* keyState, SDL_Event* ev
     {
         if (keyState[SDL_SCANCODE_H])
         {
-            player.CurrentState = player.KICKING;
             player.frameToDraw = 0;
+            player.CurrentState = player.KICKING;
+
             if (player.GetState() != nullptr)
             {
                 player.SetState(new KickingState());
@@ -43,8 +43,9 @@ void IdleState::HandleInput(Player &player, const Uint8* keyState, SDL_Event* ev
         }
         else if (keyState[SDL_SCANCODE_G])
         {
-            player.CurrentState = player.PUNCHING;
             player.frameToDraw = 0;
+            player.CurrentState = player.PUNCHING;
+
             if (player.GetState() != nullptr)
             {
                 player.SetState(new PunchingState());
@@ -52,8 +53,9 @@ void IdleState::HandleInput(Player &player, const Uint8* keyState, SDL_Event* ev
         }
         else if (keyState[SDL_SCANCODE_SPACE])
         {
-            player.CurrentState = player.JUMPING;
             player.frameToDraw = 0;
+            player.CurrentState = player.JUMPING;
+
             if (player.GetState() != nullptr)
             {
                 player.SetState(new JumpingState());
@@ -66,36 +68,6 @@ void IdleState::HandleInput(Player &player, const Uint8* keyState, SDL_Event* ev
 void IdleState::Update(Player &player, double delta)
 {
     player.Animate(delta, Player::IDLE_FRAMES);
-}
-
-
-
-void IdleState::HandleAction(FatGangMember &gangMemberA, double delta)
-{
-    gangMemberA.Attacking = false;
-
-    gangMemberA.FindNearestPlayer();
-    if (gangMemberA.PlayerAway)
-    {
-        gangMemberA.CurrentState = FatGangMember::State::RUNNING;
-        if (gangMemberA.GetState() != nullptr)
-        {
-            gangMemberA.SetState(new RunningState());
-        }
-    }
-    else if (!gangMemberA.PlayerAway && !gangMemberA.Attacking)
-    {
-        gangMemberA.CurrentState = FatGangMember::State::ATTACKING;
-        if (gangMemberA.GetState() != nullptr)
-        {
-            gangMemberA.SetState(new AttackingState());
-        }
-    }
-}
-
-void IdleState::Update(FatGangMember &gangMemberA, double delta)
-{
-    gangMemberA.Animate(delta, FatGangMember::IDLE_FRAMES);
 }
 // ------------- idle state ------------- //
 
@@ -263,45 +235,6 @@ void RunningState::Update(Player &player, double delta)
     player.Move();
     player.Animate(delta, Player::RUN_FRAMES);
 }
-
-
-
-void RunningState::HandleAction(FatGangMember &gangMemberA, double delta)
-{
-    if (gangMemberA.AttackCounter >= 1)
-    {
-        gangMemberA.MoveAwayFromPlayer();
-
-        if (gangMemberA.PlayerFarAway())
-        {
-            gangMemberA.AttackCounter = 0;
-            gangMemberA.CurrentState = FatGangMember::State::IDLE;
-            if (gangMemberA.GetState() != nullptr)
-            {
-                gangMemberA.SetState(new IdleState());
-            }
-        }
-    }
-    else
-    {
-        gangMemberA.MoveToPlayer();
-
-        if (!gangMemberA.PlayerAway)
-        {
-            gangMemberA.CurrentState = FatGangMember::State::IDLE;
-            if (gangMemberA.GetState() != nullptr)
-            {
-                gangMemberA.SetState(new IdleState());
-            }
-        }
-    }
-}
-
-void RunningState::Update(FatGangMember &gangMemberA, double delta)
-{
-    gangMemberA.Move();
-    gangMemberA.Animate(delta, FatGangMember::RUN_FRAMES);
-}
 // ------------- running state ------------- //
 
 
@@ -430,46 +363,9 @@ void JumpingState::Update(Player &player, double delta)
 
 
 
-// ------------- attacking state ------------- //
-void AttackingState::HandleAction(FatGangMember &gangMemberA, double delta)
-{
-    if (gangMemberA.Animating(FatGangMember::ATTACK_FRAMES))
-    {
-        // Attack
-        gangMemberA.Attacking = true;
-        if (gangMemberA.AttackCounter >= 1)
-        {
-            std::cout << "Attacked once" << std::endl;
-            gangMemberA.CurrentState = FatGangMember::State::RUNNING;
-            gangMemberA.FrameToDraw = 0;
-            if (gangMemberA.GetState() != nullptr)
-            {
-                gangMemberA.SetState(new RunningState());
-            }
-        }
-    }
-    else
-    {
-        gangMemberA.CurrentState = FatGangMember::State::IDLE;
-        if (gangMemberA.GetState() != nullptr)
-        {
-            gangMemberA.SetState(new IdleState());
-        }
-    }
-}
-
-void AttackingState::Update(FatGangMember &gangMemberA, double delta)
-{
-    gangMemberA.Animate(delta, FatGangMember::ATTACK_FRAMES);
-}
-// ------------- attacking state ------------- //
-
-
-
 // ------------- staggered state ------------- //
 void StaggeredState::HandleInput(Player& player, const Uint8* keyState, SDL_Event* event)
 {
-    // TODO: why he never leaves?
     player.CurrentState = player.IDLE;
     if (player.Animating(Player::IDLE_FRAMES))
     {
@@ -490,30 +386,5 @@ void StaggeredState::Update(Player &player, double delta)
 {
     player.ReceiveDamage();
     player.Animate(delta, Player::IDLE_FRAMES);
-}
-
-
-
-void StaggeredState::HandleAction(FatGangMember &gangMemberA, double delta)
-{
-    gangMemberA.CurrentState = FatGangMember::State::IDLE;
-    if (gangMemberA.Animating(FatGangMember::IDLE_FRAMES))
-    {
-        // receiving damage
-    }
-    else
-    {
-        gangMemberA.CurrentState = FatGangMember::State::IDLE;
-        if (gangMemberA.GetState() != nullptr)
-        {
-            gangMemberA.SetState(new IdleState());
-        }
-    }
-}
-
-void StaggeredState::Update(FatGangMember &gangMemberA, double delta)
-{
-    gangMemberA.ReceiveDamage();
-    gangMemberA.Animate(delta, FatGangMember::IDLE_FRAMES);
 }
 // ------------- staggered state ------------- //

@@ -17,12 +17,11 @@
 #include "../Actors/Actor.hpp"
 #include "../Actors/Player.hpp"
 #include "../Actors/FatGangMember.hpp"
+#include "../Actors/FastGangMember.hpp"
 #include "../Engine/Collisions.hpp"
 #include "../Engine/GameObject.hpp"
 #include "../Engine/TiledMap.hpp"
 
-//struct tile;
-//class TiledMap;
 class Camera2D;
 
 class Level_1 : public virtual Screen
@@ -48,6 +47,7 @@ public:
     // Enemy Collisions
     bool EnemyHitPlayerCollision();
     bool EnemyCollidesEnemy();
+    bool EnemyWaitsEnemy();
     SDL_Rect GetLevelUpperCollider();
     SDL_Rect GelLevelDownerCollider();
 

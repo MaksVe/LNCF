@@ -17,6 +17,8 @@ class Actor : public virtual GameObject
 public:
     virtual ~Actor()                            {}
 
+    virtual void HandleAction(double delta)     = 0;
+
     virtual const SDL_Rect GetCollisionRect()   = 0;
     virtual const SDL_Rect GetHitRect()         = 0;
 
@@ -28,6 +30,15 @@ public:
 
     virtual ActorState* GetState()                                      { return state; }
     virtual void SetState(ActorState* actorState)   { delete state; state = actorState; }
+
+    enum State
+    {
+        IDLE,
+        RUNNING,
+        ATTACKING,
+        STAGGERED
+    };
+    State CurrentState;
 
 protected:
     int HP{};

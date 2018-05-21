@@ -85,6 +85,7 @@ void Level_1::Update(SDL_Event* e)
         EnemyCollidesEnemy();
         PlayerHitEnemyCollision();
         EnemyHitPlayerCollision();
+        EnemyWaitsEnemy();
 
         // sort all our game objects by their Y position
         std::sort(gameObjects.begin(), gameObjects.end(),
@@ -137,6 +138,7 @@ void Level_1::AddEnemy()
 {
     enemies.push_back(new FatGangMember(renderer, this, 400, 155));
     enemies.push_back(new FatGangMember(renderer, this, 385, 142));
+    enemies.push_back(new FastGangMember(renderer, this, 415, 149));
 }
 
 
@@ -173,7 +175,7 @@ bool Level_1::PlayerHitEnemyCollision()
 
             if (player->DoDamage())
             {
-                CurrentEnemy->SetState(new StaggeredState);
+                CurrentEnemy->CurrentState = CurrentEnemy->STAGGERED;
             }
 
 
@@ -277,9 +279,36 @@ bool Level_1::EnemyCollidesEnemy()
                 {
                     if (e->GetCollisionRect().x + e->GetCollisionRect().w >= ne->GetCollisionRect().x)
                     {
-                        e->SetState(new IdleState());
+                        e->CurrentState = e->IDLE;
+
+                        return true;
                     }
                 }
+            }
+        }
+    }
+
+    return false;
+}
+
+bool Level_1::EnemyWaitsEnemy()
+{
+    // probably can be void
+    // bullshit as always, since they can both get in attacking state and freeze forever
+    for (auto &e : enemies)
+    {
+        for (auto &ne : enemies)
+        {
+            if (e == ne)
+            {
+                continue;
+            }
+
+            if (e->CurrentState == e->ATTACKING)
+            {
+                ne->CurrentState = ne->IDLE;
+
+                return true;
             }
         }
     }

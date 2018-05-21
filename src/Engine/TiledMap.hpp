@@ -49,6 +49,7 @@ private:
     int tileWidth;
     int tileHeight;
     std::map<gid, SDL_Texture*> tilesets;
+
     std::vector<tile> tiles;
     std::vector<tile> foregroundTiles;
 
