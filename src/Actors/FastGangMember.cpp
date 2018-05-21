@@ -164,7 +164,7 @@ void FastGangMember::HandleAction(double delta)
     }
 }
 
-void FastGangMember::Update(SDL_Event *e)
+void FastGangMember::Update(SDL_Event *e, const Uint8* currentKeyStates)
 {
     event = e;
     double delta = timer->GetDelta();

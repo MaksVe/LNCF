@@ -114,6 +114,13 @@ void TiledMap::LoadContent(const std::string& path, SDL_Renderer* renderer)
                         nonWalkableRight.w = (int)obj.getAABB().width;
                         nonWalkableRight.h = (int)obj.getAABB().height;
                     }
+                    else if (objGroup == "endPoint")
+                    {
+                        endPoint.x = (int)obj.getPosition().x;
+                        endPoint.y = (int)obj.getPosition().y;
+                        endPoint.w = (int)obj.getAABB().width;
+                        endPoint.h = (int)obj.getAABB().height;
+                    }
                 }
             }
 
@@ -315,4 +322,9 @@ SDL_Rect TiledMap::GetDownerEnd()
 SDL_Rect TiledMap::GetLeftEnd()
 {
     return nonWalkableLeft;
+}
+
+SDL_Rect TiledMap::GetEndPoint()
+{
+    return endPoint;
 }

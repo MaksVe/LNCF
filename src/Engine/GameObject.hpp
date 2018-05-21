@@ -12,7 +12,7 @@ public:
     virtual ~GameObject()                   {}
 
     virtual void LoadContent()              {}
-    virtual void Update(SDL_Event* event)   {}
+    virtual void Update(SDL_Event* event, const Uint8* currentKeyStates)   {}
     virtual void Render(int camX)                   {}
 
     virtual float GetPosY() { return PosY; }

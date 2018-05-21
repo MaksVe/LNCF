@@ -69,7 +69,7 @@ void Level_1::LoadContent()
     }
 }
 
-void Level_1::Update(SDL_Event* e)
+void Level_1::Update(SDL_Event* e, const Uint8* currentKeyStates)
 {
     event = e;
     
@@ -77,7 +77,17 @@ void Level_1::Update(SDL_Event* e)
     {
         for (auto& o : gameObjects)
         {
-            o->Update(e);
+            o->Update(e, currentKeyStates);
+        }
+
+        if (enemies.empty())
+        {
+            AddEnemy();
+        }
+
+        if (player->GetPosX() > levelTiledMap.GetEndPoint().x)
+        {
+            PlayerWon = true;
         }
 
         PlayerCollidesDown();
@@ -137,7 +147,7 @@ void Level_1::Render()
 void Level_1::AddEnemy()
 {
     enemies.push_back(new FatGangMember(renderer, this, 400, 155));
-    enemies.push_back(new FatGangMember(renderer, this, 385, 142));
+//    enemies.push_back(new FatGangMember(renderer, this, 385, 142));
     enemies.push_back(new FastGangMember(renderer, this, 415, 149));
 }
 
@@ -198,6 +208,7 @@ bool Level_1::PlayerHitEnemyCollision()
                 }
 
                 delete e;
+                e = nullptr;
                 CurrentEnemy = nullptr;
             }
 
@@ -261,7 +272,6 @@ bool Level_1::EnemyHitPlayerCollision()
 
 bool Level_1::EnemyCollidesEnemy()
 {
-    // probably doesn't have any effect
     // probably can be void
     // bs anyway
     for (auto &e : enemies)
@@ -304,9 +314,9 @@ bool Level_1::EnemyWaitsEnemy()
                 continue;
             }
 
-            if (e->CurrentState == e->ATTACKING)
+            if (ne->CurrentState == ne->ATTACKING)
             {
-                ne->CurrentState = ne->IDLE;
+                e->CurrentState = e->IDLE;
 
                 return true;
             }

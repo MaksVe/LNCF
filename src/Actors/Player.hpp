@@ -29,7 +29,7 @@ public:
     ~Player() override;
 
     void LoadContent() override;
-    void Update(SDL_Event* event) override;
+    void Update(SDL_Event* event, const Uint8* currentKeyStates) override;
     void HandleAction(double delta) override {};
     void Render(int camX) override;
     const SDL_Rect GetCollisionRect() override;

@@ -40,6 +40,8 @@ public:
     SDL_Rect GetDownerEnd();
     SDL_Rect GetRightEnd();
 
+    SDL_Rect GetEndPoint();
+
     float MapWidth;
 
 private:
@@ -58,4 +60,6 @@ private:
     SDL_Rect nonWalkableUp;
     SDL_Rect nonWalkableLeft;
     SDL_Rect nonWalkableRight;
+
+    SDL_Rect endPoint;
 };

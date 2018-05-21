@@ -16,6 +16,6 @@ public:
     virtual ~Screen() {}
 
     virtual void LoadContent() {}
-    virtual void Update(SDL_Event* event) {}
+    virtual void Update(SDL_Event* event, const Uint8* currentKeyStates) {}
     virtual void Render() {}
 };

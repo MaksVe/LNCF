@@ -31,7 +31,7 @@ public:
     ~Level_1() override;
 
     void LoadContent() override;
-    void Update(SDL_Event* event) override;
+    void Update(SDL_Event* event, const Uint8* currentKeyStates) override;
     void Render() override;
 
     void AddEnemy();
@@ -57,6 +57,7 @@ public:
     Actor* CurrentEnemy;
 
     bool Paused = false;
+    bool PlayerWon = false;
     bool ExitToMainMenu = false;
 
 private:

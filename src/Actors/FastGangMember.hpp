@@ -21,7 +21,7 @@ public:
 
     void LoadContent() override;
     void HandleAction(double delta) override;
-    void Update(SDL_Event* event) override;
+    void Update(SDL_Event* event, const Uint8* currentKeyStates) override;
     void Render(int camX) override;
     const SDL_Rect GetCollisionRect() override;
     const SDL_Rect GetHitRect() override;

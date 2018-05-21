@@ -20,7 +20,7 @@ public:
     ScreenManager(SDL_Renderer* renderer, int screenWidth, int screenHeight);
     ~ScreenManager();
 
-    void Update(SDL_Event* event);
+    void Update(SDL_Event* event, const Uint8* currentKeyStates);
     void Render();
 
     bool QuitGameFromMenu;

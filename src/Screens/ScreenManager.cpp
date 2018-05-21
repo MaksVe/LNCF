@@ -25,9 +25,9 @@ ScreenManager::~ScreenManager()
     delete howToScreen;
 }
 
-void ScreenManager::Update(SDL_Event *event)
+void ScreenManager::Update(SDL_Event *event, const Uint8* currentKeyStates)
 {
-    screens.top()->Update(event);
+    screens.top()->Update(event, currentKeyStates);
     
     if (mainMenu->QuitFromMainMenu)
     {
@@ -48,6 +48,12 @@ void ScreenManager::Update(SDL_Event *event)
     {
         screens.pop();
         howToScreen->BackToMainMenu = false;
+    }
+
+    if (level_1->PlayerWon)
+    {
+        screens.pop();
+        level_1->PlayerWon = false;
     }
 }
 

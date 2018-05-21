@@ -1,27 +1,24 @@
 //
-//  Enemy_1.cpp
-//  sdl_brawler_mac
-//
-//  Created by Максим on 4/24/18.
-//  Copyright © 2018 Максим. All rights reserved.
+// Created by Максим on 5/21/18.
 //
 
-#include "FatGangMember.hpp"
+#include "BossyGangMember.hpp"
+
 #include "../Screens/Level_1.hpp"
 
-FatGangMember::FatGangMember(SDL_Renderer* r, Level_1* l1, int x, int y)
+BossyGangMember::BossyGangMember(SDL_Renderer* r, Level_1* l1, int x, int y)
 {
     renderer = r;
     level1 = l1;
     screenWidth = l1->GetScreenWidth();
     screenHeight = l1->GetScreenHeight();
-    
+
     collisionRect.x = static_cast<int>(PosX);
     collisionRect.y = static_cast<int>(PosY);
     collisionRect.w = 14;
     collisionRect.h = 28;
 
-    HP = 1800;
+    HP = 1100;
     PosX = x;
     PosY = y;
 
@@ -33,14 +30,14 @@ FatGangMember::FatGangMember(SDL_Renderer* r, Level_1* l1, int x, int y)
     LoadContent();
 }
 
-FatGangMember::~FatGangMember()
+BossyGangMember::~BossyGangMember()
 {
     delete spriteSheet;
     delete state;
     delete timer;
 }
 
-void FatGangMember::LoadContent()
+void BossyGangMember::LoadContent()
 {
     if (!spriteSheet->LoadFromFile("foes.png"))
     {
@@ -48,46 +45,47 @@ void FatGangMember::LoadContent()
     }
     else
     {
+        // TODO: change coordinates to the proper sprites
         // Idle and Running Animation
-        idleSpriteClips[0].x = runSpriteClips[0].x = 0;
-        idleSpriteClips[0].y = runSpriteClips[0].y = 0;
-        idleSpriteClips[0].w = runSpriteClips[0].w = 48;
-        idleSpriteClips[0].h = runSpriteClips[0].h = 48;
+        idleSpriteClips[0].x = 0;     runSpriteClips[0].x = 0;
+        idleSpriteClips[0].y = 144;      runSpriteClips[0].y = 144;
+        idleSpriteClips[0].w = 48;      runSpriteClips[0].w = 48;
+        idleSpriteClips[0].h = 48;      runSpriteClips[0].h = 48;
 
-        idleSpriteClips[1].x = runSpriteClips[1].x = 48;
-        idleSpriteClips[1].y = runSpriteClips[1].y = 0;
-        idleSpriteClips[1].w = runSpriteClips[1].w = 48;
-        idleSpriteClips[1].h = runSpriteClips[1].h = 48;
+        idleSpriteClips[1].x = 48;     runSpriteClips[1].x = 48;
+        idleSpriteClips[1].y = 144;      runSpriteClips[1].y = 0;
+        idleSpriteClips[1].w = 48;      runSpriteClips[1].w = 48;
+        idleSpriteClips[1].h = 48;      runSpriteClips[1].h = 48;
 
-        idleSpriteClips[2].x = runSpriteClips[2].x = 96;
-        idleSpriteClips[2].y = runSpriteClips[2].y = 0;
-        idleSpriteClips[2].w = runSpriteClips[2].w = 48;
-        idleSpriteClips[2].h = runSpriteClips[2].h = 48;
+        idleSpriteClips[2].x = 96;     runSpriteClips[2].x = 96;
+        idleSpriteClips[2].y = 144;      runSpriteClips[2].y = 0;
+        idleSpriteClips[2].w = 48;      runSpriteClips[2].w = 48;
+        idleSpriteClips[2].h = 48;      runSpriteClips[2].h = 48;
 
-        idleSpriteClips[3].x = runSpriteClips[3].x = 144;
-        idleSpriteClips[3].y = runSpriteClips[3].y = 0;
-        idleSpriteClips[3].w = runSpriteClips[3].w = 48;
-        idleSpriteClips[3].h = runSpriteClips[3].h = 48;
+        idleSpriteClips[3].x = 144;     runSpriteClips[3].x = 144;
+        idleSpriteClips[3].y = 144;      runSpriteClips[3].y = 0;
+        idleSpriteClips[3].w = 48;      runSpriteClips[3].w = 48;
+        idleSpriteClips[3].h = 48;      runSpriteClips[3].h = 48;
 
         // Attacking Animation
         attackSpriteClips[0].x = 0;
-        attackSpriteClips[0].y = 48;
+        attackSpriteClips[0].y = 144;
         attackSpriteClips[0].w = 48;
         attackSpriteClips[0].h = 48;
 
         attackSpriteClips[1].x = 48;
-        attackSpriteClips[1].y = 48;
+        attackSpriteClips[1].y = 96;
         attackSpriteClips[1].w = 48;
         attackSpriteClips[1].h = 48;
 
         attackSpriteClips[2].x = 96;
-        attackSpriteClips[2].y = 48;
+        attackSpriteClips[2].y = 96;
         attackSpriteClips[2].w = 48;
         attackSpriteClips[2].h = 48;
     }
 }
 
-void FatGangMember::HandleAction(double delta)
+void BossyGangMember::HandleAction(double delta)
 {
     switch(CurrentState)
     {
@@ -167,9 +165,9 @@ void FatGangMember::HandleAction(double delta)
     }
 }
 
-void FatGangMember::Update(SDL_Event *e, const Uint8* currentKeyStates)
+void BossyGangMember::Update(SDL_Event *e, const Uint8* currentKeyStates)
 {
-    event = e;
+    //event = e;
     double delta = timer->GetDelta();
 
     HandleAction(delta);
@@ -197,7 +195,7 @@ void FatGangMember::Update(SDL_Event *e, const Uint8* currentKeyStates)
     }
 }
 
-void FatGangMember::Render(int camX)
+void BossyGangMember::Render(int camX)
 {
     if (CurrentState == State::IDLE)
     {
@@ -258,7 +256,7 @@ void FatGangMember::Render(int camX)
 //    SDL_RenderDrawRect(renderer, &collisionRect);
 }
 
-void FatGangMember::Move()
+void BossyGangMember::Move()
 {
     // normalizing diagonal movement
     auto length = static_cast<float>(VELOCITY / (std::sqrt(std::pow(VelX, 2) + std::pow(VelY, 2))));
@@ -274,7 +272,7 @@ void FatGangMember::Move()
     }
 }
 
-void FatGangMember::Animate(double delta, int maxFrames)
+void BossyGangMember::Animate(double delta, int maxFrames)
 {
     /* Delaying animation with delta time
      (https://gamedev.stackexchange.com/questions/44118/how-to-slow-down-a-sprite-that-updates-every-frame)
@@ -294,8 +292,8 @@ void FatGangMember::Animate(double delta, int maxFrames)
     }
 }
 
-bool FatGangMember::Animating(int maxFrames)
-{    
+bool BossyGangMember::Animating(int maxFrames)
+{
     //std::cout << frameToDraw << std::endl;
     while (FrameToDraw < maxFrames)
     {
@@ -319,23 +317,23 @@ bool FatGangMember::Animating(int maxFrames)
     return false;
 }
 
-const SDL_Rect FatGangMember::GetCollisionRect()
+const SDL_Rect BossyGangMember::GetCollisionRect()
 {
     return collisionRect;
 }
 
-const SDL_Rect FatGangMember::GetHitRect()
+const SDL_Rect BossyGangMember::GetHitRect()
 {
     return hitRect;
 }
 
-void FatGangMember::FindNearestPlayer()
+void BossyGangMember::FindNearestPlayer()
 {
     target = level1->FindPlayer();
     PlayerAway = PosX > target->GetPosX() + 25 || PosX < target->GetPosX() - 23;
 }
 
-void FatGangMember::MoveToPlayer()
+void BossyGangMember::MoveToPlayer()
 {
     if (PosX > target->GetPosX() + 25)
     {
@@ -401,7 +399,7 @@ void FatGangMember::MoveToPlayer()
     }
 }
 
-void FatGangMember::MoveAwayFromPlayer()
+void BossyGangMember::MoveAwayFromPlayer()
 {
     if (PosX < target->GetPosX() + 100)
     {
@@ -428,7 +426,7 @@ void FatGangMember::MoveAwayFromPlayer()
     }
 }
 
-void FatGangMember::AttackPlayer()
+void BossyGangMember::AttackPlayer()
 {
     if (!PlayerAway)
     {
@@ -436,7 +434,7 @@ void FatGangMember::AttackPlayer()
     }
 }
 
-bool FatGangMember::PlayerFarAway()
+bool BossyGangMember::PlayerFarAway()
 {
     target = level1->FindPlayer();
 
@@ -448,7 +446,7 @@ bool FatGangMember::PlayerFarAway()
     return true;
 }
 
-bool FatGangMember::DoDamage()
+bool BossyGangMember::DoDamage()
 {
     target = level1->FindPlayer();
 
@@ -472,7 +470,7 @@ bool FatGangMember::DoDamage()
     return false;
 }
 
-bool FatGangMember::ReceiveDamage()
+bool BossyGangMember::ReceiveDamage()
 {
     //target = level1->FindPlayer();
 

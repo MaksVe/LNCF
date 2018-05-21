@@ -29,7 +29,7 @@ public:
     bool Init();
     void Run();
 
-    void Update(SDL_Event* event);
+    void Update(SDL_Event* event, const Uint8* currentKeyStates);
     void Render();
 
     void Close();

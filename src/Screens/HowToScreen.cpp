@@ -36,7 +36,7 @@ void HowToScreen::LoadContent()
     }
 }
 
-void HowToScreen::Update(SDL_Event* e)
+void HowToScreen::Update(SDL_Event* e, const Uint8* currentKeyStates)
 {
     event = e;
     if (event->type == SDL_KEYDOWN)

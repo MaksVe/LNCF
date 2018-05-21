@@ -23,7 +23,7 @@ public:
     ~HowToScreen() override;
 
     void LoadContent() override;
-    void Update(SDL_Event* event) override;
+    void Update(SDL_Event* event, const Uint8* currentKeyStates) override;
     void Render() override;
 
     bool BackToMainMenu = false;

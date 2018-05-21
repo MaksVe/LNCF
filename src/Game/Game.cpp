@@ -79,7 +79,10 @@ void Game::Run()
     Uint32 frameStart;
 
     bool quit = false;
+
     SDL_Event e;
+    const Uint8* currentKeyStates = SDL_GetKeyboardState(nullptr);
+
     screenManager = new ScreenManager(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
     
     // main loop
@@ -89,13 +92,13 @@ void Game::Run()
 
         if (SDL_PollEvent(&e))
         {
-//            if (e.type == SDL_QUIT || screenManager->QuitGameFromMenu)
-//            {
-//                quit = true;
-//            }
+            if (e.type == SDL_QUIT || screenManager->QuitGameFromMenu)
+            {
+                quit = true;
+            }
         }
 
-        Update(&e);
+        Update(&e, currentKeyStates);
         Render();
         
         frameTime = SDL_GetTicks() - frameStart;
@@ -123,9 +126,9 @@ void Game::Close()
     SDL_Quit();
 }
 
-void Game::Update(SDL_Event* e)
+void Game::Update(SDL_Event* e, const Uint8* currentKeyStates)
 {
-    screenManager->Update(e);
+    screenManager->Update(e, currentKeyStates);
 }
 
 void Game::Render()
