@@ -13,6 +13,7 @@
 #include "MainMenuScreen.hpp"
 #include "Level_1.hpp"
 #include "HowToScreen.hpp"
+#include "LoseScreen.hpp"
 
 class ScreenManager
 {
@@ -29,6 +30,7 @@ private:
     MainMenuScreen * mainMenu;
     Level_1* level_1;
     HowToScreen* howToScreen;
+    LoseScreen* loseScreen;
 
     //Screen* currentScreen;
 

@@ -261,6 +261,7 @@ bool Level_1::EnemyHitPlayerCollision()
             if (player->GetHP() <= 0)
             {
                 std::cout << "player is dead" << std::endl;
+                PlayerLost = true;
             }
 
             return true;

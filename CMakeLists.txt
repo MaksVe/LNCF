@@ -13,7 +13,8 @@ set(RESOURCE_FILES
     src/Assets/PressStart2P.ttf
     src/Assets/level_01.tmx
     src/Assets/tileset_level_01.tsx
-    src/Assets/tileset_level_01.png)
+    src/Assets/tileset_level_01.png
+    src/Assets/menuMusic.ogg)
 FILE(COPY ${RESOURCE_FILES} DESTINATION "${CMAKE_BINARY_DIR}")
 
 add_executable(${PROJECT_NAME} WIN32 ${SOURCES})

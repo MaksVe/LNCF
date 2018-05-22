@@ -13,6 +13,8 @@ MainMenuScreen::MainMenuScreen(SDL_Renderer* r, int screenWidth, int screenHeigh
     renderer    = r;
     width       = screenWidth;
     height      = screenHeight;
+
+    soundManager = new SoundManager();
     
     startGame   = new MenuEntry(renderer);
     howTo       = new MenuEntry(renderer);
@@ -25,6 +27,7 @@ MainMenuScreen::MainMenuScreen(SDL_Renderer* r, int screenWidth, int screenHeigh
     menuEntries.push_back(quit);
     
     it = begin(menuEntries);
+    soundManager->PlayTrack(mainMenuTrack, -1);
 }
 
 
@@ -33,6 +36,7 @@ MainMenuScreen::~MainMenuScreen()
     delete startGame;
     delete quit;
     delete howTo;
+    delete soundManager;
 }
 
 void MainMenuScreen::LoadContent()
@@ -51,6 +55,13 @@ void MainMenuScreen::LoadContent()
     if (!quit->Create(textColor, "Quit", "PressStart2P.ttf", 16))
     {
         std::cout << "Unable to create menu entry!" << std::endl;
+    }
+
+    // main menu track
+    mainMenuTrack = soundManager->LoadTrack("menuMusic.ogg");
+    if (mainMenuTrack == nullptr)
+    {
+        std::cout << "Unable to load track" << std::endl;
     }
 }
 
@@ -83,6 +94,8 @@ void MainMenuScreen::Update(SDL_Event* e, const Uint8* currentKeyStates)
                 }
                 else if (*it == startGame)
                 {
+                    // stop music
+                    
                     StartNewGame = true;
                     event->type = SDL_KEYUP;
                 }

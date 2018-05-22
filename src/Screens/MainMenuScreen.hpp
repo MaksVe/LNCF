@@ -13,6 +13,7 @@
 #include "SDL.h"
 #include "Screen.hpp"
 #include "../Engine/MenuEntry.hpp"
+#include "../Engine/SoundManager.hpp"
 
 class MainMenuScreen : public virtual Screen
 {
@@ -37,6 +38,9 @@ private:
     MenuEntry* startGame;
     MenuEntry* howTo;
     MenuEntry* quit;
+
+    SoundManager* soundManager;
+    Mix_Music* mainMenuTrack;
 
     std::vector<MenuEntry*> menuEntries;
     std::vector<MenuEntry*>::iterator it;

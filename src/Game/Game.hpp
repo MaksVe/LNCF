@@ -12,6 +12,7 @@
 #include "SDL.h"
 #include "SDL_image.h"
 #include "SDL_ttf.h"
+#include "SDL_mixer.h"
 #include "../Screens/ScreenManager.hpp"
 
 /*Some parts of this class was originally from Lazy Foo' Productions

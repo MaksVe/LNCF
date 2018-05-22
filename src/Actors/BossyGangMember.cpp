@@ -47,39 +47,39 @@ void BossyGangMember::LoadContent()
     {
         // TODO: change coordinates to the proper sprites
         // Idle and Running Animation
-        idleSpriteClips[0].x = 0;     runSpriteClips[0].x = 0;
-        idleSpriteClips[0].y = 144;      runSpriteClips[0].y = 144;
+        idleSpriteClips[0].x = 0;       runSpriteClips[0].x = 0;
+        idleSpriteClips[0].y = 192;     runSpriteClips[0].y = 144;
         idleSpriteClips[0].w = 48;      runSpriteClips[0].w = 48;
         idleSpriteClips[0].h = 48;      runSpriteClips[0].h = 48;
 
-        idleSpriteClips[1].x = 48;     runSpriteClips[1].x = 48;
-        idleSpriteClips[1].y = 144;      runSpriteClips[1].y = 0;
+        idleSpriteClips[1].x = 48;      runSpriteClips[1].x = 48;
+        idleSpriteClips[1].y = 192;     runSpriteClips[1].y = 144;
         idleSpriteClips[1].w = 48;      runSpriteClips[1].w = 48;
         idleSpriteClips[1].h = 48;      runSpriteClips[1].h = 48;
 
-        idleSpriteClips[2].x = 96;     runSpriteClips[2].x = 96;
-        idleSpriteClips[2].y = 144;      runSpriteClips[2].y = 0;
+        idleSpriteClips[2].x = 96;      runSpriteClips[2].x = 96;
+        idleSpriteClips[2].y = 192;     runSpriteClips[2].y = 144;
         idleSpriteClips[2].w = 48;      runSpriteClips[2].w = 48;
         idleSpriteClips[2].h = 48;      runSpriteClips[2].h = 48;
 
         idleSpriteClips[3].x = 144;     runSpriteClips[3].x = 144;
-        idleSpriteClips[3].y = 144;      runSpriteClips[3].y = 0;
+        idleSpriteClips[3].y = 192;     runSpriteClips[3].y = 144;
         idleSpriteClips[3].w = 48;      runSpriteClips[3].w = 48;
         idleSpriteClips[3].h = 48;      runSpriteClips[3].h = 48;
 
         // Attacking Animation
         attackSpriteClips[0].x = 0;
-        attackSpriteClips[0].y = 144;
+        attackSpriteClips[0].y = 240;
         attackSpriteClips[0].w = 48;
         attackSpriteClips[0].h = 48;
 
         attackSpriteClips[1].x = 48;
-        attackSpriteClips[1].y = 96;
+        attackSpriteClips[1].y = 240;
         attackSpriteClips[1].w = 48;
         attackSpriteClips[1].h = 48;
 
         attackSpriteClips[2].x = 96;
-        attackSpriteClips[2].y = 96;
+        attackSpriteClips[2].y = 240;
         attackSpriteClips[2].w = 48;
         attackSpriteClips[2].h = 48;
     }

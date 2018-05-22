@@ -58,6 +58,7 @@ public:
 
     bool Paused = false;
     bool PlayerWon = false;
+    bool PlayerLost = false;
     bool ExitToMainMenu = false;
 
 private:
