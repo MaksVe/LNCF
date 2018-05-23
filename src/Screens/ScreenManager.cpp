@@ -10,6 +10,10 @@
 
 ScreenManager::ScreenManager(SDL_Renderer* renderer, int screenWidth, int screenHeight)
 {
+    r = renderer;
+    width = screenWidth;
+    height = screenHeight;
+
     this->mainMenu = new MainMenuScreen(renderer, screenWidth, screenHeight);
     this->level_1 = new Level_1(renderer, screenWidth, screenHeight);
     this->howToScreen = new HowToScreen(renderer, screenWidth, screenHeight);
@@ -61,6 +65,22 @@ void ScreenManager::Update(SDL_Event *event, const Uint8* currentKeyStates)
     {
         screens.push(loseScreen);
         level_1->PlayerLost = false;
+    }
+
+    if (loseScreen->BackToMainMenu)
+    {
+        screens.pop();
+        delete level_1; level_1 = new Level_1(r, width, height);
+        screens.pop();
+        loseScreen->BackToMainMenu = false;
+    }
+    else if (loseScreen->TryAgain)
+    {
+        screens.pop();
+        delete level_1; level_1 = new Level_1(r, width, height);
+        screens.pop();
+        screens.push(level_1);
+        loseScreen->TryAgain = false;
     }
 }
 

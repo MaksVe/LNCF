@@ -32,7 +32,9 @@ private:
     HowToScreen* howToScreen;
     LoseScreen* loseScreen;
 
-    //Screen* currentScreen;
-
     std::stack<Screen*> screens;
+
+    SDL_Renderer* r;
+    int width;
+    int height;
 };

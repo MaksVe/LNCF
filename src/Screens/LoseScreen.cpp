@@ -12,6 +12,7 @@ LoseScreen::LoseScreen(SDL_Renderer* r, int screenWidth, int screenHeight)
 
     backToMainMenu = new MenuEntry(renderer);
     tryAgain = new MenuEntry(renderer);
+    loseTextTexture = new Texture2D(renderer);
 
     LoadContent();
 
@@ -25,12 +26,13 @@ LoseScreen::~LoseScreen()
 {
     delete backToMainMenu;
     delete tryAgain;
+    delete loseTextTexture;
 }
 
 void LoseScreen::LoadContent()
 {
     loseTextFont = TTF_OpenFont("PressStart2P.ttf", 16);
-    LoseTextTexture->LoadFromRenderedText("You Lose", textColor, loseTextFont);
+    loseTextTexture->LoadFromRenderedText("You Lose", textColor, loseTextFont);
 
     if (!backToMainMenu->Create(textColor, "Return to Main Menu", "PressStart2P.ttf", 16))
     {
@@ -84,7 +86,7 @@ void LoseScreen::Update(SDL_Event* e, const Uint8* currentKeyStates)
 
 void LoseScreen::Render()
 {
-    LoseTextTexture->Render((width / 2) - (LoseTextTexture->GetWidth() / 2), 50);
+    loseTextTexture->Render((width / 2) - (loseTextTexture->GetWidth() / 2), 50);
 
     if (backToMainMenu != nullptr)
     {

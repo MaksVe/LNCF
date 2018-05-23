@@ -28,7 +28,7 @@ private:
     SDL_Event* event;
 
     TTF_Font* loseTextFont;
-    Texture2D* LoseTextTexture;
+    Texture2D* loseTextTexture;
     MenuEntry* backToMainMenu;
     MenuEntry* tryAgain;
 

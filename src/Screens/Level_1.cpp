@@ -20,13 +20,8 @@ Level_1::Level_1(SDL_Renderer* r, int screenWidth, int screenHeight)
     player              = new Player(renderer, this);
     pauseTextTexture    = new Texture2D(renderer);
     camera              = new Camera2D();
-    
-    /* TODO: create a list of enemies,
-     create methods to add and remove enemies,
-     create a method to check player hit with enemy collisions,
-     create a method to check player collision with enemy collisions...
-     http://headerphile.blogspot.ru/2014/04/part-5-game-programming-in-sdl2.html
-     */
+
+    // http://headerphile.blogspot.ru/2014/04/part-5-game-programming-in-sdl2.html
     AddEnemy();
     CurrentEnemy = nullptr;
 
@@ -207,6 +202,7 @@ bool Level_1::PlayerHitEnemyCollision()
                     gameObjects.erase(gameObjects.begin() + index);
                 }
 
+                // IT DOESN'T WORK? I STILL GOT ENEMIES IN MY VECTOR BRAHW
                 delete e;
                 e = nullptr;
                 CurrentEnemy = nullptr;
