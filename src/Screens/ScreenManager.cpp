@@ -18,6 +18,7 @@ ScreenManager::ScreenManager(SDL_Renderer* renderer, int screenWidth, int screen
     this->level_1 = new Level_1(renderer, screenWidth, screenHeight);
     this->howToScreen = new HowToScreen(renderer, screenWidth, screenHeight);
     this->loseScreen = new LoseScreen(renderer, screenWidth, screenHeight);
+    this->winScreen = new WinScreen(renderer, screenWidth, screenHeight);
 
     screens.push(mainMenu);
 }
@@ -29,12 +30,14 @@ ScreenManager::~ScreenManager()
     delete level_1;
     delete howToScreen;
     delete loseScreen;
+    delete winScreen;
 }
 
 void ScreenManager::Update(SDL_Event *event, const Uint8* currentKeyStates)
 {
     screens.top()->Update(event, currentKeyStates);
-    
+
+    // main menu
     if (mainMenu->QuitFromMainMenu)
     {
         QuitGameFromMenu = true;
@@ -49,16 +52,18 @@ void ScreenManager::Update(SDL_Event *event, const Uint8* currentKeyStates)
         screens.push(howToScreen);
         mainMenu->ShowHowTo = false;
     }
-    
+
+    // how to screen
     if (howToScreen->BackToMainMenu)
     {
         screens.pop();
         howToScreen->BackToMainMenu = false;
     }
 
+    // win-lose conditions
     if (level_1->PlayerWon)
     {
-        screens.pop();
+        screens.push(winScreen);
         level_1->PlayerWon = false;
     }
     else if (level_1->PlayerLost)
@@ -67,6 +72,7 @@ void ScreenManager::Update(SDL_Event *event, const Uint8* currentKeyStates)
         level_1->PlayerLost = false;
     }
 
+    // lose screen
     if (loseScreen->BackToMainMenu)
     {
         screens.pop();
@@ -81,6 +87,23 @@ void ScreenManager::Update(SDL_Event *event, const Uint8* currentKeyStates)
         screens.pop();
         screens.push(level_1);
         loseScreen->TryAgain = false;
+    }
+
+    // win screen
+    if (winScreen->BackToMainMenu)
+    {
+        screens.pop();
+        delete level_1; level_1 = new Level_1(r, width, height);
+        screens.pop();
+        winScreen->BackToMainMenu = false;
+    }
+    else if (winScreen->RestartLevel)
+    {
+        screens.pop();
+        delete level_1; level_1 = new Level_1(r, width, height);
+        screens.pop();
+        screens.push(level_1);
+        winScreen->RestartLevel = false;
     }
 }
 

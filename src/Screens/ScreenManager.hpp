@@ -14,6 +14,7 @@
 #include "Level_1.hpp"
 #include "HowToScreen.hpp"
 #include "LoseScreen.hpp"
+#include "WinScreen.hpp"
 
 class ScreenManager
 {
@@ -31,6 +32,7 @@ private:
     Level_1* level_1;
     HowToScreen* howToScreen;
     LoseScreen* loseScreen;
+    WinScreen* winScreen;
 
     std::stack<Screen*> screens;
 
