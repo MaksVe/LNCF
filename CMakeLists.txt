@@ -9,7 +9,6 @@ file(GLOB_RECURSE HEADERS src/*.hpp)
 set(RESOURCE_FILES
     src/Assets/player.png
     src/Assets/foes.png
-    src/Assets/Roboto-Black.ttf
     src/Assets/PressStart2P.ttf
     src/Assets/level_01.tmx
     src/Assets/tileset_level_01.tsx

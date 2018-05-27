@@ -1,7 +1,8 @@
 **Requirements:**
 - [SDL2](https://www.libsdl.org/download-2.0.php)
-- [SDL_image](https://www.libsdl.org/projects/SDL_image/)
-- [SDL_font](https://www.libsdl.org/projects/SDL_ttf/docs/SDL_ttf.html)
+- [SDL2_image](https://www.libsdl.org/projects/SDL_image/)
+- [SDL2_font](https://www.libsdl.org/projects/SDL_ttf/docs/SDL_ttf.html)
+- [SDL2_mixer](https://www.libsdl.org/projects/SDL_mixer/)
 - [tmxlite](https://github.com/fallahn/tmxlite)
 
 **Controls:**
