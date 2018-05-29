@@ -58,10 +58,7 @@ void Level_1::LoadContent()
 
     // store all our game objects in a vector
     gameObjects.push_back(player);
-    for (auto& e : enemies)
-    {
-        gameObjects.push_back(e);
-    }
+
 }
 
 void Level_1::Update(SDL_Event* e, const Uint8* currentKeyStates)
@@ -144,6 +141,13 @@ void Level_1::AddEnemy()
     enemies.push_back(new FatGangMember(renderer, this, 400, 155));
 //    enemies.push_back(new FatGangMember(renderer, this, 385, 142));
     enemies.push_back(new FastGangMember(renderer, this, 415, 149));
+    enemies.push_back(new BossyGangMember(renderer, this, 420, 152));
+    std::cout << "spawned new enemies" << std::endl;
+
+    for (auto& e : enemies)
+    {
+        gameObjects.push_back(e);
+    }
 }
 
 
@@ -171,7 +175,7 @@ bool Level_1::PlayerCollidesEnemy()
 
 bool Level_1::PlayerHitEnemyCollision()
 {
-    for (auto &e : enemies)
+    for (auto e : enemies)
     {
         if (Collisions::Collides(player->GetHitRect(), e->GetCollisionRect()))
         {

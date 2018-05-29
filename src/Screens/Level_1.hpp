@@ -18,6 +18,7 @@
 #include "../Actors/Player.hpp"
 #include "../Actors/FatGangMember.hpp"
 #include "../Actors/FastGangMember.hpp"
+#include "../Actors/BossyGangMember.hpp"
 #include "../Engine/Collisions.hpp"
 #include "../Engine/GameObject.hpp"
 #include "../Engine/TiledMap.hpp"

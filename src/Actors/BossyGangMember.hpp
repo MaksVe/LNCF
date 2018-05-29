@@ -46,7 +46,7 @@ public:
     };
     FaceDirection CurrentDirection = FaceDirection::LEFT;
 
-    static constexpr float MovementSpeed = 0.9f;
+    static constexpr float MovementSpeed = 0.4f;
 
     void FindNearestPlayer();
     void MoveToPlayer();
@@ -78,7 +78,7 @@ private:
     int screenWidth;
     int screenHeight;
 
-    static constexpr float VELOCITY = 0.9f;
+    static constexpr float VELOCITY = 0.4f;
     const float animationSpeed = 7.0f;
     float animUpdateTime = 1.0f / animationSpeed;
     float timeSinceLastFrame = 0.0f;
