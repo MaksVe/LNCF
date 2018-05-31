@@ -89,4 +89,6 @@ private:
 
     Level_1* level1;
     Player* target;
+
+    Mix_Chunk* punchSound;
 };

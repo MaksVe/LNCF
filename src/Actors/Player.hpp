@@ -108,4 +108,7 @@ private:
 
     Level_1* level1;
     Actor* target;
+
+    Mix_Chunk* punchSound;
+    Mix_Chunk* kickSound;
 };

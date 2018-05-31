@@ -37,6 +37,12 @@ public:
 
     void AddEnemy();
 
+    // Wave spawn instead of adding enemies
+    void SpawnWave1();
+    void SpawnWave2();
+    void SpawnWave3();
+    void SpawnWave4();
+
     // Player Collisions
     bool PlayerCollidesEnemy();
     bool PlayerHitEnemyCollision();
@@ -48,13 +54,16 @@ public:
     // Enemy Collisions
     bool EnemyHitPlayerCollision();
     bool EnemyCollidesEnemy();
-    bool EnemyWaitsEnemy();
     SDL_Rect GetLevelUpperCollider();
     SDL_Rect GelLevelDownerCollider();
 
     int GetScreenWidth();
     int GetScreenHeight();
+
     Player* FindPlayer();
+    bool EnemyWaitsEnemy();
+    bool PlayerIsBusy();
+
     Actor* CurrentEnemy;
 
     bool Paused = false;
@@ -72,6 +81,7 @@ private:
 
     TTF_Font* pauseFont;
     Texture2D* pauseTextTexture;
+    Texture2D* endTexture;
 
     // Actors
     Player* player;
@@ -97,4 +107,6 @@ private:
     {
         return !(value < low) && (high < value);
     }
+
+    int waveCounter;
 };

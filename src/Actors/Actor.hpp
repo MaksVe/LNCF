@@ -10,6 +10,7 @@
 
 #include <memory>
 #include "../Engine/GameObject.hpp"
+#include "../Engine/SoundManager.hpp"
 #include "ActorState.hpp"
 
 class Actor : public virtual GameObject
@@ -36,11 +37,14 @@ public:
         IDLE,
         RUNNING,
         ATTACKING,
-        STAGGERED
+        STAGGERED,
+        WAITING
     };
     State CurrentState;
 
 protected:
     int HP{};
     ActorState* state;
+
+    SoundManager* soundManager;
 };

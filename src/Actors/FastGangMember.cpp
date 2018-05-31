@@ -22,6 +22,7 @@ FastGangMember::FastGangMember(SDL_Renderer* r, Level_1* l1, int x, int y)
     PosX = x;
     PosY = y;
 
+    soundManager    = new SoundManager();
     spriteSheet = new Texture2D(renderer);
     timer = new Timer();
     state = new IdleState();
@@ -35,6 +36,7 @@ FastGangMember::~FastGangMember()
     delete spriteSheet;
     delete state;
     delete timer;
+    delete soundManager;
 }
 
 void FastGangMember::LoadContent()
@@ -82,6 +84,8 @@ void FastGangMember::LoadContent()
         attackSpriteClips[2].w = 48;
         attackSpriteClips[2].h = 48;
     }
+
+    punchSound = soundManager->LoadSFX("enemyPunch.wav");
 }
 
 void FastGangMember::HandleAction(double delta)
@@ -161,6 +165,21 @@ void FastGangMember::HandleAction(double delta)
             ReceiveDamage();
             Animate(delta, IDLE_FRAMES);
             break;
+
+        case WAITING:
+
+            if (Animating(RUN_FRAMES))
+            {
+                MoveAwayFromPlayer();
+            }
+            else
+            {
+                CurrentState = IDLE;
+            }
+
+            Move();
+            Animate(delta, RUN_FRAMES);
+            break;
     }
 }
 
@@ -209,7 +228,7 @@ void FastGangMember::Render(int camX)
         }
     }
 
-    if (CurrentState == State::RUNNING)
+    if (CurrentState == State::RUNNING || CurrentState == State::WAITING)
     {
         currentClip = &runSpriteClips[FrameToDraw];
         if (CurrentDirection == FaceDirection::LEFT)
@@ -453,6 +472,7 @@ bool FastGangMember::DoDamage()
     {
         if (CurrentState == State::ATTACKING)
         {
+            soundManager->PlaySFX(punchSound);
             target->SetHP(5);
             Attacking = true;
 

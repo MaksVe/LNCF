@@ -14,13 +14,13 @@ public:
     SoundManager();
     ~SoundManager();
 
-    bool LoadSFX(std::string title);
+    Mix_Chunk* LoadSFX(std::string title);
     Mix_Music* LoadTrack(std::string title);
 
     void PlayTrack(Mix_Music* t, int loop);
-    void PlaySFX(Mix_Music* t);
+    void PlaySFX(Mix_Chunk* t);
 
 private:
     Mix_Music* track;
-    Mix_Music* sfx;
+    Mix_Chunk* sfx;
 };

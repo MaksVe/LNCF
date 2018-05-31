@@ -13,7 +13,7 @@ SoundManager::SoundManager()
 SoundManager::~SoundManager()
 {
     Mix_FreeMusic(track);
-    Mix_FreeMusic(sfx);
+    Mix_FreeChunk(sfx);
     track = nullptr;
     sfx = nullptr;
 }
@@ -29,16 +29,15 @@ Mix_Music* SoundManager::LoadTrack(std::string title)
     return track;
 }
 
-bool SoundManager::LoadSFX(std::string title)
+Mix_Chunk* SoundManager::LoadSFX(std::string title)
 {
-    sfx = Mix_LoadMUS(title.c_str());
+    sfx = Mix_LoadWAV(title.c_str());
     if (sfx == nullptr)
     {
         std::cout << "Failed to load sfx: " << Mix_GetError() << std::endl;
-        return false;
     }
 
-    return true;
+    return sfx;
 }
 
 void SoundManager::PlayTrack(Mix_Music* t, int loop)
@@ -46,7 +45,7 @@ void SoundManager::PlayTrack(Mix_Music* t, int loop)
     Mix_PlayMusic(t, loop);
 }
 
-void SoundManager::PlaySFX(Mix_Music* t)
+void SoundManager::PlaySFX(Mix_Chunk* t)
 {
-    Mix_PlayMusic(t, 0);
+    Mix_PlayChannel(-1, t, 0);
 }

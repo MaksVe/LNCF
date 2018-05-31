@@ -19,10 +19,13 @@ Level_1::Level_1(SDL_Renderer* r, int screenWidth, int screenHeight)
     
     player              = new Player(renderer, this);
     pauseTextTexture    = new Texture2D(renderer);
+    endTexture          = new Texture2D(renderer);
     camera              = new Camera2D();
 
     // http://headerphile.blogspot.ru/2014/04/part-5-game-programming-in-sdl2.html
-    AddEnemy();
+    //AddEnemy();
+
+    SpawnWave1();
     CurrentEnemy = nullptr;
 
     LoadContent();
@@ -45,6 +48,7 @@ void Level_1::LoadContent()
     
     pauseFont = TTF_OpenFont("PressStart2P.ttf", 16);
     pauseTextTexture->LoadFromRenderedText("Paused", textColor, pauseFont);
+    endTexture->LoadFromRenderedText("Thanks for suffering through", textColor, pauseFont);
 
     levelTiledMap.LoadContent("level_01.tmx", renderer);
     levelTiledMap.LoadForeground("level_01.tmx", renderer);
@@ -74,7 +78,25 @@ void Level_1::Update(SDL_Event* e, const Uint8* currentKeyStates)
 
         if (enemies.empty())
         {
-            AddEnemy();
+            //AddEnemy();
+
+            switch(waveCounter)
+            {
+                case 1:
+                    SpawnWave1();
+                    break;
+                case 2:
+                    SpawnWave2();
+                    break;
+                case 3:
+                    SpawnWave3();
+                    break;
+                case 4:
+                    SpawnWave4();
+                    break;
+                default:
+                    break;
+            }
         }
 
         if (player->GetPosX() > levelTiledMap.GetEndPoint().x)
@@ -126,6 +148,16 @@ void Level_1::Render()
 
     levelTiledMap.RenderForeground(renderer, camera->GetCameraRect());
 
+    // it's never going to be visible
+    if (endTexture != nullptr)
+    {
+        endTexture->Render(3000, (height / 2) - (endTexture->GetHeight() / 2));
+    }
+    else
+    {
+        std::cout << "endtexture is null" << std::endl;
+    }
+
     // --- pause text ---
     if (pauseFont != nullptr)
     {
@@ -150,6 +182,63 @@ void Level_1::AddEnemy()
     }
 }
 
+// Waves spawning
+void Level_1::SpawnWave1()
+{
+    waveCounter = 1;
+
+    enemies.push_back(new FatGangMember(renderer, this, camera->GetCameraRect()->x + 500, 145));
+    enemies.push_back(new FatGangMember(renderer, this, camera->GetCameraRect()->x + 510, 149));
+
+    for (auto& e : enemies)
+    {
+        gameObjects.push_back(e);
+    }
+
+    waveCounter++;
+}
+
+void Level_1::SpawnWave2()
+{
+    enemies.push_back(new FatGangMember(renderer, this, camera->GetCameraRect()->x + 500, 145));
+    enemies.push_back(new FatGangMember(renderer, this, camera->GetCameraRect()->x + 510, 149));
+    enemies.push_back(new FastGangMember(renderer, this, camera->GetCameraRect()->x + 515, 149));
+
+    for (auto& e : enemies)
+    {
+        gameObjects.push_back(e);
+    }
+
+    waveCounter++;
+}
+
+void Level_1::SpawnWave3()
+{
+    enemies.push_back(new FatGangMember(renderer, this, camera->GetCameraRect()->x + 500, 149));
+    enemies.push_back(new FatGangMember(renderer, this, camera->GetCameraRect()->x + 510, 149));
+    enemies.push_back(new FastGangMember(renderer, this, camera->GetCameraRect()->x + 525, 149));
+    enemies.push_back(new FastGangMember(renderer, this, camera->GetCameraRect()->x + 515, 149));
+
+    for (auto& e : enemies)
+    {
+        gameObjects.push_back(e);
+    }
+
+    waveCounter++;
+}
+
+void Level_1::SpawnWave4()
+{
+    enemies.push_back(new BossyGangMember(renderer, this, camera->GetCameraRect()->x + 510, 149));
+    enemies.push_back(new BossyGangMember(renderer, this, camera->GetCameraRect()->x + 520, 149));
+
+    for (auto& e : enemies)
+    {
+        gameObjects.push_back(e);
+    }
+
+    waveCounter++;
+}
 
 
 // --- Player Collisions --- //
@@ -305,22 +394,44 @@ bool Level_1::EnemyCollidesEnemy()
 bool Level_1::EnemyWaitsEnemy()
 {
     // probably can be void
-    // bullshit as always, since they can both get in attacking state and freeze forever
+    // bullshit as always
+
     for (auto &e : enemies)
     {
-        for (auto &ne : enemies)
-        {
+        for (auto &ne : enemies) {
             if (e == ne)
             {
                 continue;
             }
 
-            if (ne->CurrentState == ne->ATTACKING)
-            {
-                e->CurrentState = e->IDLE;
+            if (ne->CurrentState == ne->ATTACKING) {
+                //e->CurrentState = e->IDLE;
+                e->CurrentState = e->WAITING;
+
 
                 return true;
             }
+//            else if (e->CurrentState == e->ATTACKING)
+//            {
+//                ne->CurrentState = ne->IDLE;
+//                ne->CurrentState = ne->WAITING;
+//
+//                return true;
+//            }
+
+        }
+    }
+
+    return false;
+}
+
+bool Level_1::PlayerIsBusy()
+{
+    for (auto &e : enemies)
+    {
+        if (e->GetPosX() < player->GetPosX() + 20)
+        {
+            return true;
         }
     }
 

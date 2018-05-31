@@ -31,7 +31,7 @@ void IdleState::HandleInput(Player &player, const Uint8* keyState, SDL_Event* ev
     
     if (event->type == SDL_KEYDOWN && event->key.repeat == 0)
     {
-        if (keyState[SDL_SCANCODE_H])
+        if (event->key.keysym.sym == SDLK_h)
         {
             player.frameToDraw = 0;
             player.CurrentState = player.KICKING;
@@ -41,7 +41,7 @@ void IdleState::HandleInput(Player &player, const Uint8* keyState, SDL_Event* ev
                 player.SetState(new KickingState());
             }
         }
-        else if (keyState[SDL_SCANCODE_G])
+        else if (event->key.keysym.sym == SDLK_g)
         {
             player.frameToDraw = 0;
             player.CurrentState = player.PUNCHING;

@@ -22,6 +22,8 @@ Player::Player(SDL_Renderer* r, Level_1* l1)
     spriteSheet     = new Texture2D(renderer);
     timer           = new Timer();
     state           = new IdleState();
+
+    soundManager    = new SoundManager();
     
     collisionRect.x = static_cast<int>(PosX);
     collisionRect.y = static_cast<int>(PosY);
@@ -43,6 +45,7 @@ Player::~Player()
     delete spriteSheet;
     delete state;
     delete timer;
+    delete soundManager;
 }
 
 void Player::LoadContent()
@@ -164,6 +167,9 @@ void Player::LoadContent()
         jumpKickClip.w = 48;
         jumpKickClip.h = 48;
     }
+
+    punchSound = soundManager->LoadSFX("punch.wav");
+    kickSound = soundManager->LoadSFX("kick.wav");
 }
 
 void Player::Update(SDL_Event* e, const Uint8* currentKeyStates)
@@ -409,19 +415,23 @@ bool Player::DoDamage()
         {
             if (LinkingPunch)
             {
+                soundManager->PlaySFX(punchSound);
                 target->SetHP(10);
             }
 
+            soundManager->PlaySFX(punchSound);
             target->SetHP(5);
             return true;
         }
         else if (CurrentState == KICKING)
         {
+            soundManager->PlaySFX(kickSound);
             target->SetHP(10);
             return true;
         }
         else if (CurrentState == JUMPKICK)
         {
+            soundManager->PlaySFX(kickSound);
             target->SetHP(12);
             return true;
         }
