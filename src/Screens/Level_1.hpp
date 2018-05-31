@@ -82,6 +82,7 @@ private:
     TTF_Font* pauseFont;
     Texture2D* pauseTextTexture;
     Texture2D* endTexture;
+    Texture2D* hpTexture;
 
     // Actors
     Player* player;
@@ -98,6 +99,8 @@ private:
     SDL_Rect rightCollider;
     SDL_Rect downerCollider;
     SDL_Rect leftCollider;
+
+    SDL_Rect healthBar;
 
     Camera2D* camera;
     tile* t;

@@ -35,7 +35,7 @@ Player::Player(SDL_Renderer* r, Level_1* l1)
     hitRect.w = 0;
     hitRect.h = 0;
 
-    HP = 10500;
+    HP = 1500;
     PosX = 20;
     PosY = 155;
 }

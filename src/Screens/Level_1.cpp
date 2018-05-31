@@ -20,6 +20,7 @@ Level_1::Level_1(SDL_Renderer* r, int screenWidth, int screenHeight)
     player              = new Player(renderer, this);
     pauseTextTexture    = new Texture2D(renderer);
     endTexture          = new Texture2D(renderer);
+    hpTexture           = new Texture2D(renderer);
     camera              = new Camera2D();
 
     // http://headerphile.blogspot.ru/2014/04/part-5-game-programming-in-sdl2.html
@@ -29,6 +30,11 @@ Level_1::Level_1(SDL_Renderer* r, int screenWidth, int screenHeight)
     CurrentEnemy = nullptr;
 
     LoadContent();
+
+    healthBar.x = screenWidth / 5;
+    healthBar.y = 30;
+    healthBar.w = (player->GetHP() * 10) / 100;
+    healthBar.h = 10;
 }
 
 
@@ -40,6 +46,8 @@ Level_1::~Level_1()
     {
         delete e;
     }
+    delete endTexture;
+    delete hpTexture;
 }
 
 void Level_1::LoadContent()
@@ -49,6 +57,7 @@ void Level_1::LoadContent()
     pauseFont = TTF_OpenFont("PressStart2P.ttf", 16);
     pauseTextTexture->LoadFromRenderedText("Paused", textColor, pauseFont);
     endTexture->LoadFromRenderedText("Thanks for suffering through", textColor, pauseFont);
+    hpTexture->LoadFromRenderedText("HP: ", textColor, pauseFont);
 
     levelTiledMap.LoadContent("level_01.tmx", renderer);
     levelTiledMap.LoadForeground("level_01.tmx", renderer);
@@ -116,6 +125,9 @@ void Level_1::Update(SDL_Event* e, const Uint8* currentKeyStates)
                   [](GameObject* a, GameObject* b) { return a->GetPosY() < b->GetPosY(); });
 
         camera->SetCameraX(player->GetPosX());
+
+        healthBar.w = (player->GetHP() * 10) / 100;
+        //std::cout << healthBar.w << std::endl;
     }
     
     if (event->type == SDL_KEYDOWN)
@@ -148,6 +160,15 @@ void Level_1::Render()
 
     levelTiledMap.RenderForeground(renderer, camera->GetCameraRect());
 
+    // --- pause text ---
+    if (pauseFont != nullptr)
+    {
+        if (Paused)
+        {
+            pauseTextTexture->Render((width / 2) - (pauseTextTexture->GetWidth() / 2), (height / 2) - (pauseTextTexture->GetHeight() / 2));
+        }
+    }
+
     // it's never going to be visible
     if (endTexture != nullptr)
     {
@@ -158,14 +179,13 @@ void Level_1::Render()
         std::cout << "endtexture is null" << std::endl;
     }
 
-    // --- pause text ---
-    if (pauseFont != nullptr)
+    if (hpTexture != nullptr)
     {
-        if (Paused)
-        {
-            pauseTextTexture->Render((width / 2) - (pauseTextTexture->GetWidth() / 2), (height / 2) - (pauseTextTexture->GetHeight() / 2));
-        }
+        hpTexture->Render(healthBar.x - 50, healthBar.y);
     }
+
+    SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
+    SDL_RenderFillRect(renderer, &healthBar);
 }
 
 void Level_1::AddEnemy()
@@ -338,7 +358,7 @@ bool Level_1::EnemyHitPlayerCollision()
     {
         if (Collisions::Collides(e->GetHitRect(), player->GetCollisionRect()))
         {
-            //std::cout << "enemy hit rect collides player rect" << std::endl;
+            std::cout << "enemy hit rect collides player rect" << std::endl;
             CurrentEnemy = e;
 
             if (CurrentEnemy->DoDamage())
@@ -411,13 +431,12 @@ bool Level_1::EnemyWaitsEnemy()
 
                 return true;
             }
-//            else if (e->CurrentState == e->ATTACKING)
-//            {
-//                ne->CurrentState = ne->IDLE;
-//                ne->CurrentState = ne->WAITING;
-//
-//                return true;
-//            }
+            else if (e->CurrentState == e->ATTACKING)
+            {
+                ne->CurrentState = ne->WAITING;
+
+                return true;
+            }
 
         }
     }
