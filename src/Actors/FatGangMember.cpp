@@ -269,8 +269,8 @@ void FatGangMember::Render(int camX)
             spriteSheet->Render(static_cast<int>(PosX) - camX, static_cast<int>(PosY), currentClip, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
         }
 
-        SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
-        SDL_RenderDrawRect(renderer, &hitRect);
+//        SDL_SetRenderDrawColor(renderer, 221, 76, 163, 255);
+//        SDL_RenderDrawRect(renderer, &hitRect);
     }
 
 //    SDL_SetRenderDrawColor(renderer, 255, 51, 51, 255);

@@ -288,7 +288,7 @@ bool Level_1::PlayerHitEnemyCollision()
     {
         if (Collisions::Collides(player->GetHitRect(), e->GetCollisionRect()))
         {
-            //std::cout << "player hit rect collides enemy rect" << std::endl;
+            std::cout << "player hit rect collides enemy rect" << std::endl;
             CurrentEnemy = e;
 
             if (player->DoDamage())
@@ -356,7 +356,7 @@ bool Level_1::EnemyHitPlayerCollision()
 {
     for (auto &e: enemies)
     {
-        if (Collisions::Collides(e->GetHitRect(), player->GetCollisionRect()))
+        if (Collisions::Collides(player->GetCollisionRect(), e->GetHitRect()))
         {
             std::cout << "enemy hit rect collides player rect" << std::endl;
             CurrentEnemy = e;

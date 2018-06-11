@@ -23,7 +23,7 @@ MainMenuScreen::MainMenuScreen(SDL_Renderer* r, int screenWidth, int screenHeigh
     LoadContent();
     
     menuEntries.push_back(startGame);
-    menuEntries.push_back(howTo);
+    //menuEntries.push_back(howTo);
     menuEntries.push_back(quit);
     
     it = begin(menuEntries);
@@ -47,7 +47,7 @@ void MainMenuScreen::LoadContent()
         std::cout << "Unable to create menu entry!" << std::endl;
     }
     // howTo
-    if (!howTo->Create(textColor, "HowTo", "PressStart2P.ttf", 16))
+    if (!howTo->Create(textColor, "TODO: How To", "PressStart2P.ttf", 16))
     {
         std::cout << "Unable to create menu entry!" << std::endl;
     }
@@ -95,6 +95,7 @@ void MainMenuScreen::Update(SDL_Event* e, const Uint8* currentKeyStates)
                 else if (*it == startGame)
                 {
                     // stop music
+                    //Mix_HaltMusic();
                     
                     StartNewGame = true;
                     event->type = SDL_KEYUP;
