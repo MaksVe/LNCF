@@ -22,8 +22,10 @@ Game::~Game()
 
 bool Game::Init()
 {
+    SDL_Event stop;
+    while (SDL_PollEvent(&stop)){}
     // Initialize SDL
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_EVENTS) < 0)
     {
         std::cout << "Init error: " << SDL_GetError() << std::endl;
         return false;

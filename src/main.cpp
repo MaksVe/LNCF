@@ -12,7 +12,6 @@ int main(int argc, char *argv[])
     }
 
     delete game;
-    game = nullptr;
 
     return 0;
 }
