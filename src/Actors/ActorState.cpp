@@ -18,7 +18,7 @@ void IdleState::HandleInput(Player &player, const Uint8* keyState, SDL_Event* ev
 {
     player.velX = 0;
     player.velY = 0;
-    
+
     if (keyState[SDL_SCANCODE_W] || keyState[SDL_SCANCODE_S] ||
         keyState[SDL_SCANCODE_A] || keyState[SDL_SCANCODE_D])
     {
@@ -28,39 +28,36 @@ void IdleState::HandleInput(Player &player, const Uint8* keyState, SDL_Event* ev
             player.SetState(new RunningState());
         }
     }
-    
-    if (event->type == SDL_KEYDOWN && event->key.repeat == 0)
+
+    if (keyState[SDL_SCANCODE_H])
     {
-        if (event->key.keysym.sym == SDLK_h)
-        {
-            player.frameToDraw = 0;
-            player.CurrentState = player.KICKING;
+        player.frameToDraw = 0;
+        player.CurrentState = player.KICKING;
 
-            if (player.GetState() != nullptr)
-            {
-                player.SetState(new KickingState());
-            }
+        if (player.GetState() != nullptr)
+        {
+            player.SetState(new KickingState());
         }
-        else if (event->key.keysym.sym == SDLK_g)
-        {
-            player.frameToDraw = 0;
-            player.CurrentState = player.PUNCHING;
+    }
+    else if (keyState[SDL_SCANCODE_G])
+    {
+        player.frameToDraw = 0;
+        player.CurrentState = player.PUNCHING;
 
-            if (player.GetState() != nullptr)
-            {
-                player.SetState(new PunchingState());
-            }
+        if (player.GetState() != nullptr)
+        {
+            player.SetState(new PunchingState());
         }
-        else if (keyState[SDL_SCANCODE_SPACE])
-        {
-            player.frameToDraw = 0;
-            player.CurrentState = player.JUMPING;
+    }
+    else if (keyState[SDL_SCANCODE_SPACE])
+    {
+        player.frameToDraw = 0;
+        player.CurrentState = player.JUMPING;
 
-            if (player.GetState() != nullptr)
-            {
-                player.SetState(new JumpingState());
-                startPosZ = 0;
-            }
+        if (player.GetState() != nullptr)
+        {
+            player.SetState(new JumpingState());
+            startPosZ = 0;
         }
     }
 }

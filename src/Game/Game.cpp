@@ -22,10 +22,8 @@ Game::~Game()
 
 bool Game::Init()
 {
-    SDL_Event stop;
-    while (SDL_PollEvent(&stop)){}
     // Initialize SDL
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_EVENTS) < 0)
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
     {
         std::cout << "Init error: " << SDL_GetError() << std::endl;
         return false;
@@ -93,6 +91,7 @@ void Game::Run()
     const Uint8* currentKeyStates = SDL_GetKeyboardState(nullptr);
 
     screenManager = new ScreenManager(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+    screenManager->QuitGameFromMenu = false;
     
     // main loop
     while (!quit)
@@ -106,6 +105,7 @@ void Game::Run()
                 quit = true;
             }
         }
+
 
         Update(&e, currentKeyStates);
         Render();

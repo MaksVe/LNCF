@@ -212,6 +212,13 @@ void BossyGangMember::Update(SDL_Event *e, const Uint8* currentKeyStates)
             hitRect.h = 5;
         }
     }
+    else
+    {
+        hitRect.x = 0;
+        hitRect.y = 0;
+        hitRect.w = 0;
+        hitRect.h = 0;
+    }
 }
 
 void BossyGangMember::Render(int camX)

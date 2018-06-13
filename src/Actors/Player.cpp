@@ -177,7 +177,7 @@ void Player::Update(SDL_Event* e, const Uint8* currentKeyStates)
     event = e;
     
     double delta = timer->GetDelta();
-    //const Uint8* currentKeyStates = SDL_GetKeyboardState(nullptr);
+    currentKeyStates = SDL_GetKeyboardState(nullptr);
 
     state->HandleInput(*this, currentKeyStates, event);
     state->Update(*this, delta);
