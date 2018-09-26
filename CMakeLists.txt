@@ -42,3 +42,23 @@ target_link_libraries(${PROJECT_NAME} ${SDL2MAIN_LIBRARY} ${SDL2_LIBRARY}
         ${SDL2_TTF_LIBRARIES}
         ${SDL2_MIXER_LIBRARIES}
         ${TMXLITE_LIBRARIES})
+
+set(CPACK_GENERATOR DragNDrop)
+set(CPACK_DMG_VOLUME_NAME ${PROJECT_NAME})
+set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/Install CACHE PATH "install here" FORCE)
+
+install(TARGETS ${PROJECT_NAME} DESTINATION deb CONFIGURATIONS Debug)
+install(FILES
+        ${CMAKE_BINARY_DIR}/player.png
+        ${CMAKE_BINARY_DIR}/foes.png
+        ${CMAKE_BINARY_DIR}/PressStart2P.ttf
+        ${CMAKE_BINARY_DIR}/level_01.tmx
+        ${CMAKE_BINARY_DIR}/tileset_level_01.tsx
+        ${CMAKE_BINARY_DIR}/tileset_level_01.png
+        ${CMAKE_BINARY_DIR}/menuMusic.ogg
+        ${CMAKE_BINARY_DIR}/kick.wav
+        ${CMAKE_BINARY_DIR}/punch.wav
+        ${CMAKE_BINARY_DIR}/enemyPunch.wav
+        DESTINATION deb CONFIGURATIONS Debug)
+
+include(CPack)
